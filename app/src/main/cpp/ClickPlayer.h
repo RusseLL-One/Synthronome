@@ -5,6 +5,7 @@
 #include <android/asset_manager.h>
 #include "SoundRenderer.h"
 #include "Mixer.h"
+#include "BeatType.h"
 
 class ClickPlayer : public oboe::AudioStreamCallback {
 public:
@@ -13,10 +14,14 @@ public:
     void start();
     void stop();
 
+    void setNextBeatType(BeatType beatType);
+
     void setSoundPreset(int8_t id);
-    void setBpm(int16_t bpm);
+    void setBpm(jint bpm);
 
     void playRotateClick();
+
+    void handleCallback();
 
     oboe::DataCallbackResult
     onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames);
@@ -24,6 +29,7 @@ public:
 private:
     void initSounds();
     void initOboe();
+    void playBeat();
 
     JavaVM *jvm;
     AAssetManager *assetManager;
@@ -37,11 +43,13 @@ private:
     SoundRenderer *clickSound{nullptr};
     SoundRenderer *rotateClick{nullptr};
 
-    int16_t currentBpm = 0;
-    int16_t newBpm = 500;
+    jint currentBpm = 0;
+    jint newBpm = 500;
 
     int64_t currentFrame = 0;
     int64_t framesInterval = 0;
+
+    BeatType nextBeatType = BEAT;
 
     bool isPlaying = false;
 };

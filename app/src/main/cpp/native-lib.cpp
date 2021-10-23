@@ -3,8 +3,11 @@
 #include <oboe/Oboe.h>
 #include <android/asset_manager_jni.h>
 #include "ClickPlayer.h"
+#include "BeatType.h"
 
 extern "C" {
+    #pragma clang diagnostic push
+    #pragma ide diagnostic ignored "UnusedLocalVariable"
 
     std::unique_ptr <ClickPlayer> clickPlayer;
 
@@ -12,13 +15,14 @@ extern "C" {
     Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1init(
         JNIEnv *env,
         jobject instance,
+        jobject listener,
         jobject jAssetManager
     ) {
         JavaVM *jvm;
         env -> GetJavaVM(&jvm);
-        jobject listener = env->NewGlobalRef(instance);
+        jobject listenerRef = env->NewGlobalRef(listener);
         AAssetManager *assetManager = AAssetManager_fromJava(env, jAssetManager);
-        clickPlayer = std::make_unique<ClickPlayer>(assetManager, jvm, listener);
+        clickPlayer = std::make_unique<ClickPlayer>(assetManager, jvm, listenerRef);
     }
 
     JNIEXPORT void JNICALL
@@ -38,10 +42,39 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
+    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1set_1next_1beat_1type(
+            JNIEnv *env,
+            jobject instance,
+            jobject jBeatType
+    ) {
+        jclass BeatType_class = env->GetObjectClass(jBeatType);
+        jmethodID BeatType_ordinal = env->GetMethodID(BeatType_class, "ordinal", "()I");
+        auto ordinal = (int8_t)env->CallIntMethod(jBeatType, BeatType_ordinal);
+        BeatType beatType;
+        switch (ordinal) {
+            case 0:
+                beatType = MUTE;
+                break;
+            default:
+            case 1:
+                beatType = BEAT;
+                break;
+            case 2:
+                beatType = SUBACCENT;
+                break;
+            case 3:
+                beatType = ACCENT;
+                break;
+        }
+
+        clickPlayer->setNextBeatType(beatType);
+    }
+
+    JNIEXPORT void JNICALL
     Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1set_1bpm(
         JNIEnv *pEnv,
         jobject pThis,
-        int16_t bpm
+        jint bpm
     ) {
         clickPlayer->setBpm(bpm);
     }
@@ -53,4 +86,6 @@ extern "C" {
     ) {
         clickPlayer->playRotateClick();
     }
+
+    #pragma clang diagnostic pop
 }

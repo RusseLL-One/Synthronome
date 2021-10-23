@@ -14,4 +14,4 @@ add_library(native-lib SHARED ${APP_SOURCES})
 find_package(oboe REQUIRED CONFIG)
 
 # Specify the libraries which our native library is dependent on, including Oboe
-target_link_libraries(native-lib android oboe::oboe)
+target_link_libraries(native-lib android log oboe::oboe)
