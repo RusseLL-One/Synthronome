@@ -3,6 +3,7 @@
     package="com.one.russell.metroman_20">
 
     <application
+        android:name="com.one.russell.metroman_20.MetromanApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
