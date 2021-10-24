@@ -20,7 +20,7 @@ extern "C" {
     ) {
         JavaVM *jvm;
         env -> GetJavaVM(&jvm);
-        jobject listenerRef = env->NewGlobalRef(listener);
+        jobject listenerRef = env->NewWeakGlobalRef(listener);
         AAssetManager *assetManager = AAssetManager_fromJava(env, jAssetManager);
         clickPlayer = std::make_unique<ClickPlayer>(assetManager, jvm, listenerRef);
     }

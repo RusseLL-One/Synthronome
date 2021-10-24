@@ -97,14 +97,18 @@ void ClickPlayer::playBeat() {
 }
 
 void ClickPlayer::handleCallback() {
+    if (listenerEnv != nullptr && listenerMethodId != nullptr) {
+        listenerEnv->CallVoidMethod(listener, listenerMethodId);
+        return;
+    }
+
     int status;
-    JNIEnv *env;
     bool isAttached = false;
 
     // Try to attach current thread
-    status = jvm->GetEnv((void **) &env, JNI_VERSION_1_6);
+    status = jvm->GetEnv((void **) &listenerEnv, JNI_VERSION_1_6);
     if (status != JNI_OK) {
-        status = jvm->AttachCurrentThread(&env, nullptr);
+        status = jvm->AttachCurrentThread(&listenerEnv, nullptr);
         if (status != JNI_OK) {
             return;
         }
@@ -112,18 +116,18 @@ void ClickPlayer::handleCallback() {
         isAttached = true;
     }
 
-    jclass interfaceClass = env->GetObjectClass(listener);
+    jclass interfaceClass = listenerEnv->GetObjectClass(listener);
     if (!interfaceClass) {
         if (isAttached) jvm->DetachCurrentThread();
         return;
     }
 
-    jmethodID method = env->GetMethodID(interfaceClass, "onTick", "()V");
-    if (!method) {
+    listenerMethodId = listenerEnv->GetMethodID(interfaceClass, "onTick", "()V");
+    if (!listenerMethodId) {
         if (isAttached) jvm->DetachCurrentThread();
         return;
     }
-    env->CallVoidMethod(listener, method);
+    listenerEnv->CallVoidMethod(listener, listenerMethodId);
     if (isAttached) jvm->DetachCurrentThread();
 }
 

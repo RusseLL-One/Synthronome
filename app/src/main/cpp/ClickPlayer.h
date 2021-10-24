@@ -33,7 +33,10 @@ private:
 
     JavaVM *jvm;
     AAssetManager *assetManager;
+
+    JNIEnv *listenerEnv = nullptr;
     jobject listener;
+    jmethodID listenerMethodId = nullptr;
 
     const int kSampleRateHz = 44100;
 
