@@ -1,11 +1,26 @@
 package com.one.russell.metroman_20
 
 import android.app.Application
+import com.one.russell.metroman_20.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class MetromanApp : Application() {
 
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidLogger()
+            androidContext(this@MetromanApp)
+            modules(
+                appModule(applicationContext)
+            )
+        }
+    }
+
     companion object {
-        // Used to load the 'native-lib' library on application startup.
         init {
             System.loadLibrary("native-lib")
         }
