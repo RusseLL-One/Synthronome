@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Metroman-2.0</string>
+    <string name="main_bpm">BPM: %d</string>
 </resources>

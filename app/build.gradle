@@ -35,6 +35,7 @@ android {
     }
     buildFeatures {
         prefab true
+        viewBinding true
     }
     externalNativeBuild {
         cmake {
@@ -47,6 +48,8 @@ dependencies {
 
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "com.google.oboe:oboe:$oboeVersion"
