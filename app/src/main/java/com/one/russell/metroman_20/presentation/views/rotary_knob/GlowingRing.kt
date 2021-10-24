@@ -11,17 +11,16 @@ import androidx.appcompat.content.res.AppCompatResources
 import com.one.russell.metroman_20.R
 
 class GlowingRing(
-    context: Context,
-    width: Int,
-    height: Int,
-    @ColorInt initColor: Int
+    private val context: Context
 ) {
 
     private var ringDrawable: ShapeDrawable? = null
     private var glowDrawable: Drawable? = null
     private var bevelDrawable: Drawable? = null
 
-    init {
+    private var glowIntense: Float = 1f
+
+    fun initDrawables(width: Int, height: Int, @ColorInt initColor: Int) {
         ringDrawable = ShapeDrawable(OvalShape()).apply {
             paint.color = initColor
             paint.style = Paint.Style.STROKE
@@ -40,6 +39,7 @@ class GlowingRing(
         glowDrawable = AppCompatResources.getDrawable(context, R.drawable.knob_ring_glow)?.apply {
             setBounds(0, 0, width, height)
             setTint(initColor)
+            alpha = (glowIntense * 255).toInt()
         }
 
         bevelDrawable = AppCompatResources.getDrawable(context, R.drawable.knob_ring_bevel)?.apply {
@@ -49,7 +49,8 @@ class GlowingRing(
 
     // intense = 0..1
     fun setGlowIntense(intense: Float) {
-        glowDrawable?.alpha = (intense.coerceIn(0f, 1f) * 255).toInt()
+        glowIntense = intense.coerceIn(0f, 1f)
+        glowDrawable?.alpha = (glowIntense * 255).toInt()
     }
 
     fun draw(canvas: Canvas) {
