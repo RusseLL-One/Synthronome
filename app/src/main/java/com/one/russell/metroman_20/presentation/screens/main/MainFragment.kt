@@ -15,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainFragment : Fragment() {
 
     private var binding: FragmentMainBinding? = null
-
     private val viewModel: MainViewModel by viewModel()
 
     override fun onCreateView(
@@ -23,7 +22,6 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        requireContext()
         binding = initBinding(inflater, container)
         return binding!!.root
     }

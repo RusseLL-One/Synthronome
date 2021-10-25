@@ -7,6 +7,7 @@ import com.one.russell.metroman_20.domain.usecases.*
 import com.one.russell.metroman_20.domain.workers.ClickWorker
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import com.one.russell.metroman_20.presentation.screens.main.MainViewModel
+import com.one.russell.metroman_20.presentation.screens.training_type_selection.TrainingTypeSelectionViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
@@ -48,5 +49,6 @@ fun appModule(
             stopClickingUseCase = get(),
             observeClickStateUseCase = get()
         )
+        TrainingTypeSelectionViewModel()
     }
 }
