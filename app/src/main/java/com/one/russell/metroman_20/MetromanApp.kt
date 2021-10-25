@@ -17,7 +17,7 @@ class MetromanApp : Application() {
             androidContext(this@MetromanApp)
             workManagerFactory()
             modules(
-                appModule(applicationContext)
+                appModule()
             )
         }
     }
