@@ -1,56 +1,36 @@
 package com.one.russell.metroman_20.presentation.screens.main
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentMainBinding
 import com.one.russell.metroman_20.domain.Constants.MAX_BPM
-import com.one.russell.metroman_20.launchOnResume
+import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment<FragmentMainBinding>() {
 
-    private var binding: FragmentMainBinding? = null
     private val viewModel: MainViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = initBinding(inflater, container)
-        return binding!!.root
-    }
+    override fun initBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMainBinding {
+        return FragmentMainBinding.inflate(inflater, container, false).apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.bpm.collect {
+                    tvBpm.text = getString(R.string.main_bpm, it)
+                    vKnob.setGlowIntense(it.toFloat() / MAX_BPM)
+                }
+            }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
+            vKnob.addOnValueChangedCallback {
+                viewModel.onBpmChanged(delta = it)
+            }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        launchOnResume {
-            viewModel.bpm.collect {
-                binding?.tvBpm?.text = getString(R.string.main_bpm, it)
-                binding?.vKnob?.setGlowIntense(it.toFloat() / MAX_BPM)
+            btnPlay.setOnClickListener {
+                viewModel.onPlayClicked()
             }
         }
-
-        binding?.vKnob?.addOnValueChangedCallback {
-            viewModel.onBpmChanged(delta = it)
-        }
-
-        binding?.btnPlay?.setOnClickListener {
-            viewModel.onPlayClicked()
-        }
-    }
-
-    private fun initBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMainBinding {
-        return FragmentMainBinding.inflate(inflater, container, false)
     }
 }

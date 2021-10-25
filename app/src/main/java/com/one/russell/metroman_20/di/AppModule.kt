@@ -49,6 +49,6 @@ fun appModule(
             stopClickingUseCase = get(),
             observeClickStateUseCase = get()
         )
-        TrainingTypeSelectionViewModel()
     }
+    viewModel { TrainingTypeSelectionViewModel() }
 }
