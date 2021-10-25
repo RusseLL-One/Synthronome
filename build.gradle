@@ -28,6 +28,7 @@ project.ext {
     koinVersion = "3.1.2"
     oboeVersion = "1.6.1"
     workManagerVersion = "2.7.0"
+    navigationVersion = "2.3.5"
 }
 
 task clean(type: Delete) {

@@ -3,6 +3,7 @@ package com.one.russell.metroman_20.presentation.screens.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentMainBinding
 import com.one.russell.metroman_20.domain.Constants.MAX_BPM
@@ -30,6 +31,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             btnPlay.setOnClickListener {
                 viewModel.onPlayClicked()
+            }
+
+            openTraining.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_trainingTypeSelectionFragment)
             }
         }
     }
