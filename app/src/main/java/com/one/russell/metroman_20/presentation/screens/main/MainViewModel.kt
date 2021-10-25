@@ -2,12 +2,13 @@ package com.one.russell.metroman_20.presentation.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.one.russell.metroman_20.domain.ClickState
+import com.one.russell.metroman_20.domain.ClickState.IDLE
+import com.one.russell.metroman_20.domain.ClickState.STARTED
 import com.one.russell.metroman_20.domain.Constants.BPM_DEBOUNCE_TIME_MILLIS
 import com.one.russell.metroman_20.domain.Constants.MAX_BPM
 import com.one.russell.metroman_20.domain.Constants.MIN_BPM
-import com.one.russell.metroman_20.domain.usecases.GetClickerUseCase
-import com.one.russell.metroman_20.domain.usecases.GetSavedBpmUseCase
-import com.one.russell.metroman_20.domain.usecases.SaveCurrentBpmUseCase
+import com.one.russell.metroman_20.domain.usecases.*
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,10 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     getClickerUseCase: GetClickerUseCase,
     private val getSavedBpmUseCase: GetSavedBpmUseCase,
-    private val saveCurrentBpmUseCase: SaveCurrentBpmUseCase
+    private val saveCurrentBpmUseCase: SaveCurrentBpmUseCase,
+    private val startClickingUseCase: StartClickingUseCase,
+    private val stopClickingUseCase: StopClickingUseCase,
+    private val observeClickStateUseCase: ObserveClickStateUseCase
 ) : ViewModel() {
 
     private val clicker: Clicker = getClickerUseCase.execute()
@@ -27,16 +31,19 @@ class MainViewModel(
     val bpm: StateFlow<Int>
         get() = _bpm
 
-    private var isStarted = false // todo
+    private var clickState: ClickState = IDLE
 
     init {
         getSavedBpm()
         saveDebouncedBpm()
+        observeClickState()
     }
 
     private fun getSavedBpm() {
         viewModelScope.launch {
-            _bpm.value = getSavedBpmUseCase.execute()
+            val savedBpm = getSavedBpmUseCase.execute()
+            _bpm.emit(savedBpm)
+            clicker.setBpm(savedBpm)
         }
     }
 
@@ -45,6 +52,15 @@ class MainViewModel(
             _bpm
                 .debounce(timeoutMillis = BPM_DEBOUNCE_TIME_MILLIS)
                 .collect { saveCurrentBpmUseCase.execute(it) }
+        }
+    }
+
+    private fun observeClickState() {
+        viewModelScope.launch {
+            observeClickStateUseCase.execute()
+                .collect {
+                    clickState = it
+                }
         }
     }
 
@@ -59,11 +75,9 @@ class MainViewModel(
     }
 
     fun onPlayClicked() {
-        if (!isStarted) {
-            clicker.start()
-        } else {
-            clicker.stop()
+        when (clickState) {
+            IDLE -> startClickingUseCase.execute()
+            STARTED -> stopClickingUseCase.execute()
         }
-        isStarted = !isStarted
     }
 }

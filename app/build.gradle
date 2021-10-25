@@ -53,6 +53,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
     implementation "com.google.oboe:oboe:$oboeVersion"
 
     // Koin

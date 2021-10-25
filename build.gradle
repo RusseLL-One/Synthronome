@@ -27,6 +27,7 @@ project.ext {
     constraintLayoutVersion = "2.1.1"
     koinVersion = "3.1.2"
     oboeVersion = "1.6.1"
+    workManagerVersion = "2.7.0"
 }
 
 task clean(type: Delete) {

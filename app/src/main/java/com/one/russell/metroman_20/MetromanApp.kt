@@ -4,6 +4,7 @@ import android.app.Application
 import com.one.russell.metroman_20.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
 
 class MetromanApp : Application() {
@@ -14,6 +15,7 @@ class MetromanApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@MetromanApp)
+            workManagerFactory()
             modules(
                 appModule(applicationContext)
             )
