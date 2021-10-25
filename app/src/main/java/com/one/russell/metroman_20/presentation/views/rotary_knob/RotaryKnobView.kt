@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.util.AttributeSet
-import android.view.HapticFeedbackConstants
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.withRotation
 import androidx.core.view.doOnLayout
@@ -29,11 +28,6 @@ class RotaryKnobView @JvmOverloads constructor(
     private var dashDrawable: Drawable? = null
 
     init {
-        isHapticFeedbackEnabled = true
-        addOnValueChangedCallback {
-            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        }
-
         doOnLayout {
             initDrawables()
         }
