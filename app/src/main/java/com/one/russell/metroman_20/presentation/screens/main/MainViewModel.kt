@@ -80,4 +80,15 @@ class MainViewModel(
             STARTED -> stopClickingUseCase.execute()
         }
     }
+
+    fun onTapClicked(bpm: Int?) {
+        clicker.playRotateClick()
+        if (bpm != null) {
+            clicker.setBpm(bpm)
+
+            viewModelScope.launch {
+                _bpm.emit(bpm)
+            }
+        }
+    }
 }

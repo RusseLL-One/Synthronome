@@ -33,6 +33,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.onPlayClicked()
             }
 
+            tap.onTapClickedListener = { bpm ->
+                viewModel.onTapClicked(bpm)
+            }
+
             openTraining.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_trainingTypeSelectionFragment)
             }
