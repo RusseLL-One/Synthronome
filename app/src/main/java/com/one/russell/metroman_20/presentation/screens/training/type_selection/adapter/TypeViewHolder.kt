@@ -1,14 +1,14 @@
-package com.one.russell.metroman_20.presentation.screens.training_type_selection.adapter
+package com.one.russell.metroman_20.presentation.screens.training.type_selection.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.one.russell.metroman_20.databinding.ItemTrainingTypeBinding
 
-class TrainingTypeViewHolder(
+class TypeViewHolder(
     private val binding: ItemTrainingTypeBinding,
-    private val onClick: (TrainingTypeItem) -> Unit
+    private val onClick: (TypeItem) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private var currentItem: TrainingTypeItem? = null
+    private var currentItem: TypeItem? = null
 
     init {
         itemView.setOnClickListener {
@@ -18,7 +18,7 @@ class TrainingTypeViewHolder(
         }
     }
 
-    fun bind(item: TrainingTypeItem) {
+    fun bind(item: TypeItem) {
         currentItem = item
         binding.tvText.text = item.text
     }
