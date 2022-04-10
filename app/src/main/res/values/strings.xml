@@ -5,4 +5,15 @@
     <string name="notification_channel_name">@string/app_name</string>
     <string name="notification_channel_description">Show notification while clicking</string>
     <string name="main_bpm">BPM: %d</string>
+
+    <string name="training_tempoIncreasing_startBpm">Начальный темп (BPM)</string>
+    <string name="training_tempoIncreasing_endBpm">Конечный темп (BPM)</string>
+    <string name="training_tempoIncreasing_everyBars">Через каждые (такты)</string>
+    <string name="training_tempoIncreasing_increaseOn">Увеличивать на (BPM)</string>
+    <string name="training_tempoIncreasing_minutes">Время (минуты)</string>
+    <string name="training_barDropping_chance">Вероятность глушения такта (%)</string>
+    <string name="training_barDropping_ordinaryBarsCount">Обычные такты</string>
+    <string name="training_barDropping_mutedBarsCount">Заглушенные такты</string>
+    <string name="training_beatDropping_chance">Вероятность глушения клика (%)</string>
+    <string name="training_btn_start">Начать тренировку</string>
 </resources>

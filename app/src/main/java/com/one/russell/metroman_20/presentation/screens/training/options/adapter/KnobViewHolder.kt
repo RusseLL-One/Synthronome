@@ -26,6 +26,7 @@ class KnobViewHolder(
         (binding.root.context as LifecycleOwner).lifecycleScope.launch {
             item.valueStateFlow.collect {
                 binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, it)
+                binding.vKnob.setGlowIntense(it)
             }
         }
     }

@@ -3,41 +3,74 @@ package com.one.russell.metroman_20.data.prefs
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = PreferencesDataStore.DATASTORE_NAME
+    name = "data_store"
 )
 
-@Suppress("PrivatePropertyName")
+@Suppress("PropertyName")
 class PreferencesDataStore(
-    private val appContext: Context
+    appContext: Context
 ) {
+    val bpm = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("BPM"),
+        defaultValue = 60
+    )
 
-    private val KEY_BPM = intPreferencesKey("KEY_BPM")
+    val training_tempoIncreasing_startBpm = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("TEMPO_INCREASING_START_BPM"),
+        defaultValue = 90
+    )
 
-    private val DEFAULT_BPM = 60
+    val training_tempoIncreasing_endBpm = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("TEMPO_INCREASING_END_BPM"),
+        defaultValue = 140
+    )
 
-    suspend fun getBpm(): Int {
-        return appContext.dataStore.data
-            .map { preferences ->
-                preferences[KEY_BPM] ?: DEFAULT_BPM
-            }
-            .first()
-    }
+    val training_tempoIncreasing_byBars_everyBars = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("TEMPO_INCREASING_BY_BARS_EVERY_BAR"),
+        defaultValue = 1
+    )
 
-    suspend fun saveBpm(bpm: Int) {
-        appContext.dataStore.edit { preferences ->
-            preferences[KEY_BPM] = bpm
-        }
-    }
+    val training_tempoIncreasing_byBars_increaseOn = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("TEMPO_INCREASING_BY_BARS_INCREASE_ON"),
+        defaultValue = 2
+    )
 
-    companion object {
-        const val DATASTORE_NAME = "data_store"
-    }
+    val training_tempoIncreasing_byTime_minutes = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("TEMPO_INCREASING_BY_TIME_MINUTES"),
+        defaultValue = 2
+    )
+
+    val training_barDropping_randomly_chancePercent = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("BAR_DROPPING_RANDOMLY_CHANCE_PERCENT"),
+        defaultValue = 50
+    )
+
+    val training_barDropping_byValue_ordinaryBarsCount = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("BAR_DROPPING_BY_VALUE_ORDINARY_BARS_COUNT"),
+        defaultValue = 1
+    )
+
+    val training_barDropping_byValue_mutedBarsCount = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("BAR_DROPPING_BY_VALUE_MUTED_BARS_COUNT"),
+        defaultValue = 1
+    )
+
+    val training_beatDropping_chancePercent = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("BEAT_DROPPING_CHANCE_PERCENT"),
+        defaultValue = 50
+    )
 }
-

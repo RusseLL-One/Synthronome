@@ -16,19 +16,19 @@ class PickerViewHolder(
 
         val minValue = 0
         val maxValue = (item.type.maxValue - item.type.minValue) / item.type.step
-        val defaultValue = (item.type.defaultValue - item.type.minValue) / item.type.step
+        val initValue = (item.initValue - item.type.minValue) / item.type.step
 
         binding.picker.wrapSelectorWheel = false
         binding.picker.minValue = minValue
         binding.picker.maxValue = maxValue
-        binding.picker.value = defaultValue
+        binding.picker.value = initValue
         binding.picker.displayedValues = IntRange(item.type.minValue, item.type.maxValue)
             .step(item.type.step)
             .map { it.toString() }
             .toTypedArray()
 
         binding.picker.setOnValueChangedListener { _, _, newVal ->
-            item.onValueChanged.invoke(newVal)
+            item.onValueChanged.invoke(newVal * item.type.step + item.type.minValue)
         }
     }
 }

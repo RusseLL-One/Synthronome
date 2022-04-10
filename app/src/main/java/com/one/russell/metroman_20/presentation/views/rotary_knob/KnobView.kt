@@ -48,18 +48,13 @@ abstract class KnobView @JvmOverloads constructor(
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
 
-        val size = when {
-            widthMode == MeasureSpec.EXACTLY && widthSize > 0 && widthSize <= heightSize ->
-                widthSize
-            heightMode == MeasureSpec.EXACTLY && heightSize > 0 && heightSize <= widthSize ->
-                heightSize
-            widthSize < heightSize ->
-                widthSize
-            else ->
-                heightSize
-        }
+        val minSize = listOfNotNull(
+            widthSize.takeIf { widthMode == MeasureSpec.EXACTLY || heightMode != MeasureSpec.EXACTLY },
+            heightSize.takeIf { heightMode == MeasureSpec.EXACTLY || widthMode != MeasureSpec.EXACTLY }
+        ).minOrNull() ?: 0
 
-        val finalMeasureSpec = MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY)
+        val finalMeasureSpec = MeasureSpec.makeMeasureSpec(minSize, MeasureSpec.EXACTLY)
+        setMeasuredDimension(finalMeasureSpec, finalMeasureSpec)
         super.onMeasure(finalMeasureSpec, finalMeasureSpec)
     }
 
@@ -69,6 +64,8 @@ abstract class KnobView @JvmOverloads constructor(
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                parent.requestDisallowInterceptTouchEvent(true)
+
                 val startX = event.x / width
                 val startY = event.y / height
                 touchDegrees = cartesianToPolar(startX, startY)
@@ -85,6 +82,9 @@ abstract class KnobView @JvmOverloads constructor(
                 touchDegrees = newDegrees
                 currentDegrees = touchDegrees - offsetDegrees
                 invalidate()
+            }
+            MotionEvent.ACTION_UP -> {
+                parent.requestDisallowInterceptTouchEvent(false)
             }
         }
         return true

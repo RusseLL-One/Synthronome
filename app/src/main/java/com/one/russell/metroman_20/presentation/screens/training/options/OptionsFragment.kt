@@ -1,7 +1,9 @@
 package com.one.russell.metroman_20.presentation.screens.training.options
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,6 +12,8 @@ import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentTrainingOptionsBinding
 import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import com.one.russell.metroman_20.presentation.screens.training.options.adapter.AdjustersAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
@@ -19,19 +23,30 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
 
     private val adapter = AdjustersAdapter()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.createAdjustersList(args.trainingFinalType)
+    }
+
     override fun initBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentTrainingOptionsBinding {
         return FragmentTrainingOptionsBinding.inflate(inflater, container, false).apply {
-            list.adapter = adapter.apply {
-                submitList(viewModel.getAdjusters(args.trainingFinalType))
-            }
+            list.adapter = adapter
             list.setOptionsGridLayoutManager()
 
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.adjustersList.collect {
+                    adapter.submitList(it)
+                }
+            }
+
             btnProceed.setOnClickListener {
-                viewModel.submit(args.trainingFinalType)
-                findNavController().navigate(R.id.action_optionsFragment_to_mainFragment)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.submit(args.trainingFinalType)
+                    findNavController().navigate(R.id.action_optionsFragment_to_mainFragment)
+                }
             }
         }
     }

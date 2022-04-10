@@ -52,3 +52,7 @@ void SoundRenderer::setPlaying(bool isPlaying) {
     // reset play head
     mReadFrameIndex = 0;
 }
+
+void SoundRenderer::queuePlaying(bool isPlaying) {
+    mIsPlaying = isPlaying;
+}

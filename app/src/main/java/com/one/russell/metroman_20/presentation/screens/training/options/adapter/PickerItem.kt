@@ -6,6 +6,7 @@ import com.one.russell.metroman_20.presentation.screens.training.options.Options
 data class PickerItem(
     val type: OptionsAdjusterType,
     @StringRes val titleRes: Int,
+    val initValue: Int,
     val onValueChanged: (Int) -> Unit
 ): ListItem {
     override val id: String

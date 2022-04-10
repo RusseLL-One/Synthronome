@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:background="#4b5766">
 
     <ImageView
@@ -16,19 +17,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/ic_asset_1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.one.russell.metroman_20.presentation.views.beatline.BeatlineView2
+        android:id="@+id/beatline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintStart_toStartOf="@id/v_knob"
+        app:layout_constraintEnd_toEndOf="@id/v_knob"
+        app:layout_constraintBottom_toTopOf="@id/beatline" />
+
+    <com.one.russell.metroman_20.presentation.views.beatline.BeatlineView
+        android:id="@+id/beatline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/v_knob"
+        app:layout_constraintEnd_toEndOf="@id/v_knob"
+        app:layout_constraintBottom_toBottomOf="@id/v_knob"
+        app:layout_constraintTop_toTopOf="@id/v_knob"
+        app:radius="180dp"
+        />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/circle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/ic_asset_1"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/v_knob"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/v_knob"-->
+<!--        app:layout_constraintStart_toStartOf="@id/v_knob"-->
+<!--        app:layout_constraintTop_toTopOf="@id/v_knob" />-->
+
+    <TextView
+        android:id="@+id/trainingInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Тренировка в процессе"
+        app:layout_constraintBottom_toTopOf="@id/trainingCompletion"
+        />
+
+    <TextView
+        android:id="@+id/trainingCompletion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/v_knob"
+        tools:text="50%"
+        />
 
     <com.one.russell.metroman_20.presentation.views.rotary_knob.RotaryKnobView
         android:id="@+id/v_knob"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,26 +83,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/v_start" />
 
-    <Button
-        android:id="@+id/btn_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play/Stop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_bpm" />
+    <com.one.russell.metroman_20.presentation.views.rotary_knob.StartButtonView
+        android:id="@+id/v_start"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="@id/v_knob"
+        app:layout_constraintStart_toStartOf="@id/v_knob"
+        app:layout_constraintTop_toTopOf="@id/v_knob"
+        app:layout_constraintBottom_toBottomOf="@id/v_knob"
+        />
 
     <com.one.russell.metroman_20.presentation.views.tap_button.TapButtonView
         android:id="@+id/tap"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/icon_240"
-        app:layout_constraintEnd_toEndOf="@id/circle"
-        app:layout_constraintBottom_toBottomOf="@id/circle"/>
+        app:radius="20dp"
+        app:layout_constraintStart_toEndOf="@id/v_knob"
+        app:layout_constraintEnd_toEndOf="@id/v_knob"
+        app:layout_constraintBottom_toBottomOf="@id/v_knob"
+        app:layout_constraintTop_toBottomOf="@id/v_knob"/>
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <NumberPicker
+            android:id="@+id/np_beatsInBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

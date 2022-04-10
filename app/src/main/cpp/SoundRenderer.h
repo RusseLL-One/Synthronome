@@ -17,6 +17,7 @@ public:
     void loadAsset(AAssetManager *assetManager, const char *filename);
     void renderAudio(int16_t *targetData, int32_t numFrames);
     void setPlaying(bool isPlaying);
+    void queuePlaying(bool isPlaying);
 
 private:
     int32_t mReadFrameIndex = 0;

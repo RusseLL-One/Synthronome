@@ -30,6 +30,7 @@ private:
     void initSounds();
     void initOboe();
     void playBeat();
+    void setCurrentBpm(jint bpm);
 
     JavaVM *jvm;
     AAssetManager *assetManager;
@@ -49,8 +50,8 @@ private:
     jint currentBpm = 0;
     jint newBpm = 500;
 
-    int64_t currentFrame = 0;
-    int64_t framesInterval = 0;
+    int64_t currentFrame = 1;
+    int64_t framesInterval = 1;
 
     BeatType nextBeatType = BEAT;
 

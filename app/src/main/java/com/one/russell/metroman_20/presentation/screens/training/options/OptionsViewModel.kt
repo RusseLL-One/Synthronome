@@ -2,9 +2,11 @@ package com.one.russell.metroman_20.presentation.screens.training.options
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.domain.TrainingData
 import com.one.russell.metroman_20.domain.TrainingFinalType
+import com.one.russell.metroman_20.domain.usecases.training.GetTrainingDataUseCase
 import com.one.russell.metroman_20.domain.usecases.training.SetTrainingDataUseCase
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import com.one.russell.metroman_20.presentation.screens.training.options.OptionsAdjusterType.*
@@ -12,25 +14,45 @@ import com.one.russell.metroman_20.presentation.screens.training.options.adapter
 import com.one.russell.metroman_20.presentation.screens.training.options.adapter.ListItem
 import com.one.russell.metroman_20.presentation.screens.training.options.adapter.PickerItem
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class OptionsViewModel(
     private val clicker: Clicker,
-    private val setTrainingDataUseCase: SetTrainingDataUseCase
+    private val setTrainingDataUseCase: SetTrainingDataUseCase,
+    private val getTrainingDataUseCase: GetTrainingDataUseCase
 ) : ViewModel() {
 
     private val _adjustersValues = mapOf(
-        TEMPO_INCREASING_START_BPM to MutableStateFlow(TEMPO_INCREASING_START_BPM.defaultValue),
-        TEMPO_INCREASING_END_BPM to MutableStateFlow(TEMPO_INCREASING_END_BPM.defaultValue),
-        TEMPO_INCREASING_BY_BARS_EVERY_BARS to MutableStateFlow(TEMPO_INCREASING_BY_BARS_EVERY_BARS.defaultValue),
-        TEMPO_INCREASING_BY_BARS_INCREASE_ON to MutableStateFlow(TEMPO_INCREASING_BY_BARS_INCREASE_ON.defaultValue),
-        TEMPO_INCREASING_BY_TIME_MINUTES to MutableStateFlow(TEMPO_INCREASING_BY_TIME_MINUTES.defaultValue),
-        BAR_DROPPING_RANDOMLY_CHANCE to MutableStateFlow(BAR_DROPPING_RANDOMLY_CHANCE.defaultValue),
-        BAR_DROPPING_BY_VALUE_ORDINARY_BARS_COUNT to MutableStateFlow(BAR_DROPPING_BY_VALUE_ORDINARY_BARS_COUNT.defaultValue),
-        BAR_DROPPING_BY_VALUE_MUTED_BARS_COUNT to MutableStateFlow(BAR_DROPPING_BY_VALUE_MUTED_BARS_COUNT.defaultValue),
-        BEAT_DROPPING_CHANCE to MutableStateFlow(BEAT_DROPPING_CHANCE.defaultValue),
+        TEMPO_INCREASING_START_BPM to MutableStateFlow(0),
+        TEMPO_INCREASING_END_BPM to MutableStateFlow(0),
+        TEMPO_INCREASING_BY_BARS_EVERY_BARS to MutableStateFlow(0),
+        TEMPO_INCREASING_BY_BARS_INCREASE_ON to MutableStateFlow(0),
+        TEMPO_INCREASING_BY_TIME_MINUTES to MutableStateFlow(0),
+        BAR_DROPPING_RANDOMLY_CHANCE to MutableStateFlow(0),
+        BAR_DROPPING_BY_VALUE_ORDINARY_BARS_COUNT to MutableStateFlow(0),
+        BAR_DROPPING_BY_VALUE_MUTED_BARS_COUNT to MutableStateFlow(0),
+        BEAT_DROPPING_CHANCE to MutableStateFlow(0),
     )
 
-    fun getAdjusters(trainingFinalType: TrainingFinalType): List<ListItem> {
+    private var _adjustersList = MutableStateFlow<List<ListItem>>(emptyList())
+    val adjustersList: StateFlow<List<ListItem>>
+        get() = _adjustersList
+
+    fun createAdjustersList(trainingType: TrainingFinalType) {
+        viewModelScope.launch {
+            getSavedValues()
+            _adjustersList.emit(getAdjusters(trainingType))
+        }
+    }
+
+    private suspend fun getSavedValues() {
+        getTrainingDataUseCase.execute().forEach {
+            _adjustersValues[it.key]!!.value = it.value
+        }
+    }
+
+    private fun getAdjusters(trainingFinalType: TrainingFinalType): List<ListItem> {
         return when (trainingFinalType) {
             TrainingFinalType.TEMPO_INCREASING_BY_BARS -> listOf(
                 createKnobItem(TEMPO_INCREASING_START_BPM, R.string.training_tempoIncreasing_startBpm),
@@ -58,19 +80,19 @@ class OptionsViewModel(
 
     private fun createKnobItem(type: OptionsAdjusterType, @StringRes titleRes: Int): KnobItem {
         return KnobItem(type, titleRes, _adjustersValues[type]!!) {
-            _adjustersValues[type]!!.value = (_adjustersValues[type]!!.value + it).coerceIn(type.minValue, type.maxValue)
+            val newValue = (_adjustersValues[type]!!.value + it).coerceIn(type.minValue, type.maxValue)
+            _adjustersValues[type]!!.value = newValue
             clicker.playRotateClick()
         }
     }
 
     private fun createPickerItem(type: OptionsAdjusterType, @StringRes titleRes: Int): PickerItem {
-        return PickerItem(type, titleRes) {
-            _adjustersValues[type]!!.value = it * type.step + type.minValue
+        return PickerItem(type, titleRes, _adjustersValues[type]!!.value) {
+            _adjustersValues[type]!!.value = it
         }
     }
 
-    fun submit(trainingFinalType: TrainingFinalType) {
-        //todo validation
+    suspend fun submit(trainingFinalType: TrainingFinalType) {
         val trainingData = createTrainingData(trainingFinalType)
         setTrainingDataUseCase.execute(trainingData)
     }

@@ -43,12 +43,13 @@ void ClickPlayer::initOboe() {
 }
 
 void ClickPlayer::start() {
+    currentFrame = 0;
     isPlaying = true;
 }
 
 void ClickPlayer::stop() {
-    isPlaying = false;
     currentFrame = 0;
+    isPlaying = false;
 }
 
 void ClickPlayer::setNextBeatType(BeatType beatType) {
@@ -71,10 +72,18 @@ void ClickPlayer::setSoundPreset(int8_t id) {
 
 void ClickPlayer::setBpm(jint bpm) {
     this->newBpm = bpm;
+    if (currentBpm == 0) {
+        setCurrentBpm(bpm);
+    }
+}
+
+void ClickPlayer::setCurrentBpm(jint bpm) {
+    this->currentBpm = bpm;
+    this->framesInterval = 60 * kSampleRateHz / bpm;
 }
 
 void ClickPlayer::playRotateClick() {
-    rotateClick->setPlaying(true);
+    rotateClick->queuePlaying(true);
 }
 
 void ClickPlayer::playBeat() {
@@ -98,7 +107,7 @@ void ClickPlayer::playBeat() {
 
 void ClickPlayer::handleCallback() {
     if (listenerEnv != nullptr && listenerMethodId != nullptr) {
-        listenerEnv->CallVoidMethod(listener, listenerMethodId);
+        listenerEnv->CallVoidMethod(listener, listenerMethodId, currentBpm);
         return;
     }
 
@@ -122,12 +131,12 @@ void ClickPlayer::handleCallback() {
         return;
     }
 
-    listenerMethodId = listenerEnv->GetMethodID(interfaceClass, "onTick", "()V");
+    listenerMethodId = listenerEnv->GetMethodID(interfaceClass, "onTick", "(I)V");
     if (!listenerMethodId) {
         if (isAttached) jvm->DetachCurrentThread();
         return;
     }
-    listenerEnv->CallVoidMethod(listener, listenerMethodId);
+    listenerEnv->CallVoidMethod(listener, listenerMethodId, currentBpm);
     if (isAttached) jvm->DetachCurrentThread();
 }
 
@@ -138,9 +147,7 @@ ClickPlayer::onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32
             if (currentFrame % framesInterval == 0) { //click!
                 playBeat();
                 if (currentBpm != newBpm) {
-                    currentBpm = newBpm;
-
-                    framesInterval = 60 * kSampleRateHz / currentBpm;
+                    setCurrentBpm(newBpm);
                 }
                 handleCallback();
 
