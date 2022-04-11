@@ -1,10 +1,10 @@
 #include "ClickPlayer.h"
 #include "logging_macros.h"
+#include <thread>
 
 ClickPlayer::ClickPlayer(AAssetManager *assetManager, JavaVM *jvm, jobject listener) {
     this->assetManager = assetManager;
-    this->jvm = jvm;
-    this->listener = listener;
+    this->callback = new Callback(jvm, listener);
 
     initSounds();
     initOboe();
@@ -50,6 +50,7 @@ void ClickPlayer::start() {
 void ClickPlayer::stop() {
     currentFrame = 0;
     isPlaying = false;
+    newBpm = currentBpm;
 }
 
 void ClickPlayer::setNextBeatType(BeatType beatType) {
@@ -105,41 +106,6 @@ void ClickPlayer::playBeat() {
     nextBeatType = BEAT;
 }
 
-void ClickPlayer::handleCallback() {
-    if (listenerEnv != nullptr && listenerMethodId != nullptr) {
-        listenerEnv->CallVoidMethod(listener, listenerMethodId, currentBpm);
-        return;
-    }
-
-    int status;
-    bool isAttached = false;
-
-    // Try to attach current thread
-    status = jvm->GetEnv((void **) &listenerEnv, JNI_VERSION_1_6);
-    if (status != JNI_OK) {
-        status = jvm->AttachCurrentThread(&listenerEnv, nullptr);
-        if (status != JNI_OK) {
-            return;
-        }
-
-        isAttached = true;
-    }
-
-    jclass interfaceClass = listenerEnv->GetObjectClass(listener);
-    if (!interfaceClass) {
-        if (isAttached) jvm->DetachCurrentThread();
-        return;
-    }
-
-    listenerMethodId = listenerEnv->GetMethodID(interfaceClass, "onTick", "(I)V");
-    if (!listenerMethodId) {
-        if (isAttached) jvm->DetachCurrentThread();
-        return;
-    }
-    listenerEnv->CallVoidMethod(listener, listenerMethodId, currentBpm);
-    if (isAttached) jvm->DetachCurrentThread();
-}
-
 oboe::DataCallbackResult
 ClickPlayer::onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames) {
     for (int i = 0; i < numFrames; ++i) {
@@ -149,7 +115,7 @@ ClickPlayer::onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32
                 if (currentBpm != newBpm) {
                     setCurrentBpm(newBpm);
                 }
-                handleCallback();
+                callback->invokeCallback(currentBpm);
 
                 currentFrame = 0;
             }

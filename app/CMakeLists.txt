@@ -6,6 +6,7 @@ file(GLOB_RECURSE APP_SOURCES
         ${APP_DIR}/ClickPlayer.cpp
         ${APP_DIR}/SoundRenderer.cpp
         ${APP_DIR}/Mixer.cpp
+        ${APP_DIR}/Callback.cpp
         )
 # Build our own native library
 add_library(native-lib SHARED ${APP_SOURCES})

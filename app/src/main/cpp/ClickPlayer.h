@@ -6,6 +6,7 @@
 #include "SoundRenderer.h"
 #include "Mixer.h"
 #include "BeatType.h"
+#include "Callback.h"
 
 class ClickPlayer : public oboe::AudioStreamCallback {
 public:
@@ -21,8 +22,6 @@ public:
 
     void playRotateClick();
 
-    void handleCallback();
-
     oboe::DataCallbackResult
     onAudioReady(oboe::AudioStream *audioStream, void *audioData, int32_t numFrames);
 
@@ -32,12 +31,9 @@ private:
     void playBeat();
     void setCurrentBpm(jint bpm);
 
-    JavaVM *jvm;
     AAssetManager *assetManager;
 
-    JNIEnv *listenerEnv = nullptr;
-    jobject listener;
-    jmethodID listenerMethodId = nullptr;
+    Callback *callback{nullptr};
 
     const int kSampleRateHz = 44100;
 
