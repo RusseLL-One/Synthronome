@@ -79,6 +79,7 @@ void ClickPlayer::setBpm(jint bpm) {
 }
 
 void ClickPlayer::setCurrentBpm(jint bpm) {
+    if (bpm == 0) return;
     this->currentBpm = bpm;
     this->framesInterval = 60 * kSampleRateHz / bpm;
 }

@@ -1,5 +1,6 @@
 package com.one.russell.metroman_20.di
 
+import com.one.russell.metroman_20.StartViewModel
 import com.one.russell.metroman_20.data.prefs.PreferencesDataStore
 import com.one.russell.metroman_20.domain.TrainingProcessor
 import com.one.russell.metroman_20.domain.providers.BeatTypesProvider
@@ -23,15 +24,16 @@ import org.koin.dsl.module
 
 fun appModule() = module {
 
-    // singletons
     single { ClickerCallback() }
-    single { Clicker(callback = get(), beatTypesProvider = get(), androidContext().assets) }
+    single { Clicker(callback = get(), beatTypesProvider = get(), bpmProvider = get(), androidContext().assets) }
     single { TrainingProcessor(clicker = get()) }
     single { PreferencesDataStore(androidContext()) }
+
+    // providers
     single { ClickStateProvider() }
     single { TrainingDataProvider() }
     single { BeatTypesProvider() }
-    single { BpmProvider(dataStore = get()) }
+    single { BpmProvider() }
 
     // workers
     worker {
@@ -44,17 +46,17 @@ fun appModule() = module {
     }
 
     // use cases
-    factory { GetSavedBpmUseCase(dataStore = get()) }
-    factory { SaveCurrentBpmUseCase(dataStore = get()) }
+    factory { RestoreSavedValuesUseCase(bpmProvider = get(), dataStore = get()) }
+    factory { ObserveBpmUseCase(bpmProvider = get()) }
     factory { StartClickingUseCase(androidContext()) }
     factory { StopClickingUseCase(androidContext()) }
     factory { ObserveClickStateUseCase(clickStateProvider = get()) }
     factory { GetClickerCallbackUseCase(clickerCallback = get()) }
     factory { PlayRotateClickUseCase(clicker = get()) }
-    factory { SetBpmUseCase(clicker = get()) }
+    factory { SetBpmUseCase(bpmProvider = get(), dataStore = get()) }
 
     // training use cases
-    factory { StartTrainingUseCase(trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
+    factory { StartTrainingUseCase(bpmProvider = get(), trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
     factory { StopTrainingUseCase(trainingProcessor = get()) }
     factory { SetTrainingDataUseCase(dataStore = get(), trainingDataProvider = get()) }
     factory { GetTrainingDataUseCase(dataStore = get()) }
@@ -63,11 +65,13 @@ fun appModule() = module {
 
     // view models
     viewModel {
+        StartViewModel(
+            restoreSavedValuesUseCase = get()
+        )
         MainViewModel(
             playRotateClickUseCase = get(),
             setBpmUseCase = get(),
-            getSavedBpmUseCase = get(),
-            saveCurrentBpmUseCase = get(),
+            observeBpmUseCase = get(),
             startClickingUseCase = get(),
             stopClickingUseCase = get(),
             observeClickStateUseCase = get(),

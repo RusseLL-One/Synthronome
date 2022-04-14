@@ -3,6 +3,7 @@ package com.one.russell.metroman_20.domain.wrappers
 import android.content.res.AssetManager
 import com.one.russell.metroman_20.domain.BeatType
 import com.one.russell.metroman_20.domain.providers.BeatTypesProvider
+import com.one.russell.metroman_20.domain.providers.BpmProvider
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 class Clicker(
     private val callback: ClickerCallback,
     private val beatTypesProvider: BeatTypesProvider,
+    private val bpmProvider: BpmProvider,
     assetManager: AssetManager
 ) {
 
@@ -23,7 +25,8 @@ class Clicker(
 
     init {
         native_init(callback, assetManager)
-        GlobalScope.launch { // todo их запускается очень много (или нет)
+
+        GlobalScope.launch {
             callback.onClick.collect {
                 incrementBeat()
                 setNextBeatType(beatTypes[nextBeatIndex])
@@ -36,6 +39,11 @@ class Clicker(
                 setNextBeatType(beatTypes[nextBeatIndex])
             }
         }
+        GlobalScope.launch {
+            bpmProvider.bpmFlow.collect {
+                setBpm(it)
+            }
+        }
     }
 
     private fun incrementBeat() {
@@ -43,6 +51,7 @@ class Clicker(
     }
 
     fun start() {
+        beatIndex = -1
         native_start()
     }
 
@@ -75,7 +84,7 @@ class Clicker(
         val bpm: Int,
         private val beatIndex: Int,
         private val beatsInBar: Int
-    ){
+    ) {
         val isFirstBeat
             get() = beatIndex == 0
         val isNextBeatFirst

@@ -56,10 +56,5 @@
         <argument
             android:name="trainingFinalType"
             app:argType="com.one.russell.metroman_20.domain.TrainingFinalType" />
-        <action
-            android:id="@+id/action_optionsFragment_to_mainFragment"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

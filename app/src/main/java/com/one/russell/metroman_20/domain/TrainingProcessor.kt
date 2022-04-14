@@ -2,12 +2,12 @@ package com.one.russell.metroman_20.domain
 
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.job
-import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.random.Random
@@ -23,7 +23,6 @@ class TrainingProcessor(
 
     suspend fun startTraining(trainingData: TrainingData, bpmFlow: MutableSharedFlow<Int>) {
         this.runningJob?.cancel()
-        this.runningJob = coroutineContext.job
 
         _trainingState.emit(TrainingState.Running(
             calcTrainingTime(trainingData),
@@ -78,31 +77,35 @@ class TrainingProcessor(
         var barsPassed = 0
         var completeOnNextBar = false
 
-        clicker.onClicked.collect { click ->
-            if (completeOnNextBar && click.isFirstBeat) stopTraining()
-            if (click.bpm == trainingData.endBpm) completeOnNextBar = true
+        coroutineScope {
+            runningJob = launch {
+                clicker.onClicked.collect { click ->
+                    if (completeOnNextBar && click.isFirstBeat) stopTraining()
+                    if (click.bpm == trainingData.endBpm) completeOnNextBar = true
 
-            if (barsPassed == 0) {
-                bpmFlow.emit(click.bpm)
-            }
-            if (click.isNextBeatFirst) {
-                barsPassed++
-            }
-            if (barsPassed == trainingData.everyBars) {
-                val newBpm = if (trainingData.startBpm < trainingData.endBpm) {
-                    (click.bpm + trainingData.increaseOn).coerceIn(
-                        trainingData.startBpm,
-                        trainingData.endBpm
-                    )
-                } else {
-                    (click.bpm - trainingData.increaseOn).coerceIn(
-                        trainingData.endBpm,
-                        trainingData.startBpm
-                    )
+                    if (barsPassed == 0) {
+                        bpmFlow.emit(click.bpm)
+                    }
+                    if (click.isNextBeatFirst) {
+                        barsPassed++
+                    }
+                    if (barsPassed == trainingData.everyBars) {
+                        val newBpm = if (trainingData.startBpm < trainingData.endBpm) {
+                            (click.bpm + trainingData.increaseOn).coerceIn(
+                                trainingData.startBpm,
+                                trainingData.endBpm
+                            )
+                        } else {
+                            (click.bpm - trainingData.increaseOn).coerceIn(
+                                trainingData.endBpm,
+                                trainingData.startBpm
+                            )
+                        }
+
+                        clicker.setBpm(newBpm)
+                        barsPassed = 0
+                    }
                 }
-
-                clicker.setBpm(newBpm)
-                barsPassed = 0
             }
         }
     }
@@ -118,17 +121,22 @@ class TrainingProcessor(
         val duration = trainingData.minutes * 60 * 1000
         val startTime = System.currentTimeMillis()
 
-        clicker.onClicked.collect {
-            bpmFlow.emit(it.bpm)
-            if (it.bpm == trainingData.endBpm) stopTraining()
+        coroutineScope {
+            runningJob = launch {
+                clicker.onClicked.collect {
+                    bpmFlow.emit(it.bpm)
+                    if (it.bpm == trainingData.endBpm) stopTraining()
 
-            val currentTime = System.currentTimeMillis()
+                    val currentTime = System.currentTimeMillis()
 
-            val completion = (currentTime + (1000 * 60 / it.bpm) - startTime).toFloat() / duration
-            val bpmIncrease = (trainingData.endBpm - trainingData.startBpm) * completion
-            val newBpm = (trainingData.startBpm + bpmIncrease).toInt()
+                    val completion =
+                        (currentTime + (1000 * 60 / it.bpm) - startTime).toFloat() / duration
+                    val bpmIncrease = (trainingData.endBpm - trainingData.startBpm) * completion
+                    val newBpm = (trainingData.startBpm + bpmIncrease).toInt()
 
-            clicker.setBpm(newBpm)
+                    clicker.setBpm(newBpm)
+                }
+            }
         }
     }
 
@@ -140,13 +148,17 @@ class TrainingProcessor(
             clicker.setNextBeatType(BeatType.MUTE)
         }
 
-        clicker.onClicked.collect { click ->
-            if (click.isNextBeatFirst) {
-                isMuted = Random.nextInt(101) <= trainingData.chancePercent
-            }
+        coroutineScope {
+            runningJob = launch {
+                clicker.onClicked.collect { click ->
+                    if (click.isNextBeatFirst) {
+                        isMuted = Random.nextInt(101) <= trainingData.chancePercent
+                    }
 
-            if (isMuted) {
-                clicker.setNextBeatType(BeatType.MUTE)
+                    if (isMuted) {
+                        clicker.setNextBeatType(BeatType.MUTE)
+                    }
+                }
             }
         }
     }
@@ -156,14 +168,18 @@ class TrainingProcessor(
     ) {
         var barsPassed = 0
 
-        clicker.onClicked.collect { click ->
-            if (click.isNextBeatFirst) {
-                barsPassed++
-            }
-            if (barsPassed >= trainingData.ordinaryBarsCount + trainingData.mutedBarsCount) {
-                barsPassed = 0
-            } else if (barsPassed >= trainingData.ordinaryBarsCount) {
-                clicker.setNextBeatType(BeatType.MUTE)
+        coroutineScope {
+            runningJob = launch {
+                clicker.onClicked.collect { click ->
+                    if (click.isNextBeatFirst) {
+                        barsPassed++
+                    }
+                    if (barsPassed >= trainingData.ordinaryBarsCount + trainingData.mutedBarsCount) {
+                        barsPassed = 0
+                    } else if (barsPassed >= trainingData.ordinaryBarsCount) {
+                        clicker.setNextBeatType(BeatType.MUTE)
+                    }
+                }
             }
         }
     }
@@ -176,11 +192,15 @@ class TrainingProcessor(
             clicker.setNextBeatType(BeatType.MUTE)
         }
 
-        clicker.onClicked.collect {
-            isMuted = Random.nextInt(101) <= trainingData.chancePercent
+        coroutineScope {
+            runningJob = launch {
+                clicker.onClicked.collect {
+                    isMuted = Random.nextInt(101) <= trainingData.chancePercent
 
-            if (isMuted) {
-                clicker.setNextBeatType(BeatType.MUTE)
+                    if (isMuted) {
+                        clicker.setNextBeatType(BeatType.MUTE)
+                    }
+                }
             }
         }
     }

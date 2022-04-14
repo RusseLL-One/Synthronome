@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.one.russell.metroman_20.domain.ClickState
 import com.one.russell.metroman_20.domain.ClickState.IDLE
 import com.one.russell.metroman_20.domain.ClickState.STARTED
-import com.one.russell.metroman_20.domain.Constants.BPM_DEBOUNCE_TIME_MILLIS
 import com.one.russell.metroman_20.domain.Constants.MAX_BPM
 import com.one.russell.metroman_20.domain.Constants.MIN_BPM
 import com.one.russell.metroman_20.domain.TrainingState
@@ -20,8 +19,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val playRotateClickUseCase: PlayRotateClickUseCase,
     private val setBpmUseCase: SetBpmUseCase,
-    private val getSavedBpmUseCase: GetSavedBpmUseCase,
-    private val saveCurrentBpmUseCase: SaveCurrentBpmUseCase,
+    private val observeBpmUseCase: ObserveBpmUseCase,
     private val startClickingUseCase: StartClickingUseCase,
     private val stopClickingUseCase: StopClickingUseCase,
     private val observeClickStateUseCase: ObserveClickStateUseCase,
@@ -32,9 +30,8 @@ class MainViewModel(
     private val observeTrainingStateUseCase: ObserveTrainingStateUseCase
 ) : ViewModel() {
 
-    private val _bpm = MutableStateFlow(0)
     val bpm: StateFlow<Int>
-        get() = _bpm
+        get() = observeBpmUseCase.execute()
 
     private val _trainingState: MutableStateFlow<TrainingState> = MutableStateFlow(TrainingState.Idle)
     val trainingState: StateFlow<TrainingState>
@@ -49,26 +46,10 @@ class MainViewModel(
         get() = _clickerCallback
 
     init {
-        getSavedBpm()
-        saveDebouncedBpm()
         observeClickState()
         observeClickerCallback()
         observeTrainingData()
         observeTrainingState()
-    }
-
-    private fun getSavedBpm() {
-        viewModelScope.launch {
-            setBpm(getSavedBpmUseCase.execute())
-        }
-    }
-
-    private fun saveDebouncedBpm() {
-        viewModelScope.launch {
-            _bpm
-                .debounce(timeoutMillis = BPM_DEBOUNCE_TIME_MILLIS)
-                .collect { saveCurrentBpmUseCase.execute(it) }
-        }
     }
 
     private fun observeClickState() {
@@ -90,7 +71,7 @@ class MainViewModel(
     private fun observeTrainingData() {
         viewModelScope.launch {
             observeTrainingDataUseCase.execute().collect { trainingData ->
-                startTrainingUseCase.execute(trainingData, _bpm)
+                startTrainingUseCase.execute(trainingData)
             }
         }
     }
@@ -104,7 +85,7 @@ class MainViewModel(
     }
 
     fun onBpmChanged(delta: Int) {
-        val newBpm = (_bpm.value + delta).coerceIn(MIN_BPM, MAX_BPM)
+        val newBpm = (bpm.value + delta).coerceIn(MIN_BPM, MAX_BPM)
         playRotateClickUseCase.execute()
         setBpm(newBpm)
     }
@@ -127,9 +108,8 @@ class MainViewModel(
     }
 
     private fun setBpm(bpm: Int) {
-        setBpmUseCase.execute(bpm)
         viewModelScope.launch {
-            _bpm.emit(bpm)
+            setBpmUseCase.execute(bpm)
         }
     }
 }

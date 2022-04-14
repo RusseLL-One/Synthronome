@@ -13,7 +13,7 @@ class TrainingDataProvider {
     val trainingData: SharedFlow<TrainingData>
         get() = _trainingData
 
-    fun setTrainingData(trainingData: TrainingData) {
-        _trainingData.tryEmit(trainingData)
+    suspend fun setTrainingData(trainingData: TrainingData) {
+        _trainingData.emit(trainingData)
     }
 }

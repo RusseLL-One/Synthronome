@@ -1,14 +1,8 @@
 package com.one.russell.metroman_20.domain.providers
 
-import com.one.russell.metroman_20.data.prefs.PreferencesDataStore
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class BpmProvider(
-    private val dataStore: PreferencesDataStore
-) {
+class BpmProvider {
 
-    val bpm = dataStore.bpm.getValueFlow()
-
-    suspend fun setBpm(bpm: Int) {
-        dataStore.bpm.setValue(bpm)
-    }
+    val bpmFlow = MutableStateFlow(0)
 }

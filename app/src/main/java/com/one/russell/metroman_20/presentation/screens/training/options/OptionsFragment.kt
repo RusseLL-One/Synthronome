@@ -45,7 +45,7 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
             btnProceed.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.submit(args.trainingFinalType)
-                    findNavController().navigate(R.id.action_optionsFragment_to_mainFragment)
+                    findNavController().popBackStack(R.id.mainFragment, false)
                 }
             }
         }

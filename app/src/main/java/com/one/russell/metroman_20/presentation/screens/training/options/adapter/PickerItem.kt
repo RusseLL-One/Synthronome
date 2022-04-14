@@ -1,14 +1,16 @@
 package com.one.russell.metroman_20.presentation.screens.training.options.adapter
 
 import androidx.annotation.StringRes
-import com.one.russell.metroman_20.presentation.screens.training.options.OptionsAdjusterType
+import java.util.*
 
 data class PickerItem(
-    val type: OptionsAdjusterType,
+    val minValue: Int,
+    val maxValue: Int,
+    val step: Int,
     @StringRes val titleRes: Int,
     val initValue: Int,
     val onValueChanged: (Int) -> Unit
 ): ListItem {
     override val id: String
-        get() = type.name
+        get() = UUID.randomUUID().toString()
 }
