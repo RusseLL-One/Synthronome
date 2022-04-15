@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.one.russell.metroman_20.data.serialize
+import com.one.russell.metroman_20.domain.BeatType.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "data_store"
@@ -18,6 +21,12 @@ class PreferencesDataStore(
         dataStore = appContext.dataStore,
         key = intPreferencesKey("BPM"),
         defaultValue = 60
+    )
+
+    val beatTypes = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = stringPreferencesKey("BEAT_TYPES"),
+        defaultValue = listOf(ACCENT, BEAT, BEAT, BEAT).serialize()
     )
 
     val training_tempoIncreasing_startBpm = PrefsValue(

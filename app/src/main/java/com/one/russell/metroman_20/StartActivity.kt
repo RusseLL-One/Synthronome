@@ -11,5 +11,11 @@ class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.restoreValues()
+    }
+
+    override fun onStop() {
+        viewModel.saveValues()
+        super.onStop()
     }
 }

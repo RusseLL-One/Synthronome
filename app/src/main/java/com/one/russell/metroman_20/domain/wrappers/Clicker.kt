@@ -34,7 +34,7 @@ class Clicker(
             }
         }
         GlobalScope.launch {
-            beatTypesProvider.beatTypes.collect {
+            beatTypesProvider.beatTypesFlow.collect {
                 beatTypes = it
                 setNextBeatType(beatTypes[nextBeatIndex])
             }

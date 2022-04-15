@@ -2,6 +2,7 @@ package com.one.russell.metroman_20.presentation.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.one.russell.metroman_20.domain.BeatType
 import com.one.russell.metroman_20.domain.ClickState
 import com.one.russell.metroman_20.domain.ClickState.IDLE
 import com.one.russell.metroman_20.domain.ClickState.STARTED
@@ -20,6 +21,8 @@ class MainViewModel(
     private val playRotateClickUseCase: PlayRotateClickUseCase,
     private val setBpmUseCase: SetBpmUseCase,
     private val observeBpmUseCase: ObserveBpmUseCase,
+    private val setBeatsInBarCountUseCase: SetBeatsInBarCountUseCase,
+    private val observeBeatTypesUseCase: ObserveBeatTypesUseCase,
     private val startClickingUseCase: StartClickingUseCase,
     private val stopClickingUseCase: StopClickingUseCase,
     private val observeClickStateUseCase: ObserveClickStateUseCase,
@@ -32,6 +35,9 @@ class MainViewModel(
 
     val bpm: StateFlow<Int>
         get() = observeBpmUseCase.execute()
+
+    val beatTypes: StateFlow<List<BeatType>>
+        get() = observeBeatTypesUseCase.execute()
 
     private val _trainingState: MutableStateFlow<TrainingState> = MutableStateFlow(TrainingState.Idle)
     val trainingState: StateFlow<TrainingState>
@@ -107,9 +113,11 @@ class MainViewModel(
         }
     }
 
+    fun onBeatsInBarChanged(beatsInBarCount: Int) {
+        setBeatsInBarCountUseCase.execute(beatsInBarCount)
+    }
+
     private fun setBpm(bpm: Int) {
-        viewModelScope.launch {
-            setBpmUseCase.execute(bpm)
-        }
+        setBpmUseCase.execute(bpm)
     }
 }

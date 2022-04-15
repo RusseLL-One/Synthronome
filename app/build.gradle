@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.20'
 }
 
 android {
@@ -56,6 +57,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
     implementation "com.google.oboe:oboe:$oboeVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
 
     // Koin
     implementation "io.insert-koin:koin-core:$koinVersion"

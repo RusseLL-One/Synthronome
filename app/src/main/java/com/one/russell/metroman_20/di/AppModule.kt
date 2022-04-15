@@ -46,14 +46,17 @@ fun appModule() = module {
     }
 
     // use cases
-    factory { RestoreSavedValuesUseCase(bpmProvider = get(), dataStore = get()) }
+    factory { RestoreSavedValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), dataStore = get()) }
+    factory { SaveValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), dataStore = get()) }
     factory { ObserveBpmUseCase(bpmProvider = get()) }
     factory { StartClickingUseCase(androidContext()) }
     factory { StopClickingUseCase(androidContext()) }
     factory { ObserveClickStateUseCase(clickStateProvider = get()) }
     factory { GetClickerCallbackUseCase(clickerCallback = get()) }
     factory { PlayRotateClickUseCase(clicker = get()) }
-    factory { SetBpmUseCase(bpmProvider = get(), dataStore = get()) }
+    factory { SetBpmUseCase(bpmProvider = get()) }
+    factory { SetBeatsInBarCountUseCase(beatTypesProvider = get()) }
+    factory { ObserveBeatTypesUseCase(beatTypesProvider = get()) }
 
     // training use cases
     factory { StartTrainingUseCase(bpmProvider = get(), trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
@@ -66,12 +69,17 @@ fun appModule() = module {
     // view models
     viewModel {
         StartViewModel(
+            saveValuesUseCase = get(),
             restoreSavedValuesUseCase = get()
         )
+    }
+    viewModel {
         MainViewModel(
             playRotateClickUseCase = get(),
             setBpmUseCase = get(),
             observeBpmUseCase = get(),
+            setBeatsInBarCountUseCase = get(),
+            observeBeatTypesUseCase = get(),
             startClickingUseCase = get(),
             stopClickingUseCase = get(),
             observeClickStateUseCase = get(),
