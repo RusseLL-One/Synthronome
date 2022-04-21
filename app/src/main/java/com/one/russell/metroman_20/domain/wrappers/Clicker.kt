@@ -1,13 +1,15 @@
 package com.one.russell.metroman_20.domain.wrappers
 
 import android.content.res.AssetManager
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.one.russell.metroman_20.domain.BeatType
 import com.one.russell.metroman_20.domain.providers.BeatTypesProvider
 import com.one.russell.metroman_20.domain.providers.BpmProvider
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+@Suppress("FunctionName")
 class Clicker(
     private val callback: ClickerCallback,
     private val beatTypesProvider: BeatTypesProvider,
@@ -26,20 +28,20 @@ class Clicker(
     init {
         native_init(callback, assetManager)
 
-        GlobalScope.launch {
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
             callback.onClick.collect {
                 incrementBeat()
                 setNextBeatType(beatTypes[nextBeatIndex])
                 _onClicked.emit(Click(it, beatIndex, beatTypes.size))
             }
         }
-        GlobalScope.launch {
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
             beatTypesProvider.beatTypesFlow.collect {
                 beatTypes = it
                 setNextBeatType(beatTypes[nextBeatIndex])
             }
         }
-        GlobalScope.launch {
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
             bpmProvider.bpmFlow.collect {
                 setBpm(it)
             }

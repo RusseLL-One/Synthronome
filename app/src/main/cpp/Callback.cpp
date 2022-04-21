@@ -1,4 +1,5 @@
 #include "Callback.h"
+#include "logging_macros.h"
 
 Callback::Callback(JavaVM *jvm, jobject listener) {
     this->jvm = jvm;
@@ -40,6 +41,5 @@ jmethodID Callback::getMethodId(const char *name, const char *sig) {
         if (isAttached) jvm->DetachCurrentThread();
         return nullptr;
     }
-    if (isAttached) jvm->DetachCurrentThread();
     return methodId;
 }

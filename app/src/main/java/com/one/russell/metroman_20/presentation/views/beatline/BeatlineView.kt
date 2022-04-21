@@ -37,7 +37,6 @@ class BeatlineView @JvmOverloads constructor(
     private var reverseAnimation = false
     private val animator = ValueAnimator
         .ofFloat(0f, 1f)
-        .setDuration(1000)
         .apply {
             interpolator = LinearInterpolator()
             addUpdateListener {
