@@ -79,8 +79,8 @@
 
     <com.one.russell.metroman_20.presentation.views.rotary_knob.StartButtonView
         android:id="@+id/v_start"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         app:layout_constraintEnd_toEndOf="@id/v_knob"
         app:layout_constraintStart_toStartOf="@id/v_knob"
         app:layout_constraintTop_toTopOf="@id/v_knob"

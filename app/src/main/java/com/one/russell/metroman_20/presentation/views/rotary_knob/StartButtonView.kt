@@ -1,18 +1,21 @@
 package com.one.russell.metroman_20.presentation.views.rotary_knob
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.withRotation
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnLayout
 import com.one.russell.metroman_20.R
-import com.one.russell.metroman_20.presentation.views.utils.centerX
-import com.one.russell.metroman_20.presentation.views.utils.centerY
-import com.one.russell.metroman_20.presentation.views.utils.createBevelPaint
-import com.one.russell.metroman_20.presentation.views.utils.createPaint
+import com.one.russell.metroman_20.presentation.views.utils.GradientOrientation
+import com.one.russell.metroman_20.presentation.views.utils.createGradientPaint
 
 class StartButtonView @JvmOverloads constructor(
     context: Context,
@@ -20,80 +23,60 @@ class StartButtonView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var outerBevelPaint: Paint? = null
-    private var buttonPaint: Paint? = null
-    private var symbolPaint: Paint? = null
+    private var bgPaint: Paint = Paint()
 
-    private val symbolRect = Rect()
-    private val playPath = Path()
-    private val stopPath = Path()
+    private var playDrawable: Drawable? = null
+    private var stopDrawable: Drawable? = null
+
     private var isButtonPressed = false
 
     init {
         doOnLayout {
+            playDrawable = getButtonDrawable(R.drawable.ic_play)
+            stopDrawable = getButtonDrawable(R.drawable.ic_stop)
+
             initPaints(ContextCompat.getColor(context, R.color.primary))
         }
     }
 
     private fun initPaints(@ColorInt initColor: Int) {
-        stopPath.moveTo(centerX - 30, centerY - 30)
-        stopPath.lineTo(centerX + 30, centerY - 30)
-        stopPath.lineTo(centerX + 30, centerY + 30)
-        stopPath.lineTo(centerX - 30, centerY + 30)
-        stopPath.close()
-
-        playPath.moveTo(centerX - 30, centerY - 30)
-        playPath.lineTo(centerX + 30, centerY)
-        playPath.lineTo(centerX - 30, centerY + 30)
-        playPath.close()
-
-        symbolRect.set(
-            (centerX - 30).toInt(),
-            (centerY - 30).toInt(),
-            (centerX + 30).toInt(),
-            (centerY + 30).toInt()
+        bgPaint = createGradientPaint(
+            gradientOrientation = GradientOrientation.BOTTOM_TOP,
+            width = width.toFloat(),
+            height = height.toFloat(),
+            startColor = Color.parseColor("#D35746"),
+            endColor = Color.parseColor("#FFA959"),
+            alpha = 1f,
+            style = Paint.Style.FILL,
         )
+    }
 
-        outerBevelPaint = createBevelPaint(centerX, centerY, centerX - OUTER_BEVEL_THICKNESS_PX / 2, BEVEL_ALPHA, Color.WHITE, Color.BLACK, OUTER_BEVEL_THICKNESS_PX)
-        buttonPaint = createBevelPaint(centerX, centerY, centerX - OUTER_BEVEL_THICKNESS_PX, BEVEL_ALPHA, Color.WHITE, Color.BLACK, style = Paint.Style.FILL)
-        symbolPaint = createPaint(initColor, 1f, style = Paint.Style.FILL)
+    private fun getButtonDrawable(@DrawableRes drawableRes: Int): Drawable? {
+        return ResourcesCompat.getDrawable(resources, drawableRes, context.theme)
+            ?.apply { bounds = getDrawableBounds(this) }
+    }
+
+    private fun getDrawableBounds(drawable: Drawable): Rect {
+        return Rect(
+            (width - drawable.intrinsicWidth) / 2,
+            (height - drawable.intrinsicHeight) / 2,
+            (width + drawable.intrinsicWidth) / 2,
+            (height + drawable.intrinsicHeight) / 2
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
-        outerBevelPaint?.drawButton(canvas, centerX - OUTER_BEVEL_THICKNESS_PX / 2)
-        canvas.withRotation(
-            degrees = if (isButtonPressed) 180f else 0f,
-            pivotX = centerX,
-            pivotY = centerY
-        ) {
-            buttonPaint?.drawButton(canvas, centerX - OUTER_BEVEL_THICKNESS_PX)
-        }
+        canvas.drawOval(0f, 0f, width.toFloat(), height.toFloat(), bgPaint)
 
-        symbolPaint?.let {
-            if (isButtonPressed) {
-                canvas.drawPath(stopPath, it)
-            } else {
-                canvas.drawPath(playPath, it)
-            }
+        if (isButtonPressed) {
+            stopDrawable?.draw(canvas)
+        } else {
+            playDrawable?.draw(canvas)
         }
-    }
-
-    private fun Paint.drawButton(canvas: Canvas, radius: Float) {
-        canvas.drawCircle(
-            centerX,
-            centerY,
-            radius,
-            this
-        )
     }
 
     fun setButtonPressed(isButtonPressed: Boolean) {
         this.isButtonPressed = isButtonPressed
         invalidate()
-    }
-
-    companion object {
-        private const val OUTER_BEVEL_THICKNESS_PX = 8f
-        private const val BEVEL_ALPHA = 0.7f
     }
 }
