@@ -21,7 +21,7 @@ class RotaryKnobView @JvmOverloads constructor(
 
     private val primaryColor: Int = ContextCompat.getColor(context, R.color.primary)
 
-    private var dashDrawable = GlowingDashDrawable()
+    private var dashDrawable = GlowingPointerDrawable()
     private var ringDrawable = GlowingRingDrawable()
 
     private var glowIntense: Float = 0f
@@ -40,14 +40,15 @@ class RotaryKnobView @JvmOverloads constructor(
         }
 
     init {
+        setBackgroundResource(R.drawable.bg_bordered_gradient_circle)
         doOnLayout {
             initDrawables()
         }
     }
 
     private fun initDrawables() {
-        dashDrawable.init(centerX, centerY, primaryColor)
-        ringDrawable.init(centerX, centerY, primaryColor)
+        dashDrawable.init(primaryColor)
+        ringDrawable.init(width, height, primaryColor)
     }
 
     fun setGlowIntense(bpm: Int) {
@@ -65,11 +66,11 @@ class RotaryKnobView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
+        ringDrawable.draw(canvas)
+
         canvas.withRotation(degrees = currentDegrees, pivotX = centerX, pivotY = centerY) {
             dashDrawable.draw(canvas)
         }
-
-        ringDrawable.draw(canvas)
 
         super.onDraw(canvas)
     }

@@ -54,6 +54,47 @@ fun createBevelPaint(
     this.style = style
 }
 
+fun createGradientPaint(
+    gradientOrientation: GradientOrientation,
+    width: Float,
+    height: Float,
+    @ColorInt startColor: Int,
+    @ColorInt endColor: Int,
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float,
+    style: Paint.Style = Paint.Style.STROKE,
+    strokeWidth: Float = 0f
+) = Paint().apply {
+    this.isAntiAlias = true
+    this.shader = createLinearGradient(gradientOrientation, width, height, startColor, endColor)
+    this.alpha = (alpha * 255).toInt()
+    this.style = style
+    this.strokeWidth = strokeWidth
+}
+
+fun createLinearGradient(
+    gradientOrientation: GradientOrientation,
+    width: Float,
+    height: Float,
+    @ColorInt startColor: Int,
+    @ColorInt endColor: Int
+): LinearGradient {
+    val x0: Float
+    val y0: Float
+    val x1: Float
+    val y1: Float
+    when (gradientOrientation) {
+        TOP_BOTTOM -> { x0 = 0f; y0 = 0f; x1 = 0f; y1 = height }
+        TR_BL -> { x0 = width; y0 = 0f; x1 = 0f; y1 = height }
+        RIGHT_LEFT -> { x0 = width; y0 = 0f; x1 = 0f; y1 = 0f }
+        BR_TL -> { x0 = width; y0 = height; x1 = 0f; y1 = 0f }
+        BOTTOM_TOP -> { x0 = 0f; y0 = height; x1 = 0f; y1 = 0f }
+        BL_TR -> { x0 = 0f; y0 = 0f; x1 = width; y1 = height }
+        LEFT_RIGHT -> { x0 = 0f; y0 = 0f; x1 = width; y1 = 0f }
+        TL_BR -> { x0 = 0f; y0 = 0f; x1 = width; y1 = height }
+    }
+    return LinearGradient(x0, y0, x1, y1, startColor, endColor, Shader.TileMode.CLAMP)
+}
+
 fun createPaint(
     @ColorInt color: Int,
     @FloatRange(from = 0.0, to = 1.0) brightness: Float,

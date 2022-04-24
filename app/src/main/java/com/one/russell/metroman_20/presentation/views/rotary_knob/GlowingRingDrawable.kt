@@ -4,63 +4,38 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import androidx.annotation.ColorInt
-import com.one.russell.metroman_20.presentation.views.utils.createBevelPaint
-import com.one.russell.metroman_20.presentation.views.utils.createGlowPaint
-import com.one.russell.metroman_20.presentation.views.utils.createPaint
+import com.one.russell.metroman_20.presentation.views.utils.*
+import com.one.russell.metroman_20.toPx
 
 class GlowingRingDrawable {
-    private var centerX: Float = 0f
-    private var centerY: Float = 0f
 
-    private val radius: Float
-        get() = centerX - RING_THICKNESS_PX / 2
-    private val innerBevelRadius: Float
-        get() = radius - RING_THICKNESS_PX / 2 + INNER_BEVEL_THICKNESS_PX / 2
-    private val outerBevelRadius: Float
-        get() = radius + RING_THICKNESS_PX / 2 - OUTER_BEVEL_THICKNESS_PX / 2
+    private val ringThickness = 3.toPx()
+    private val glowRadius = 20.toPx()
+    private val offsetWidth = 17.toPx()
 
     private var ringPaint: Paint? = null
-    private var innerBevelPaint: Paint? = null
-    private var outerBevelPaint: Paint? = null
     private var glowPaint: Paint? = null
 
     private var glowIntense: Float = 1f
 
-    fun init(centerX: Float, centerY: Float, @ColorInt initColor: Int) {
-        this.centerX = centerX
-        this.centerY = centerY
-
-        initPaints(initColor)
+    fun init(width: Int, height: Int, @ColorInt initColor: Int) {
+        initPaints(width, height, initColor)
     }
 
-    private fun initPaints(@ColorInt initColor: Int) {
-        ringPaint = createPaint(
-            color = initColor,
-            brightness = RING_BRIGHTNESS,
-            strokeThickness = RING_THICKNESS_PX
-        )
-        innerBevelPaint = createBevelPaint(
-            centerX = centerX,
-            centerY = centerY,
-            radius = radius,
-            alpha = BEVEL_ALPHA,
-            startColor = Color.BLACK,
-            strokeThickness = INNER_BEVEL_THICKNESS_PX,
-            endColor = Color.WHITE
-        )
-        outerBevelPaint = createBevelPaint(
-            centerX = centerX,
-            centerY = centerY,
-            radius = radius,
-            alpha = BEVEL_ALPHA,
-            startColor = Color.WHITE,
-            strokeThickness = OUTER_BEVEL_THICKNESS_PX,
-            endColor = Color.BLACK
+    private fun initPaints(width: Int, height: Int, @ColorInt initColor: Int) {
+        ringPaint = createGradientPaint(
+            gradientOrientation = GradientOrientation.LEFT_RIGHT,
+            width = width.toFloat(),
+            height = height.toFloat(),
+            startColor = Color.parseColor("#D35746"),
+            endColor = Color.parseColor("#FFA959"),
+            alpha = 1f,
+            strokeWidth = ringThickness,
         )
         glowPaint = createGlowPaint(
             color = initColor,
-            thickness = RING_THICKNESS_PX,
-            glowRadius = GLOW_RADIUS,
+            thickness = ringThickness,
+            glowRadius = glowRadius,
             glowIntense = glowIntense
         )
     }
@@ -71,27 +46,17 @@ class GlowingRingDrawable {
     }
 
     fun draw(canvas: Canvas) {
-        ringPaint?.drawRing(canvas, radius)
-        innerBevelPaint?.drawRing(canvas, innerBevelRadius)
-        outerBevelPaint?.drawRing(canvas, outerBevelRadius)
-        glowPaint?.drawRing(canvas, radius)
+        ringPaint?.drawRing(canvas)
+        glowPaint?.drawRing(canvas)
     }
 
-    private fun Paint.drawRing(canvas: Canvas, radius: Float) {
-        canvas.drawCircle(
-            centerX,
-            centerY,
-            radius,
+    private fun Paint.drawRing(canvas: Canvas) {
+        canvas.drawOval(
+            offsetWidth,
+            offsetWidth,
+            canvas.width.toFloat() - offsetWidth,
+            canvas.height.toFloat() - offsetWidth,
             this
         )
-    }
-
-    companion object {
-        private const val RING_THICKNESS_PX = 60f
-        private const val GLOW_RADIUS = 40f
-        private const val OUTER_BEVEL_THICKNESS_PX = 8f
-        private const val INNER_BEVEL_THICKNESS_PX = 4f
-        private const val BEVEL_ALPHA = 0.7f
-        private const val RING_BRIGHTNESS = 0.3f
     }
 }
