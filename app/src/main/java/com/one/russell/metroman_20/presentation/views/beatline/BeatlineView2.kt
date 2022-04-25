@@ -53,8 +53,8 @@ class BeatlineView2 @JvmOverloads constructor(
     }
 
     fun animateBall(bpm: Int) {
-        if (animator.isRunning) {
-            animator.cancel()
+        if (animator.isStarted) {
+            animator.end()
         }
         animator.run {
             duration = ((60f / bpm) * 1000).toLong()

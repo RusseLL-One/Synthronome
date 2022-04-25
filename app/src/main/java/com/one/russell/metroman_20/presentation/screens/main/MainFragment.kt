@@ -87,7 +87,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.colors.collect {
                     root.setBackgroundColor(it.backgroundColor)
                     vBeatTypesContainer.setColors(it.primaryColor, it.secondaryColor)
-                    beatline.setupPaints(it.primaryColor)
+                    beatline.setupPaints(it.primaryColor, it.secondaryColor)
                     vKnob.setupPaints(it.primaryColor, it.secondaryColor)
                     vStart.setupPaints(it.primaryColor, it.secondaryColor)
                     tap.setupPaints(it.primaryColor)

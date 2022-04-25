@@ -97,6 +97,21 @@ fun createLinearGradient(
     return LinearGradient(x0, y0, x1, y1, startColor, endColor, Shader.TileMode.CLAMP)
 }
 
+fun createRadialGradient(
+    radius: Float,
+    @ColorInt centerColor: Int,
+    @ColorInt edgeColor: Int
+): RadialGradient {
+    return RadialGradient(
+        0f,
+        0f,
+        radius,
+        centerColor,
+        edgeColor,
+        Shader.TileMode.CLAMP
+    )
+}
+
 fun createPaint(
     @ColorInt color: Int,
     @FloatRange(from = 0.0, to = 1.0) brightness: Float,

@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="@id/v_knob"
         app:layout_constraintBottom_toBottomOf="@id/v_knob"
         app:layout_constraintTop_toTopOf="@id/v_knob"
-        app:radius="180dp"
+        app:radius="170dp"
         />
 
     <TextView

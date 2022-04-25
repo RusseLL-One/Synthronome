@@ -46,25 +46,19 @@ class GlowingRingDrawable {
     }
 
     fun draw(canvas: Canvas) {
-        canvas.withTranslation(offsetWidth, offsetWidth) { // todo сделать красивее
+        ringPaint?.drawRing(canvas)
+        glowPaint?.drawRing(canvas)
+    }
+
+    private fun Paint.drawRing(canvas: Canvas) {
+        canvas.withTranslation(offsetWidth, offsetWidth) {
             canvas.drawOval(
                 0f,
                 0f,
                 canvas.width.toFloat() - offsetWidth * 2,
                 canvas.height.toFloat() - offsetWidth * 2,
-                ringPaint ?: Paint()
+                this@drawRing
             )
         }
-        glowPaint?.drawRing(canvas)
-    }
-
-    private fun Paint.drawRing(canvas: Canvas) {
-        canvas.drawOval(
-            offsetWidth,
-            offsetWidth,
-            canvas.width.toFloat() - offsetWidth,
-            canvas.height.toFloat() - offsetWidth,
-            this
-        )
     }
 }
