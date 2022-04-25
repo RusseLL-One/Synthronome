@@ -5,9 +5,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.animation.LinearInterpolator
-import androidx.core.content.ContextCompat
+import androidx.annotation.ColorInt
 import androidx.core.graphics.withRotation
-import androidx.core.view.doOnLayout
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.domain.Constants
 import com.one.russell.metroman_20.presentation.views.utils.centerX
@@ -18,8 +17,6 @@ class RotaryKnobView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : KnobView(context, attrs, defStyleAttr) {
-
-    private val primaryColor: Int = ContextCompat.getColor(context, R.color.primary)
 
     private var dashDrawable = GlowingPointerDrawable()
     private var ringDrawable = GlowingRingDrawable()
@@ -41,14 +38,12 @@ class RotaryKnobView @JvmOverloads constructor(
 
     init {
         setBackgroundResource(R.drawable.bg_bordered_gradient_circle)
-        doOnLayout {
-            initDrawables()
-        }
     }
 
-    private fun initDrawables() {
-        dashDrawable.init(primaryColor)
-        ringDrawable.init(width, height, primaryColor)
+    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) {
+        dashDrawable.init(startColor, endColor)
+        ringDrawable.init(width, height, startColor, endColor)
+        invalidate()
     }
 
     fun setGlowIntense(bpm: Int) {

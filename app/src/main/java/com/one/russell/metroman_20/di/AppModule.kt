@@ -3,11 +3,10 @@ package com.one.russell.metroman_20.di
 import com.one.russell.metroman_20.StartViewModel
 import com.one.russell.metroman_20.data.prefs.PreferencesDataStore
 import com.one.russell.metroman_20.domain.TrainingProcessor
-import com.one.russell.metroman_20.domain.providers.BeatTypesProvider
-import com.one.russell.metroman_20.domain.providers.BpmProvider
-import com.one.russell.metroman_20.domain.providers.ClickStateProvider
-import com.one.russell.metroman_20.domain.providers.TrainingDataProvider
+import com.one.russell.metroman_20.domain.providers.*
 import com.one.russell.metroman_20.domain.usecases.*
+import com.one.russell.metroman_20.domain.usecases.colors.ObserveColorsUseCase
+import com.one.russell.metroman_20.domain.usecases.colors.SetColorsUseCase
 import com.one.russell.metroman_20.domain.usecases.training.*
 import com.one.russell.metroman_20.domain.workers.ClickWorker
 import com.one.russell.metroman_20.domain.wrappers.Clicker
@@ -34,6 +33,7 @@ fun appModule() = module {
     single { TrainingDataProvider() }
     single { BeatTypesProvider() }
     single { BpmProvider() }
+    single { ColorsProvider() }
 
     // workers
     worker {
@@ -46,8 +46,8 @@ fun appModule() = module {
     }
 
     // use cases
-    factory { RestoreSavedValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), dataStore = get()) }
-    factory { SaveValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), dataStore = get()) }
+    factory { RestoreSavedValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), dataStore = get()) }
+    factory { SaveValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), dataStore = get()) }
     factory { ObserveBpmUseCase(bpmProvider = get()) }
     factory { StartClickingUseCase(androidContext()) }
     factory { StopClickingUseCase(androidContext()) }
@@ -57,6 +57,8 @@ fun appModule() = module {
     factory { SetBpmUseCase(bpmProvider = get()) }
     factory { SetBeatsInBarCountUseCase(beatTypesProvider = get()) }
     factory { ObserveBeatTypesUseCase(beatTypesProvider = get()) }
+    factory { ObserveColorsUseCase(colorsProvider = get()) }
+    factory { SetColorsUseCase(colorsProvider = get()) }
 
     // training use cases
     factory { StartTrainingUseCase(bpmProvider = get(), trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
@@ -87,7 +89,9 @@ fun appModule() = module {
             observeTrainingDataUseCase = get(),
             startTrainingUseCase = get(),
             stopTrainingUseCase = get(),
-            observeTrainingStateUseCase = get()
+            observeTrainingStateUseCase = get(),
+            observeColorsUseCase = get(),
+            setColorsUseCase = get()
         )
     }
     viewModel { TypeSelectionViewModel() }

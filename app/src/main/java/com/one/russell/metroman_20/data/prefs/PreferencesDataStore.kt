@@ -6,8 +6,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.data.serialize
 import com.one.russell.metroman_20.domain.BeatType.*
+import com.one.russell.metroman_20.getColorCompat
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "data_store"
@@ -81,5 +83,23 @@ class PreferencesDataStore(
         dataStore = appContext.dataStore,
         key = intPreferencesKey("BEAT_DROPPING_CHANCE_PERCENT"),
         defaultValue = 50
+    )
+
+    val color_primary = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("COLOR_PRIMARY"),
+        defaultValue = appContext.getColorCompat(R.color.defaultPrimary)
+    )
+
+    val color_secondary = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("COLOR_SECONDARY"),
+        defaultValue = appContext.getColorCompat(R.color.defaultSecondary)
+    )
+
+    val color_background = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("COLOR_BACKGROUND"),
+        defaultValue = appContext.getColorCompat(R.color.defaultBackground)
     )
 }

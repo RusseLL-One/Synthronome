@@ -24,7 +24,7 @@ class BeatlineView2 @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private var pointPos = Point()
-    private var paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = ContextCompat.getColor(context, R.color.primary) }
+    private var paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = ContextCompat.getColor(context, R.color.defaultPrimary) }
     private var linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeWidth = 3f

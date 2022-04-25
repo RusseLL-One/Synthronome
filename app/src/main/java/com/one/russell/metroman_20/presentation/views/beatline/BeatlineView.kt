@@ -8,6 +8,7 @@ import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.getDimensionPixelSizeOrThrow
 import androidx.core.view.doOnLayout
@@ -26,13 +27,11 @@ class BeatlineView @JvmOverloads constructor(
 
     private var radius: Int = 0
 
-    private var pointPos = Point()
-    private var paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = ContextCompat.getColor(context, R.color.primary) }
-    private var linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.STROKE
-        strokeWidth = 3f
-        color = ContextCompat.getColor(context, R.color.cardview_dark_background)
-    }
+    private var ballPos = BallPosition(0f)
+    private var pointsPos = listOf<Point>()
+    private var paint = Paint()
+    private var pointsPaint = Paint()
+    private var linePaint = Paint()
 
     private var reverseAnimation = false
     private val animator = ValueAnimator
@@ -49,8 +48,26 @@ class BeatlineView @JvmOverloads constructor(
         initAttrs(context, attrs, defStyleAttr)
 
         doOnLayout {
-            pointPos.calcBallCoords(0f)
+            ballPos.calcBallCoords(0f)
         }
+    }
+
+    fun setupPaints(@ColorInt ballColor: Int) {
+        paint = Paint().apply {
+            isAntiAlias = true
+            color = ballColor
+        }
+        pointsPaint = Paint().apply {
+            isAntiAlias = true
+            color = ballColor
+        }
+        linePaint = Paint().apply {
+            isAntiAlias = true
+            style = Paint.Style.STROKE
+            strokeWidth = 3f
+            color = ContextCompat.getColor(context, R.color.cardview_dark_background)
+        }
+        invalidate()
     }
 
     private fun Point.calcBallCoords(animatedValue: Float) {

@@ -12,6 +12,7 @@ import com.one.russell.metroman_20.domain.ClickState
 import com.one.russell.metroman_20.domain.Constants
 import com.one.russell.metroman_20.domain.TrainingProcessor.Companion.TRAINING_TIME_INFINITE
 import com.one.russell.metroman_20.domain.TrainingState
+import com.one.russell.metroman_20.presentation.alerts.showColorPickerDialog
 import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import com.one.russell.metroman_20.repeatOnResume
 import kotlinx.coroutines.flow.collect
@@ -82,6 +83,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 }
             }
 
+            repeatOnResume {
+                viewModel.colors.collect {
+                    root.setBackgroundColor(it.backgroundColor)
+                    //vBeatTypesContainer.setColors(it.primaryColor, it.secondaryColor) todo
+                    beatline.setupPaints(it.primaryColor)
+                    vKnob.setupPaints(it.primaryColor, it.secondaryColor)
+                    vStart.setupPaints(it.primaryColor, it.secondaryColor)
+                    tap.setupPaints(it.primaryColor)
+                }
+            }
+
             vKnob.addOnValueChangedCallback {
                 viewModel.onBpmChanged(delta = it)
             }
@@ -102,7 +114,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             }
 
             openTraining.setOnClickListener {
-                findNavController().navigate(R.id.action_mainFragment_to_typeSelectionFragment)
+                // todo findNavController().navigate(R.id.action_mainFragment_to_typeSelectionFragment)
+                showColorPickerDialog(requireContext()) {
+                    viewModel.setPrimaryColor(it)
+                }
             }
         }
     }

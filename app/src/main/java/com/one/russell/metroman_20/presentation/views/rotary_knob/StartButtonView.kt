@@ -2,7 +2,6 @@ package com.one.russell.metroman_20.presentation.views.rotary_knob
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -10,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnLayout
 import com.one.russell.metroman_20.R
@@ -34,21 +32,20 @@ class StartButtonView @JvmOverloads constructor(
         doOnLayout {
             playDrawable = getButtonDrawable(R.drawable.ic_play)
             stopDrawable = getButtonDrawable(R.drawable.ic_stop)
-
-            initPaints(ContextCompat.getColor(context, R.color.primary))
         }
     }
 
-    private fun initPaints(@ColorInt initColor: Int) {
+    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) {
         bgPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.BOTTOM_TOP,
             width = width.toFloat(),
             height = height.toFloat(),
-            startColor = Color.parseColor("#D35746"),
-            endColor = Color.parseColor("#FFA959"),
+            startColor = startColor,
+            endColor = endColor,
             alpha = 1f,
             style = Paint.Style.FILL,
         )
+        invalidate()
     }
 
     private fun getButtonDrawable(@DrawableRes drawableRes: Int): Drawable? {

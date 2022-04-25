@@ -9,9 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.getDimensionPixelSizeOrThrow
-import androidx.core.view.doOnLayout
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.domain.Constants.MAX_BPM
 import com.one.russell.metroman_20.domain.Constants.MIN_BPM
@@ -50,9 +48,6 @@ class TapButtonView @JvmOverloads constructor(
 
     init {
         initAttrs(context, attrs, defStyleAttr)
-        doOnLayout {
-            initPaints(ContextCompat.getColor(context, R.color.primary))
-        }
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?, defStyle: Int) {
@@ -61,9 +56,10 @@ class TapButtonView @JvmOverloads constructor(
         }
     }
 
-    private fun initPaints(@ColorInt initColor: Int) {
-        circlePaint = createPaint(initColor, CIRCLE_BRIGHTNESS, 0f, Paint.Style.FILL)
-        glowPaint = createGlowPaint(initColor, 0f, GLOW_RADIUS, 0f, Paint.Style.FILL)
+    fun setupPaints(@ColorInt color: Int) {
+        circlePaint = createPaint(color, CIRCLE_BRIGHTNESS, 0f, Paint.Style.FILL)
+        glowPaint = createGlowPaint(color, 0f, GLOW_RADIUS, 0f, Paint.Style.FILL)
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -126,7 +122,7 @@ class TapButtonView @JvmOverloads constructor(
 
     private fun animateClick() {
         if (glowAnimator.isStarted) {
-            glowAnimator.cancel()
+            glowAnimator.end()
         }
         glowAnimator.start()
     }

@@ -1,9 +1,9 @@
 package com.one.russell.metroman_20.presentation.views.rotary_knob
 
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import androidx.annotation.ColorInt
+import androidx.core.graphics.withTranslation
 import com.one.russell.metroman_20.presentation.views.utils.*
 import com.one.russell.metroman_20.toPx
 
@@ -18,22 +18,22 @@ class GlowingRingDrawable {
 
     private var glowIntense: Float = 1f
 
-    fun init(width: Int, height: Int, @ColorInt initColor: Int) {
-        initPaints(width, height, initColor)
+    fun init(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+        setPaints(width, height, startColor, endColor)
     }
 
-    private fun initPaints(width: Int, height: Int, @ColorInt initColor: Int) {
+    private fun setPaints(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
         ringPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
-            width = width.toFloat(),
-            height = height.toFloat(),
-            startColor = Color.parseColor("#D35746"),
-            endColor = Color.parseColor("#FFA959"),
+            width = width.toFloat() - offsetWidth * 2,
+            height = height.toFloat() - offsetWidth * 2,
+            startColor = startColor,
+            endColor = endColor,
             alpha = 1f,
             strokeWidth = ringThickness,
         )
         glowPaint = createGlowPaint(
-            color = initColor,
+            color = startColor,
             thickness = ringThickness,
             glowRadius = glowRadius,
             glowIntense = glowIntense
@@ -46,7 +46,15 @@ class GlowingRingDrawable {
     }
 
     fun draw(canvas: Canvas) {
-        ringPaint?.drawRing(canvas)
+        canvas.withTranslation(offsetWidth, offsetWidth) { // todo сделать красивее
+            canvas.drawOval(
+                0f,
+                0f,
+                canvas.width.toFloat() - offsetWidth * 2,
+                canvas.height.toFloat() - offsetWidth * 2,
+                ringPaint ?: Paint()
+            )
+        }
         glowPaint?.drawRing(canvas)
     }
 

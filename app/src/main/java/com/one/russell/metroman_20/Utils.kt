@@ -5,6 +5,9 @@ import android.content.res.Resources
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.TypedValue
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -38,4 +41,9 @@ fun Context.getStyledAttributes(
     } finally {
         it.recycle()
     }
+}
+
+@ColorInt
+fun Context.getColorCompat(@ColorRes id: Int): Int {
+    return ResourcesCompat.getColor(resources, id, theme)
 }

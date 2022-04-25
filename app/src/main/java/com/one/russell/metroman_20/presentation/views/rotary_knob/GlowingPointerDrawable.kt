@@ -20,26 +20,26 @@ class GlowingPointerDrawable {
 
     private var glowIntense: Float = 1f
 
-    fun init(@ColorInt initColor: Int) {
+    fun init(@ColorInt startColor: Int, @ColorInt endColor: Int) {
         pointerPaint = createGradientPaint(
-            gradientOrientation = GradientOrientation.RIGHT_LEFT,
+            gradientOrientation = GradientOrientation.LEFT_RIGHT,
             width = pointerRadius * 2,
             height = pointerRadius * 2,
-            startColor = Color.parseColor("#FFA959"),
-            endColor = Color.parseColor("#D35746"),
+            startColor = startColor,
+            endColor = endColor,
             alpha = 1f,
             style = Paint.Style.FILL
         )
         pointerStrokePaint = createGradientPaint(
-            gradientOrientation = GradientOrientation.TOP_BOTTOM,
+            gradientOrientation = GradientOrientation.BOTTOM_TOP,
             width = pointerRadius * 2,
             height = pointerRadius * 2,
-            startColor = Color.parseColor("#FFA959"),
-            endColor = Color.parseColor("#D35746"),
+            startColor = startColor,
+            endColor = endColor,
             alpha = 1f,
             strokeWidth = pointerStrokeWidth
         )
-        glowPaint = createGlowPaint(initColor, pointerStrokeWidth, glowRadius, glowIntense)
+        glowPaint = createGlowPaint(startColor, pointerStrokeWidth, glowRadius, glowIntense)
     }
 
     fun setGlowIntense(intense: Float) {
