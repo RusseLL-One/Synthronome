@@ -17,14 +17,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.one.russell.metroman_20.presentation.views.beatline.BeatlineView2
-        android:id="@+id/beatline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintStart_toStartOf="@id/v_knob"
-        app:layout_constraintEnd_toEndOf="@id/v_knob"
-        app:layout_constraintBottom_toTopOf="@id/beatline" />
+    <com.one.russell.metroman_20.presentation.views.beat_types.BeatTypesContainerView
+        android:id="@+id/v_beat_types_container"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintTop_toBottomOf="@id/open_training"
+        />
 
     <com.one.russell.metroman_20.presentation.views.beatline.BeatlineView
         android:id="@+id/beatline"

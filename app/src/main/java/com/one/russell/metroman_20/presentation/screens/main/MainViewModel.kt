@@ -26,6 +26,7 @@ class MainViewModel(
     private val setBpmUseCase: SetBpmUseCase,
     private val observeBpmUseCase: ObserveBpmUseCase,
     private val setBeatsInBarCountUseCase: SetBeatsInBarCountUseCase,
+    private val incrementBeatTypeUseCase: IncrementBeatTypeUseCase,
     private val observeBeatTypesUseCase: ObserveBeatTypesUseCase,
     private val startClickingUseCase: StartClickingUseCase,
     private val stopClickingUseCase: StopClickingUseCase,
@@ -124,6 +125,10 @@ class MainViewModel(
 
     fun onBeatsInBarChanged(beatsInBarCount: Int) {
         setBeatsInBarCountUseCase.execute(beatsInBarCount)
+    }
+
+    fun onBeatTypeClicked(index: Int) {
+        incrementBeatTypeUseCase.execute(index)
     }
 
     private fun setBpm(bpm: Int) {

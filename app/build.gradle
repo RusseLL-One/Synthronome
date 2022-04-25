@@ -60,6 +60,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
     implementation "com.google.oboe:oboe:$oboeVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
 
     // Koin
     implementation "io.insert-koin:koin-core:$koinVersion"

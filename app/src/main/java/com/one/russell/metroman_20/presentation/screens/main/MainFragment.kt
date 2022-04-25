@@ -71,7 +71,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             repeatOnResume {
                 viewModel.clickerCallback.collect {
                     beatline.animateBall(it)
-                    beatline2.animateBall(it)
                 }
             }
 
@@ -80,13 +79,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     if (npBeatsInBar.value != beatTypes.size) {
                         npBeatsInBar.value = beatTypes.size
                     }
+                    vBeatTypesContainer.setBeatTypes(beatTypes)
                 }
             }
 
             repeatOnResume {
                 viewModel.colors.collect {
                     root.setBackgroundColor(it.backgroundColor)
-                    //vBeatTypesContainer.setColors(it.primaryColor, it.secondaryColor) todo
+                    vBeatTypesContainer.setColors(it.primaryColor, it.secondaryColor)
                     beatline.setupPaints(it.primaryColor)
                     vKnob.setupPaints(it.primaryColor, it.secondaryColor)
                     vStart.setupPaints(it.primaryColor, it.secondaryColor)
@@ -111,6 +111,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             npBeatsInBar.maxValue = Constants.MAX_BEATS_IN_BAR_COUNT
             npBeatsInBar.setOnValueChangedListener { _, _, newVal ->
                 viewModel.onBeatsInBarChanged(newVal)
+            }
+
+            vBeatTypesContainer.setOnBeatTypeClickListener { index ->
+                viewModel.onBeatTypeClicked(index)
             }
 
             openTraining.setOnClickListener {

@@ -4,6 +4,8 @@ import android.graphics.*
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
+import androidx.recyclerview.widget.RecyclerView
+import com.one.russell.metroman_20.presentation.views.utils.GradientOrientation.*
 
 val View.centerX: Float
     get() = width.toFloat() / 2
@@ -111,3 +113,34 @@ fun createPaint(
     this.strokeWidth = strokeThickness
     this.style = style
 }
+
+fun createHorizontalPaddingsDecoration(padding: Int): RecyclerView.ItemDecoration {
+    return object : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.left = padding / 2
+            outRect.right = padding / 2
+        }
+    }
+}
+
+fun RecyclerView.executeAfterAllAnimationsAreFinished(
+    callback: (RecyclerView) -> Unit
+) = post(
+    object : Runnable {
+        override fun run() {
+            if (isAnimating) {
+                //if isAnimating() returned true itemAnimator will be non-null
+                itemAnimator!!.isRunning {
+                    post(this)
+                }
+            } else {
+                callback(this@executeAfterAllAnimationsAreFinished)
+            }
+        }
+    }
+)

@@ -10,15 +10,17 @@ import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.one.russell.metroman_20.domain.Constants.MAX_BPM
 import com.one.russell.metroman_20.domain.Constants.MIN_BPM
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-fun Fragment.repeatOnResume(f: suspend () -> Unit) {
-    viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+fun LifecycleOwner.repeatOnResume(f: suspend () -> Unit) {
+    lifecycleScope.launch(context = Dispatchers.Main) {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
             f.invoke()
         }
     }
