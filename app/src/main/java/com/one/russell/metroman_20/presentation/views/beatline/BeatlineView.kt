@@ -72,19 +72,15 @@ class BeatlineView @JvmOverloads constructor(
         pointsPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.BOTTOM_TOP,
             width = width.toFloat(),
-            height = centerY + radius * sin(START_POINT),
+            height = centerY + radius * sin(Math.toRadians(START_POINT.toDouble())).toFloat(),
             startColor = primaryColor,
             endColor = secondaryColor,
             alpha = 1f,
             style = Paint.Style.FILL
         )
-        pointsGlowPaint = createGlowPaint(
-            color = primaryColor,
-            thickness = 0f,
-            glowRadius = pointsGlowRadius,
-            glowIntense = 1f,
-            style = Paint.Style.FILL
-        )
+        pointsGlowPaint = Paint(pointsPaint).apply {
+            maskFilter = BlurMaskFilter(pointsGlowRadius, BlurMaskFilter.Blur.NORMAL)
+        }
         invalidate()
     }
 

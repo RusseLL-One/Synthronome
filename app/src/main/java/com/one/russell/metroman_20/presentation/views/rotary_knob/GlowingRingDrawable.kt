@@ -1,5 +1,6 @@
 package com.one.russell.metroman_20.presentation.views.rotary_knob
 
+import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Paint
 import androidx.annotation.ColorInt
@@ -32,12 +33,11 @@ class GlowingRingDrawable {
             alpha = 1f,
             strokeWidth = ringThickness,
         )
-        glowPaint = createGlowPaint(
-            color = startColor,
-            thickness = ringThickness,
-            glowRadius = glowRadius,
-            glowIntense = glowIntense
-        )
+        glowPaint = Paint(ringPaint).apply {
+            alpha = (glowIntense * 255).toInt()
+            strokeWidth = ringThickness + glowRadius
+            maskFilter = BlurMaskFilter(glowRadius, BlurMaskFilter.Blur.NORMAL)
+        }
     }
 
     fun setGlowIntense(intense: Float) {

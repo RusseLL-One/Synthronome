@@ -6,11 +6,8 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorInt
-import androidx.core.graphics.withRotation
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.domain.Constants
-import com.one.russell.metroman_20.presentation.views.utils.centerX
-import com.one.russell.metroman_20.presentation.views.utils.centerY
 
 class RotaryKnobView @JvmOverloads constructor(
     context: Context,
@@ -18,7 +15,7 @@ class RotaryKnobView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : KnobView(context, attrs, defStyleAttr) {
 
-    private var dashDrawable = GlowingPointerDrawable()
+    private var pointerDrawable = GlowingPointerDrawable()
     private var ringDrawable = GlowingRingDrawable()
 
     private var glowIntense: Float = 0f
@@ -30,7 +27,7 @@ class RotaryKnobView @JvmOverloads constructor(
             addUpdateListener {
                 glowIntense = it.animatedValue as Float
 
-                dashDrawable.setGlowIntense(glowIntense)
+                pointerDrawable.setGlowIntense(glowIntense)
                 ringDrawable.setGlowIntense(glowIntense)
                 invalidate()
             }
@@ -41,7 +38,7 @@ class RotaryKnobView @JvmOverloads constructor(
     }
 
     fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) {
-        dashDrawable.init(startColor, endColor)
+        pointerDrawable.init(width, height, startColor, endColor)
         ringDrawable.init(width, height, startColor, endColor)
         invalidate()
     }
@@ -62,11 +59,7 @@ class RotaryKnobView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         ringDrawable.draw(canvas)
-
-        canvas.withRotation(degrees = currentDegrees, pivotX = centerX, pivotY = centerY) {
-            dashDrawable.draw(canvas)
-        }
-
+        pointerDrawable.draw(canvas, currentDegrees)
         super.onDraw(canvas)
     }
 
