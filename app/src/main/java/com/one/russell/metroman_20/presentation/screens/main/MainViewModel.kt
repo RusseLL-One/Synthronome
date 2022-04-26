@@ -25,7 +25,7 @@ class MainViewModel(
     private val playRotateClickUseCase: PlayRotateClickUseCase,
     private val setBpmUseCase: SetBpmUseCase,
     private val observeBpmUseCase: ObserveBpmUseCase,
-    private val setBeatsInBarCountUseCase: SetBeatsInBarCountUseCase,
+    private val setTimeSignatureUseCase: SetTimeSignatureUseCase,
     private val incrementBeatTypeUseCase: IncrementBeatTypeUseCase,
     private val observeBeatTypesUseCase: ObserveBeatTypesUseCase,
     private val startClickingUseCase: StartClickingUseCase,
@@ -122,8 +122,8 @@ class MainViewModel(
         calcBpmByTapIntervalUseCase.onTapClicked()
     }
 
-    fun onBeatsInBarChanged(beatsInBarCount: Int) {
-        setBeatsInBarCountUseCase.execute(beatsInBarCount)
+    fun onTimeSignatureChanged(timeSignature: Int) {
+        setTimeSignatureUseCase.execute(timeSignature)
     }
 
     fun onBeatTypeClicked(index: Int) {

@@ -32,6 +32,13 @@ fun Number.toPx() = TypedValue.applyDimension(
     Resources.getSystem().displayMetrics
 )
 
+val Number.sp
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        this.toFloat(),
+        Resources.getSystem().displayMetrics
+    )
+
 fun Context.getStyledAttributes(
     attributeSet: AttributeSet?,
     styleArray: IntArray,

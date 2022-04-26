@@ -33,6 +33,7 @@ project.ext {
     kotlinSerializationVersion = "1.3.2"
     colorPickerVersion = "2.2.4"
     adapterDelegatesVersion = "4.3.2"
+    numberPickerVersion = "2.4.13"
 }
 
 task clean(type: Delete) {

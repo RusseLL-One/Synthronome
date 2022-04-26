@@ -107,18 +107,14 @@
         app:layout_constraintTop_toBottomOf="@id/v_knob"
         app:performClickOnActionDown="true" />
 
-    <FrameLayout
+    <com.one.russell.metroman_20.presentation.views.picker.PickerWrapperView
+        android:id="@+id/v_time_signature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_add_bookmark"
+        app:layout_constraintTop_toBottomOf="@id/btn_tap"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <NumberPicker
-            android:id="@+id/np_beatsInBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.one.russell.metroman_20.presentation.views.buttons.ButtonView
         android:id="@+id/btn_training"

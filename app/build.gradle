@@ -61,6 +61,7 @@ dependencies {
     implementation "com.google.oboe:oboe:$oboeVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
+    implementation "io.github.ShawnLin013:number-picker:$numberPickerVersion"
 
     // Koin
     implementation "io.insert-koin:koin-core:$koinVersion"

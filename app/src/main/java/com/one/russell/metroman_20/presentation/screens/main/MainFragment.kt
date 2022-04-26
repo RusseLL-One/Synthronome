@@ -76,8 +76,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             repeatOnResume {
                 viewModel.beatTypes.collect { beatTypes ->
-                    if (npBeatsInBar.value != beatTypes.size) {
-                        npBeatsInBar.value = beatTypes.size
+                    if (vTimeSignature.picker.value != beatTypes.size) {
+                        vTimeSignature.picker.value = beatTypes.size
                     }
                     vBeatTypesContainer.setBeatTypes(beatTypes)
                 }
@@ -95,6 +95,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     btnTraining.setupPaints(it.primaryColor, it.secondaryColor)
                     btnBookmarks.setupPaints(it.primaryColor, it.secondaryColor)
                     btnAddBookmark.setupPaints(it.primaryColor, it.secondaryColor)
+                    vTimeSignature.setupPaints(it.primaryColor, it.secondaryColor)
                 }
             }
 
@@ -110,11 +111,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.onTapClicked()
             }
 
-            npBeatsInBar.wrapSelectorWheel = false
-            npBeatsInBar.minValue = Constants.MIN_BEATS_IN_BAR_COUNT
-            npBeatsInBar.maxValue = Constants.MAX_BEATS_IN_BAR_COUNT
-            npBeatsInBar.setOnValueChangedListener { _, _, newVal ->
-                viewModel.onBeatsInBarChanged(newVal)
+            vTimeSignature.picker.wrapSelectorWheel = false
+            vTimeSignature.picker.minValue = Constants.MIN_BEATS_IN_BAR_COUNT
+            vTimeSignature.picker.maxValue = Constants.MAX_BEATS_IN_BAR_COUNT
+            vTimeSignature.picker.setOnValueChangedListener { _, _, newVal ->
+                viewModel.onTimeSignatureChanged(newVal)
             }
 
             vBeatTypesContainer.setOnBeatTypeClickListener { index ->
