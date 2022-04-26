@@ -37,7 +37,8 @@ class MainViewModel(
     private val stopTrainingUseCase: StopTrainingUseCase,
     private val observeTrainingStateUseCase: ObserveTrainingStateUseCase,
     private val observeColorsUseCase: ObserveColorsUseCase,
-    private val setColorsUseCase: SetColorsUseCase
+    private val setColorsUseCase: SetColorsUseCase,
+    private val calcBpmByTapIntervalUseCase: CalcBpmByTapIntervalUseCase
 ) : ViewModel() {
 
     val bpm: StateFlow<Int>
@@ -103,7 +104,7 @@ class MainViewModel(
     fun onBpmChanged(delta: Int) {
         val newBpm = (bpm.value + delta).coerceIn(MIN_BPM, MAX_BPM)
         playRotateClickUseCase.execute()
-        setBpm(newBpm)
+        setBpmUseCase.execute(newBpm)
     }
 
     fun onPlayClicked() {
@@ -116,11 +117,9 @@ class MainViewModel(
         }
     }
 
-    fun onTapClicked(bpm: Int?) {
+    fun onTapClicked() {
         playRotateClickUseCase.execute()
-        if (bpm != null) {
-            setBpm(bpm)
-        }
+        calcBpmByTapIntervalUseCase.onTapClicked()
     }
 
     fun onBeatsInBarChanged(beatsInBarCount: Int) {
@@ -129,10 +128,6 @@ class MainViewModel(
 
     fun onBeatTypeClicked(index: Int) {
         incrementBeatTypeUseCase.execute(index)
-    }
-
-    private fun setBpm(bpm: Int) {
-        setBpmUseCase.execute(bpm)
     }
 
     fun setPrimaryColor(@ColorInt color: Int) {

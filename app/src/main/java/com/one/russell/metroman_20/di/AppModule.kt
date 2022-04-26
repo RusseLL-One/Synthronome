@@ -60,6 +60,7 @@ fun appModule() = module {
     factory { ObserveBeatTypesUseCase(beatTypesProvider = get()) }
     factory { ObserveColorsUseCase(colorsProvider = get()) }
     factory { SetColorsUseCase(colorsProvider = get()) }
+    factory { CalcBpmByTapIntervalUseCase(bpmProvider = get()) }
 
     // training use cases
     factory { StartTrainingUseCase(bpmProvider = get(), trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
@@ -93,7 +94,8 @@ fun appModule() = module {
             stopTrainingUseCase = get(),
             observeTrainingStateUseCase = get(),
             observeColorsUseCase = get(),
-            setColorsUseCase = get()
+            setColorsUseCase = get(),
+            calcBpmByTapIntervalUseCase = get()
         )
     }
     viewModel { TypeSelectionViewModel() }

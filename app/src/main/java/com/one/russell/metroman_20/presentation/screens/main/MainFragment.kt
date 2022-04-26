@@ -90,7 +90,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     beatline.setupPaints(it.primaryColor, it.secondaryColor)
                     vKnob.setupPaints(it.primaryColor, it.secondaryColor)
                     vStart.setupPaints(it.primaryColor, it.secondaryColor)
-                    tap.setupPaints(it.primaryColor)
+                    btnTap.setupPaints(it.primaryColor, it.secondaryColor)
                     btnSettings.setupPaints(it.primaryColor, it.secondaryColor)
                     btnTraining.setupPaints(it.primaryColor, it.secondaryColor)
                     btnBookmarks.setupPaints(it.primaryColor, it.secondaryColor)
@@ -106,8 +106,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.onPlayClicked()
             }
 
-            tap.onTapClickedListener = { bpm ->
-                viewModel.onTapClicked(bpm)
+            btnTap.setOnClickListener {
+                viewModel.onTapClicked()
             }
 
             npBeatsInBar.wrapSelectorWheel = false

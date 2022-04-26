@@ -1,4 +1,4 @@
-package com.one.russell.metroman_20.presentation.views.rotary_knob
+package com.one.russell.metroman_20.presentation.views.buttons
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
@@ -23,18 +23,21 @@ class ButtonView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatButton(context, attrs, defStyleAttr) {
 
+    private val borderThickness: Float = 2.toPx()
+
+    private var isPressCanceled = false
+
     private var image: Drawable? = null
+    private var cornerRadius: Float = 13.toPx()
+    private var performClickOnActionDown: Boolean = false
 
     private var bgPaint = Paint()
     private var borderPaint = Paint()
     private var colorfulBorderPaint = Paint()
 
-    private val cornerRadius: Float = 13.toPx()
-    private val borderThickness: Float = 2.toPx()
-
     private val borderColorAnimator = ValueAnimator()
         .apply {
-            duration = 70
+            duration = 80
             addUpdateListener {
                 colorfulBorderPaint.alpha = ((it.animatedValue as Float) * 255).toInt()
                 invalidate()
@@ -54,6 +57,9 @@ class ButtonView @JvmOverloads constructor(
             image = getResourceId(R.styleable.ButtonView_image, 0)
                 .takeIf { it != 0 }
                 ?.let { AppCompatResources.getDrawable(context, it) }
+
+            cornerRadius = getDimension(R.styleable.ButtonView_cornerRadius, cornerRadius)
+            performClickOnActionDown = getBoolean(R.styleable.ButtonView_performClickOnActionDown, performClickOnActionDown)
         }
     }
 
@@ -140,11 +146,21 @@ class ButtonView @JvmOverloads constructor(
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                isPressCanceled = false
                 animateButton(true)
+                if (performClickOnActionDown) performClick()
+                return true
             }
             MotionEvent.ACTION_UP -> {
+                if (isPressCanceled) return false
                 animateButton(false)
-                if (isInside()) performClick()
+                if (!performClickOnActionDown) performClick()
+                return true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (isPressCanceled) return false
+                isPressCanceled = !isInside()
+                if (isPressCanceled) animateButton(false)
             }
         }
         return super.onTouchEvent(event)

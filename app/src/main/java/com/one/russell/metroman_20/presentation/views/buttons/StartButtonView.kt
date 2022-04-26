@@ -1,4 +1,4 @@
-package com.one.russell.metroman_20.presentation.views.rotary_knob
+package com.one.russell.metroman_20.presentation.views.buttons
 
 import android.content.Context
 import android.graphics.Canvas
