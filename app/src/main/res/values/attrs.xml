@@ -7,9 +7,9 @@
         <attr name="radius" />
     </declare-styleable>
 
-<!--    <declare-styleable name="GlowingRing">-->
-<!--        <attr name="radius" />-->
-<!--    </declare-styleable>-->
+    <declare-styleable name="ButtonView">
+        <attr name="image" format="reference" />
+    </declare-styleable>
 
     <declare-styleable name="TapButtonView">
         <attr name="radius" />

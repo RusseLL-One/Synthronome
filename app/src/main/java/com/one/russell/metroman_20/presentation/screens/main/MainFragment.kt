@@ -91,6 +91,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     vKnob.setupPaints(it.primaryColor, it.secondaryColor)
                     vStart.setupPaints(it.primaryColor, it.secondaryColor)
                     tap.setupPaints(it.primaryColor)
+                    btnSettings.setupPaints(it.primaryColor, it.secondaryColor)
+                    btnTraining.setupPaints(it.primaryColor, it.secondaryColor)
+                    btnBookmarks.setupPaints(it.primaryColor, it.secondaryColor)
+                    btnAddBookmark.setupPaints(it.primaryColor, it.secondaryColor)
                 }
             }
 
@@ -117,8 +121,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.onBeatTypeClicked(index)
             }
 
-            openTraining.setOnClickListener {
-                // todo findNavController().navigate(R.id.action_mainFragment_to_typeSelectionFragment)
+            btnTraining.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_typeSelectionFragment)
+            }
+
+            btnSettings.setOnClickListener {
                 showColorPickerDialog(requireContext()) {
                     viewModel.setPrimaryColor(it)
                 }

@@ -6,8 +6,8 @@
             android:useLevel="false">
 
             <gradient
-                android:endColor="#4D665a4c"
-                android:startColor="#4B000000"
+                android:endColor="@color/view_bg_gradient_color_1"
+                android:startColor="@color/view_bg_gradient_color_2"
                 android:angle="135"
                 android:type="linear" />
         </shape>
@@ -20,8 +20,8 @@
             android:useLevel="false">
 
             <gradient
-                android:endColor="#99888888"
-                android:startColor="#992B2D2F"
+                android:endColor="@color/border_gradient_color_1"
+                android:startColor="@color/border_gradient_color_2"
                 android:angle="135"
                 android:type="linear" />
         </shape>

@@ -8,5 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primary">#ffff6700</color>
+
+    <color name="border_gradient_color_1">#99888888</color>
+    <color name="border_gradient_color_2">#992B2D2F</color>
+    <color name="view_bg_gradient_color_1">#4D665A4C</color>
+    <color name="view_bg_gradient_color_2">#4B000000</color>
+
+    <color name="defaultPrimary">#D35746</color>
+    <color name="defaultSecondary">#FFA959</color>
+    <color name="defaultBackground">#18191B</color>
 </resources>
