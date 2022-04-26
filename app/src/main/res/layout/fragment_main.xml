@@ -25,6 +25,20 @@
         app:layout_constraintTop_toBottomOf="@id/btn_settings"
         />
 
+    <TextView
+        android:id="@+id/tv_bpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="BPM: 0"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppins"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/beatline"
+        app:layout_constraintEnd_toEndOf="@id/beatline"
+        app:layout_constraintTop_toBottomOf="@id/v_beat_types_container"
+        app:layout_constraintBottom_toTopOf="@id/beatline" />
+
     <com.one.russell.metroman_20.presentation.views.beatline.BeatlineView
         android:id="@+id/beatline"
         android:layout_width="wrap_content"
@@ -65,16 +79,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/tv_bpm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_start" />
 
     <com.one.russell.metroman_20.presentation.views.rotary_knob.StartButtonView
         android:id="@+id/v_start"

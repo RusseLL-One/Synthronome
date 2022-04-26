@@ -19,11 +19,7 @@ class GlowingRingDrawable {
 
     private var glowIntense: Float = 1f
 
-    fun init(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
-        setPaints(width, height, startColor, endColor)
-    }
-
-    private fun setPaints(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+    fun initPaints(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
         ringPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
             width = width.toFloat() - offsetWidth * 2,

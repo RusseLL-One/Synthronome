@@ -22,7 +22,7 @@ class GlowingPointerDrawable {
     private var pointerPosition = PointF()
     private var glowIntense: Float = 1f
 
-    fun init(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+    fun initPaints(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
         pointerPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
             width = pointerRadius * 2,

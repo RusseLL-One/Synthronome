@@ -37,9 +37,9 @@ class RotaryKnobView @JvmOverloads constructor(
         setBackgroundResource(R.drawable.bg_bordered_gradient_circle)
     }
 
-    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) {
-        pointerDrawable.init(width, height, startColor, endColor)
-        ringDrawable.init(width, height, startColor, endColor)
+    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
+        pointerDrawable.initPaints(width, height, startColor, endColor)
+        ringDrawable.initPaints(width, height, startColor, endColor)
         invalidate()
     }
 
