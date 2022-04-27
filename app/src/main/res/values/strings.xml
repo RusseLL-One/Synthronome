@@ -6,6 +6,8 @@
     <string name="notification_channel_description">Show notification while clicking</string>
     <string name="main_bpm">BPM: %d</string>
 
+    <string name="training_choose_type_title">Выберите тип тренировки</string>
+
     <string name="training_topLevelType_tempoIncreasing">Увеличение темпа</string>
     <string name="training_topLevelType_barDropping">Глушение такта</string>
     <string name="training_topLevelType_beatDropping">Глушение клика</string>

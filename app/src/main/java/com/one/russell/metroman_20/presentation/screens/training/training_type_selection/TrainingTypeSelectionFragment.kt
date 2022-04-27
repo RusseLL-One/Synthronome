@@ -8,6 +8,9 @@ import com.one.russell.metroman_20.domain.TrainingFinalType
 import com.one.russell.metroman_20.domain.TrainingTopLevelType
 import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import com.one.russell.metroman_20.presentation.screens.training.training_type_selection.adapter.TrainingTypesAdapter
+import com.one.russell.metroman_20.presentation.views.utils.createPaddingsDecoration
+import com.one.russell.metroman_20.presentation.views.utils.disableScrolling
+import com.one.russell.metroman_20.toPx
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TrainingTypeSelectionFragment : BaseFragment<FragmentTrainingTypeSelectionBinding>() {
@@ -19,6 +22,8 @@ class TrainingTypeSelectionFragment : BaseFragment<FragmentTrainingTypeSelection
         container: ViewGroup?
     ): FragmentTrainingTypeSelectionBinding {
         return FragmentTrainingTypeSelectionBinding.inflate(inflater, container, false).apply {
+            rvList.disableScrolling()
+            rvList.addItemDecoration(createPaddingsDecoration(verticalPadding = 16.toPx()))
             rvList.adapter = TrainingTypesAdapter {
                 navigateNext(it.type)
             }.apply {

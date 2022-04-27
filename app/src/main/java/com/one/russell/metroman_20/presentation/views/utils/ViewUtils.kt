@@ -4,6 +4,7 @@ import android.graphics.*
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.one.russell.metroman_20.presentation.views.utils.GradientOrientation.*
 
@@ -129,7 +130,7 @@ fun createPaint(
     this.style = style
 }
 
-fun createHorizontalPaddingsDecoration(padding: Int): RecyclerView.ItemDecoration {
+fun createPaddingsDecoration(horizontalPadding: Float = 0f, verticalPadding: Float = 0f): RecyclerView.ItemDecoration {
     return object : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect,
@@ -137,8 +138,10 @@ fun createHorizontalPaddingsDecoration(padding: Int): RecyclerView.ItemDecoratio
             parent: RecyclerView,
             state: RecyclerView.State
         ) {
-            outRect.left = padding / 2
-            outRect.right = padding / 2
+            outRect.left = (horizontalPadding / 2).toInt()
+            outRect.right = (horizontalPadding / 2).toInt()
+            outRect.top = (verticalPadding / 2).toInt()
+            outRect.bottom = (verticalPadding / 2).toInt()
         }
     }
 }
@@ -159,3 +162,10 @@ fun RecyclerView.executeAfterAllAnimationsAreFinished(
         }
     }
 )
+
+fun RecyclerView.disableScrolling() {
+    layoutManager = object : LinearLayoutManager(context) {
+        override fun canScrollVertically(): Boolean = false
+        override fun canScrollHorizontally(): Boolean = false
+    }
+}

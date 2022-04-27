@@ -97,8 +97,8 @@ fun appModule() = module {
             calcBpmByTapIntervalUseCase = get()
         )
     }
-    viewModel { TrainingTypeSelectionViewModel() }
-    viewModel { TrainingSubtypeSelectionViewModel() }
+    viewModel { TrainingTypeSelectionViewModel(observeColorsUseCase = get()) }
+    viewModel { TrainingSubtypeSelectionViewModel(observeColorsUseCase = get()) }
     viewModel {
         OptionsViewModel(
             clicker = get(),

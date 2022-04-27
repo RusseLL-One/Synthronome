@@ -20,7 +20,8 @@ fun trainingSubtypeAdapterDelegate(
     block = {
         itemView.setOnClickListener { onClick(item) }
         bind {
-            binding.tvText.text = context.getString(item.textRes)
+            binding.btnSelectType.text = context.getString(item.textRes)
+            binding.btnSelectType.setupPaints(item.primaryColor, item.secondaryColor)
         }
     }
 )

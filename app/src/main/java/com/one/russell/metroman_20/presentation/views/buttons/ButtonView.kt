@@ -162,6 +162,10 @@ class ButtonView @JvmOverloads constructor(
                 isPressCanceled = !isInside()
                 if (isPressCanceled) animateButton(false)
             }
+            MotionEvent.ACTION_CANCEL -> {
+                isPressCanceled = true
+                animateButton(false)
+            }
         }
         return super.onTouchEvent(event)
     }

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.ViewBeatTypesContainerBinding
 import com.one.russell.metroman_20.domain.BeatType
-import com.one.russell.metroman_20.presentation.views.utils.createHorizontalPaddingsDecoration
+import com.one.russell.metroman_20.presentation.views.utils.createPaddingsDecoration
 import com.one.russell.metroman_20.presentation.views.utils.executeAfterAllAnimationsAreFinished
 import com.one.russell.metroman_20.toPx
 
@@ -40,9 +40,7 @@ class BeatTypesContainerView @JvmOverloads constructor(
         binding.run {
             rvBeatTypesList.adapter = BeatTypesAdapter { onBeatTypeClick?.invoke(it) }
             rvBeatTypesList.addItemDecoration(
-                createHorizontalPaddingsDecoration(
-                    itemsSpacing.toInt()
-                )
+                createPaddingsDecoration(horizontalPadding = itemsSpacing)
             )
 
             rvBeatTypesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
