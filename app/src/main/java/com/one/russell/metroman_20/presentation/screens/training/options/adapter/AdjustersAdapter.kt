@@ -17,7 +17,7 @@ class AdjustersAdapter(
 )
 
 fun knobAdapterDelegate(
-    onValueChanged: (type: OptionsAdjusterType, value: Int) -> Unit
+    onValueChanged: (type: OptionsAdjusterType, valueDelta: Int) -> Unit
 ) = adapterDelegateViewBinding<AdjusterListItem, AdjusterListItem, ListItemKnobBinding>(
     viewBinding = { layoutInflater, root ->
         ListItemKnobBinding.inflate(layoutInflater, root, false)
@@ -25,8 +25,7 @@ fun knobAdapterDelegate(
     on = { item, _, _ -> item.type.controlType == ControlType.KNOB },
     block = {
         binding.vKnob.addOnValueChangedCallback {
-            onValueChanged(item.type, (item.value + it)
-                .coerceIn(item.type.minValue, item.type.maxValue))
+            onValueChanged(item.type, it)
         }
         bind { payload ->
             if (payload.isEmpty() || payload[0] != Payload.BPM_CHANGED) {

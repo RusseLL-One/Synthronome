@@ -45,10 +45,17 @@ class OptionsViewModel(
             return when (this.type.controlType) {
                 ControlType.KNOB -> {
                     playRotateClickUseCase.execute()
-                    type.setFlowValue(value)
-                    this.copy(value = value)
+                    // value for knob is delta, so we need to calculate the value
+                    val newValue = (type.getFlowValue() + value)
+                        .coerceIn(this.type.minValue, this.type.maxValue)
+
+                    type.setFlowValue(newValue)
+                    this.copy(value = newValue)
                 }
-                ControlType.PICKER -> this // displayed picker value is handled by view holder
+                ControlType.PICKER -> {
+                    type.setFlowValue(value)
+                    this // displayed picker value is handled by view holder
+                }
             }
         }
 
