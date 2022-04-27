@@ -64,8 +64,8 @@ fun appModule() = module {
     // training use cases
     factory { StartTrainingUseCase(bpmProvider = get(), trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
     factory { StopTrainingUseCase(trainingProcessor = get()) }
-    factory { SetTrainingDataUseCase(dataStore = get(), trainingDataProvider = get()) }
-    factory { GetTrainingDataUseCase(dataStore = get()) }
+    factory { SaveTrainingDataUseCase(dataStore = get(), trainingDataProvider = get()) }
+    factory { RestoreTrainingDataUseCase(dataStore = get()) }
     factory { ObserveTrainingDataUseCase(trainingDataProvider = get()) }
     factory { ObserveTrainingStateUseCase(trainingProcessor = get()) }
 
@@ -101,9 +101,10 @@ fun appModule() = module {
     viewModel { TrainingSubtypeSelectionViewModel(observeColorsUseCase = get()) }
     viewModel {
         OptionsViewModel(
-            clicker = get(),
-            setTrainingDataUseCase = get(),
-            getTrainingDataUseCase = get()
+            playRotateClickUseCase = get(),
+            saveTrainingDataUseCase = get(),
+            restoreTrainingDataUseCase = get(),
+            observeColorsUseCase = get()
         )
     }
 }

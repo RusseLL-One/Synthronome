@@ -1,44 +1,73 @@
 package com.one.russell.metroman_20.presentation.screens.training.options.adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.ListItemKnobBinding
 import com.one.russell.metroman_20.databinding.ListItemPickerBinding
+import com.one.russell.metroman_20.presentation.screens.training.options.ControlType
+import com.one.russell.metroman_20.presentation.screens.training.options.OptionsAdjusterType
 
-class AdjustersAdapter : ListAdapter<ListItem, RecyclerView.ViewHolder>(DiffCallback) {
+class AdjustersAdapter(
+    onValueChanged: (type: OptionsAdjusterType, value: Int) -> Unit
+) : AsyncListDifferDelegationAdapter<AdjusterListItem>(
+    DiffCallback,
+    knobAdapterDelegate(onValueChanged),
+    pickerAdapterDelegate(onValueChanged)
+)
 
-    override fun getItemViewType(position: Int): Int {
-        return when (currentList[position]) {
-            is KnobItem -> TYPE_KNOB
-            is PickerItem -> TYPE_PICKER
-            else -> throw IllegalArgumentException("Unknown item type")
+fun knobAdapterDelegate(
+    onValueChanged: (type: OptionsAdjusterType, value: Int) -> Unit
+) = adapterDelegateViewBinding<AdjusterListItem, AdjusterListItem, ListItemKnobBinding>(
+    viewBinding = { layoutInflater, root ->
+        ListItemKnobBinding.inflate(layoutInflater, root, false)
+    },
+    on = { item, _, _ -> item.type.controlType == ControlType.KNOB },
+    block = {
+        binding.vKnob.addOnValueChangedCallback {
+            onValueChanged(item.type, (item.value + it)
+                .coerceIn(item.type.minValue, item.type.maxValue))
+        }
+        bind { payload ->
+            if (payload.isEmpty() || payload[0] != Payload.BPM_CHANGED) {
+                binding.tvTitle.text = binding.root.context.getString(item.type.titleRes)
+            }
+            binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, item.value)
+            binding.vKnob.setGlowIntense(item.value)
         }
     }
+)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            TYPE_KNOB -> KnobViewHolder(
-                ListItemKnobBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-            TYPE_PICKER -> PickerViewHolder(
-                ListItemPickerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-            else -> throw IllegalArgumentException("Unknown item type")
+fun pickerAdapterDelegate(
+    onValueChanged: (type: OptionsAdjusterType, value: Int) -> Unit
+) = adapterDelegateViewBinding<AdjusterListItem, AdjusterListItem, ListItemPickerBinding>(
+    viewBinding = { layoutInflater, root ->
+        ListItemPickerBinding.inflate(layoutInflater, root, false)
+    },
+    on = { item, _, _ -> item.type.controlType == ControlType.PICKER },
+    block = {
+        binding.npPicker.setOnValueChangedListener { _, _, newVal ->
+            onValueChanged(item.type, newVal * item.type.step + item.type.minValue)
+        }
+        bind {
+            binding.tvTitle.text = binding.root.context.getString(item.type.titleRes)
+
+            val minValue = 0
+            val maxValue = (item.type.maxValue - item.type.minValue) / item.type.step
+            val initValue = (item.value - item.type.minValue) / item.type.step
+
+            binding.npPicker.wrapSelectorWheel = false
+            binding.npPicker.minValue = minValue
+            binding.npPicker.maxValue = maxValue
+            binding.npPicker.value = initValue
+            binding.npPicker.displayedValues = IntRange(item.type.minValue, item.type.maxValue)
+                .step(item.type.step)
+                .map { it.toString() }
+                .toTypedArray()
         }
     }
+)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = currentList[position]
-        when (item) {
-            is KnobItem -> (holder as KnobViewHolder).bind(item)
-            is PickerItem -> (holder as PickerViewHolder).bind(item)
-        }
-    }
-
-    companion object {
-        private const val TYPE_KNOB = 0
-        private const val TYPE_PICKER = 1
-    }
+enum class Payload {
+    BPM_CHANGED
 }

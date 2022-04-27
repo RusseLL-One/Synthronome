@@ -4,7 +4,7 @@ import com.one.russell.metroman_20.data.prefs.PreferencesDataStore
 import com.one.russell.metroman_20.presentation.screens.training.options.OptionsAdjusterType
 import com.one.russell.metroman_20.presentation.screens.training.options.OptionsAdjusterType.*
 
-class GetTrainingDataUseCase(
+class RestoreTrainingDataUseCase(
     private val dataStore: PreferencesDataStore
 ) {
     suspend fun execute(type: OptionsAdjusterType): Int {

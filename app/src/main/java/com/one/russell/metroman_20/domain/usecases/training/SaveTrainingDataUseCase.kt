@@ -4,7 +4,7 @@ import com.one.russell.metroman_20.data.prefs.PreferencesDataStore
 import com.one.russell.metroman_20.domain.TrainingData
 import com.one.russell.metroman_20.domain.providers.TrainingDataProvider
 
-class SetTrainingDataUseCase(
+class SaveTrainingDataUseCase(
     private val dataStore: PreferencesDataStore,
     private val trainingDataProvider: TrainingDataProvider,
 ) {

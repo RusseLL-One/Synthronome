@@ -21,7 +21,7 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
     private val args: OptionsFragmentArgs by navArgs()
     private val viewModel: OptionsViewModel by viewModel()
 
-    private val adapter = AdjustersAdapter()
+    private val adapter by lazy { AdjustersAdapter(viewModel::setListItemValue) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +33,12 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
         container: ViewGroup?
     ): FragmentTrainingOptionsBinding {
         return FragmentTrainingOptionsBinding.inflate(inflater, container, false).apply {
-            list.adapter = adapter
-            list.setOptionsGridLayoutManager()
+            rvList.adapter = adapter
+            rvList.setOptionsGridLayoutManager()
 
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.adjustersList.collect {
-                    adapter.submitList(it)
+                viewModel.adjustersListItems.collect {
+                    adapter.items = it
                 }
             }
 
