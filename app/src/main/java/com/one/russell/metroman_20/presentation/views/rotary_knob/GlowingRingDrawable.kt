@@ -12,18 +12,20 @@ class GlowingRingDrawable {
 
     private val ringThickness = 3.toPx()
     private val glowRadius = 20.toPx()
-    private val offsetWidth = 17.toPx()
 
     private var ringPaint: Paint? = null
     private var glowPaint: Paint? = null
 
     private var glowIntense: Float = 1f
+    private var ringOffset = 0f
 
-    fun initPaints(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+    fun initPaints(width: Int, height: Int, ringOffset: Float, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+        this.ringOffset = ringOffset
+
         ringPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
-            width = width.toFloat() - offsetWidth * 2,
-            height = height.toFloat() - offsetWidth * 2,
+            width = width.toFloat() - ringOffset * 2,
+            height = height.toFloat() - ringOffset * 2,
             startColor = startColor,
             endColor = endColor,
             alpha = 1f,
@@ -47,12 +49,12 @@ class GlowingRingDrawable {
     }
 
     private fun Paint.drawRing(canvas: Canvas) {
-        canvas.withTranslation(offsetWidth, offsetWidth) {
+        canvas.withTranslation(ringOffset, ringOffset) {
             canvas.drawOval(
                 0f,
                 0f,
-                canvas.width.toFloat() - offsetWidth * 2,
-                canvas.height.toFloat() - offsetWidth * 2,
+                canvas.width.toFloat() - ringOffset * 2,
+                canvas.height.toFloat() - ringOffset * 2,
                 this@drawRing
             )
         }

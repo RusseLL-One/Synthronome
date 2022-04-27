@@ -14,18 +14,19 @@ class BeatTypesAdapter(
 fun beatTypeAdapterDelegate(
     onBeatTypeClick: (index: Int) -> Unit
 ) = adapterDelegateViewBinding<BeatTypeItem, BeatTypeItem, ListItemBeatTypeBinding>(
-    { layoutInflater, root -> ListItemBeatTypeBinding.inflate(layoutInflater, root, false) }
-) {
-    bind { payload ->
+    viewBinding = { layoutInflater, root -> ListItemBeatTypeBinding.inflate(layoutInflater, root, false) },
+    block = {
         binding.vBeatType.setOnClickListener { onBeatTypeClick(item.index) }
-        binding.vBeatType.setupPaints(item.primaryColor, item.secondaryColor)
-        if (payload.getOrNull(0) == Payload.ANIMATE_BEAT_TYPE_CHANGE) {
-            binding.vBeatType.setBeatType(item.beatType, animate = true)
-        } else {
-            binding.vBeatType.setBeatType(item.beatType, animate = false)
+        bind { payload ->
+            binding.vBeatType.setupPaints(item.primaryColor, item.secondaryColor)
+            if (payload.getOrNull(0) == Payload.ANIMATE_BEAT_TYPE_CHANGE) {
+                binding.vBeatType.setBeatType(item.beatType, animate = true)
+            } else {
+                binding.vBeatType.setBeatType(item.beatType, animate = false)
+            }
         }
     }
-}
+)
 
 enum class Payload {
     ANIMATE_BEAT_TYPE_CHANGE

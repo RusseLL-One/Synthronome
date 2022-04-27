@@ -34,6 +34,7 @@ fun knobAdapterDelegate(
             }
             binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, item.value)
             binding.vKnob.setGlowIntense(item.value)
+            binding.vKnob.setupPaints(item.primaryColor, item.secondaryColor)
         }
     }
 )
@@ -46,7 +47,7 @@ fun pickerAdapterDelegate(
     },
     on = { item, _, _ -> item.type.controlType == ControlType.PICKER },
     block = {
-        binding.npPicker.setOnValueChangedListener { _, _, newVal ->
+        binding.npPicker.view.setOnValueChangedListener { _, _, newVal ->
             onValueChanged(item.type, newVal * item.type.step + item.type.minValue)
         }
         bind {
@@ -56,14 +57,16 @@ fun pickerAdapterDelegate(
             val maxValue = (item.type.maxValue - item.type.minValue) / item.type.step
             val initValue = (item.value - item.type.minValue) / item.type.step
 
-            binding.npPicker.wrapSelectorWheel = false
-            binding.npPicker.minValue = minValue
-            binding.npPicker.maxValue = maxValue
-            binding.npPicker.value = initValue
-            binding.npPicker.displayedValues = IntRange(item.type.minValue, item.type.maxValue)
+            binding.npPicker.view.wrapSelectorWheel = false
+            binding.npPicker.view.minValue = minValue
+            binding.npPicker.view.maxValue = maxValue
+            binding.npPicker.view.value = initValue
+            binding.npPicker.view.displayedValues = IntRange(item.type.minValue, item.type.maxValue)
                 .step(item.type.step)
                 .map { it.toString() }
                 .toTypedArray()
+
+            binding.npPicker.setupPaints(item.primaryColor, item.secondaryColor)
         }
     }
 )

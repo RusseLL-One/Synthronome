@@ -76,8 +76,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             repeatOnResume {
                 viewModel.beatTypes.collect { beatTypes ->
-                    if (vTimeSignature.picker.value != beatTypes.size) {
-                        vTimeSignature.picker.value = beatTypes.size
+                    if (vTimeSignature.view.value != beatTypes.size) {
+                        vTimeSignature.view.value = beatTypes.size
                     }
                     vBeatTypesContainer.setBeatTypes(beatTypes)
                 }
@@ -111,10 +111,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.onTapClicked()
             }
 
-            vTimeSignature.picker.wrapSelectorWheel = false
-            vTimeSignature.picker.minValue = Constants.MIN_BEATS_IN_BAR_COUNT
-            vTimeSignature.picker.maxValue = Constants.MAX_BEATS_IN_BAR_COUNT
-            vTimeSignature.picker.setOnValueChangedListener { _, _, newVal ->
+            vTimeSignature.view.wrapSelectorWheel = false
+            vTimeSignature.view.minValue = Constants.MIN_BEATS_IN_BAR_COUNT
+            vTimeSignature.view.maxValue = Constants.MAX_BEATS_IN_BAR_COUNT
+            vTimeSignature.view.setOnValueChangedListener { _, _, newVal ->
                 viewModel.onTimeSignatureChanged(newVal)
             }
 

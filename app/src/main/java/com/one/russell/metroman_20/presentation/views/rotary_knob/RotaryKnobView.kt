@@ -8,12 +8,16 @@ import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorInt
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.domain.Constants
+import com.one.russell.metroman_20.getStyledAttributes
+import com.one.russell.metroman_20.toPx
 
 class RotaryKnobView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : KnobView(context, attrs, defStyleAttr) {
+
+    private var ringOffset = 17.toPx()
 
     private var pointerDrawable = GlowingPointerDrawable()
     private var ringDrawable = GlowingRingDrawable()
@@ -34,12 +38,19 @@ class RotaryKnobView @JvmOverloads constructor(
         }
 
     init {
+        initAttrs(context, attrs, defStyleAttr)
         setBackgroundResource(R.drawable.bg_bordered_gradient_circle)
     }
 
+    private fun initAttrs(context: Context, attrs: AttributeSet?, defStyle: Int) {
+        context.getStyledAttributes(attrs, R.styleable.RotaryKnobView, defStyle) {
+            ringOffset = getDimension(R.styleable.RotaryKnobView_ringOffset, ringOffset)
+        }
+    }
+
     fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
-        pointerDrawable.initPaints(width, height, startColor, endColor)
-        ringDrawable.initPaints(width, height, startColor, endColor)
+        pointerDrawable.initPaints(width, height, ringOffset, startColor, endColor)
+        ringDrawable.initPaints(width, height, ringOffset, startColor, endColor)
         invalidate()
     }
 

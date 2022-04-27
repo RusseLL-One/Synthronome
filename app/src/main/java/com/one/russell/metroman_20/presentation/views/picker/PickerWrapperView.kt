@@ -29,14 +29,14 @@ class PickerWrapperView @JvmOverloads constructor(
 
     private var framePaint = Paint()
 
-    val picker = NumberPicker(context, attrs, defStyleAttr)
+    val view = NumberPicker(context, attrs, defStyleAttr)
 
     init {
         setWillNotDraw(false)
         updatePadding(top = 7.toPx().toInt()) // for centering numbers
-        picker.apply {
-            textSize = 16.sp
-            selectedTextSize = 16.sp
+        view.apply {
+            textSize = 18.sp
+            selectedTextSize = 18.sp
             typeface = ResourcesCompat.getFont(context, R.font.poppins)
             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.poppins))
             textColor = Color.WHITE

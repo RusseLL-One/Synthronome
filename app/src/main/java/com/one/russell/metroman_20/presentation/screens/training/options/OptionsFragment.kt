@@ -12,6 +12,8 @@ import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentTrainingOptionsBinding
 import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import com.one.russell.metroman_20.presentation.screens.training.options.adapter.AdjustersAdapter
+import com.one.russell.metroman_20.presentation.views.utils.createPaddingsDecoration
+import com.one.russell.metroman_20.toPx
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,6 +37,9 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
         return FragmentTrainingOptionsBinding.inflate(inflater, container, false).apply {
             rvList.adapter = adapter
             rvList.setOptionsGridLayoutManager()
+            rvList.addItemDecoration(
+                createPaddingsDecoration(horizontalPadding = 64.toPx(), verticalPadding = 32.toPx())
+            )
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.adjustersListItems.collect {
@@ -42,6 +47,7 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
                 }
             }
 
+            btnProceed.setupPaints(viewModel.colors.primaryColor, viewModel.colors.secondaryColor)
             btnProceed.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.submit(args.trainingFinalType)

@@ -22,7 +22,7 @@ class OptionsViewModel(
     private val observeColorsUseCase: ObserveColorsUseCase
 ) : ViewModel() {
 
-    private val colors: Colors get() = observeColorsUseCase.execute().value
+    val colors: Colors get() = observeColorsUseCase.execute().value
 
     private var adjustersFlows: Map<OptionsAdjusterType, MutableStateFlow<Int>> = emptyMap()
 

@@ -10,7 +10,6 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class GlowingPointerDrawable {
-    private val pointerOffset: Float = 17.toPx()
     private val pointerStrokeWidth: Float = 2.toPx()
     private val pointerRadius: Float = 7.toPx()
     private val glowRadius = 15.toPx()
@@ -21,8 +20,11 @@ class GlowingPointerDrawable {
 
     private var pointerPosition = PointF()
     private var glowIntense: Float = 1f
+    private var ringOffset: Float = 0f
 
-    fun initPaints(width: Int, height: Int, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+    fun initPaints(width: Int, height: Int, ringOffset: Float, @ColorInt startColor: Int, @ColorInt endColor: Int) {
+        this.ringOffset = ringOffset
+
         pointerPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
             width = pointerRadius * 2,
@@ -43,8 +45,8 @@ class GlowingPointerDrawable {
         )
         glowPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
-            width = width.toFloat() - pointerOffset * 2,
-            height = height.toFloat() - pointerOffset * 2,
+            width = width.toFloat() - ringOffset * 2,
+            height = height.toFloat() - ringOffset * 2,
             startColor = startColor,
             endColor = endColor,
             alpha = glowIntense,
@@ -69,7 +71,7 @@ class GlowingPointerDrawable {
         withRotation(degrees, width.toFloat() / 2, height.toFloat() / 2) {
             withTranslation(
                 width.toFloat() / 2 - pointerRadius,
-                pointerOffset - pointerRadius
+                ringOffset - pointerRadius
             ) {
                 drawOval(
                     0f,
@@ -84,10 +86,10 @@ class GlowingPointerDrawable {
 
     private fun Canvas.drawGlow(paint: Paint, degrees: Float) {
         pointerPosition.calcBallPosition(width, height, degrees)
-        withTranslation(pointerOffset, pointerOffset) {
+        withTranslation(ringOffset, ringOffset) {
             drawCircle(
-                pointerPosition.x - pointerOffset,
-                pointerPosition.y - pointerOffset,
+                pointerPosition.x - ringOffset,
+                pointerPosition.y - ringOffset,
                 pointerRadius,
                 paint
             )
@@ -97,7 +99,7 @@ class GlowingPointerDrawable {
     private fun PointF.calcBallPosition(width: Int, height: Int, degrees: Float) {
         val centerX = width.toFloat() / 2
         val centerY = height.toFloat() / 2
-        val radius = centerY - pointerOffset
+        val radius = centerY - ringOffset
         x = centerX + radius * sin(2 * Math.PI * degrees / 360).toFloat()
         y = centerY - radius * cos(2 * Math.PI * degrees / 360).toFloat()
     }

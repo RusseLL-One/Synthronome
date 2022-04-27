@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:background="#18191B">
+    android:background="@drawable/background_overlay">
 
     <com.one.russell.metroman_20.presentation.views.buttons.ButtonView
         android:id="@+id/btn_settings"

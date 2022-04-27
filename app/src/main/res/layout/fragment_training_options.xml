@@ -4,28 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4b5766">
+    android:background="@color/defaultBackground">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
         android:overScrollMode="never"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@id/btn_proceed"
         app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="4"
         tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/list_item_knob"
         tools:spanCount="2" />
 
-    <Button
+    <com.one.russell.metroman_20.presentation.views.buttons.ButtonView
         android:id="@+id/btn_proceed"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/buttons_height"
         android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:paddingTop="4dp"
         android:text="@string/training_btn_start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
