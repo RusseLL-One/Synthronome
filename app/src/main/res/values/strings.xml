@@ -6,6 +6,14 @@
     <string name="notification_channel_description">Show notification while clicking</string>
     <string name="main_bpm">BPM: %d</string>
 
+    <string name="training_topLevelType_tempoIncreasing">Увеличение темпа</string>
+    <string name="training_topLevelType_barDropping">Глушение такта</string>
+    <string name="training_topLevelType_beatDropping">Глушение клика</string>
+    <string name="training_finalType_tempoIncreasing_byBars">По тактам</string>
+    <string name="training_finalType_tempoIncreasing_byTime">По времени</string>
+    <string name="training_finalType_barDropping_randomly">Случайно</string>
+    <string name="training_finalType_barDropping_byValue">По значению</string>
+
     <string name="training_tempoIncreasing_startBpm">Начальный темп (BPM)</string>
     <string name="training_tempoIncreasing_endBpm">Конечный темп (BPM)</string>
     <string name="training_tempoIncreasing_everyBars">Через каждые (такты)</string>

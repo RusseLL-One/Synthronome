@@ -12,10 +12,9 @@ import com.one.russell.metroman_20.domain.workers.ClickWorker
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import com.one.russell.metroman_20.domain.wrappers.ClickerCallback
 import com.one.russell.metroman_20.presentation.screens.main.MainViewModel
-import com.one.russell.metroman_20.presentation.screens.training.bar_dropping_subtype_selection.BarDroppingSubtypeSelectionViewModel
+import com.one.russell.metroman_20.presentation.screens.training.training_subtype_selection.TrainingSubtypeSelectionViewModel
 import com.one.russell.metroman_20.presentation.screens.training.options.OptionsViewModel
-import com.one.russell.metroman_20.presentation.screens.training.tempo_increasing_subtype_selection.TempoIncreasingSubtypeSelectionViewModel
-import com.one.russell.metroman_20.presentation.screens.training.type_selection.TypeSelectionViewModel
+import com.one.russell.metroman_20.presentation.screens.training.training_type_selection.TrainingTypeSelectionViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
@@ -98,9 +97,8 @@ fun appModule() = module {
             calcBpmByTapIntervalUseCase = get()
         )
     }
-    viewModel { TypeSelectionViewModel() }
-    viewModel { TempoIncreasingSubtypeSelectionViewModel() }
-    viewModel { BarDroppingSubtypeSelectionViewModel() }
+    viewModel { TrainingTypeSelectionViewModel() }
+    viewModel { TrainingSubtypeSelectionViewModel() }
     viewModel {
         OptionsViewModel(
             clicker = get(),
