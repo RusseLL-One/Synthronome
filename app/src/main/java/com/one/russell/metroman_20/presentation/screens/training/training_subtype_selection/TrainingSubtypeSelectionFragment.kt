@@ -32,7 +32,7 @@ class TrainingSubtypeSelectionFragment : BaseFragment<FragmentTrainingTypeSelect
 
     private fun navigateNext(trainingFinalType: TrainingFinalType) {
         TrainingSubtypeSelectionFragmentDirections
-            .actionBarDroppingSubtypeSelectionFragmentToOptionsFragment(trainingFinalType)
+            .actionSubtypeSelectionFragmentToOptionsFragment(trainingFinalType)
             .let { findNavController().navigate(it) }
     }
 }

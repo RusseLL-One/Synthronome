@@ -34,10 +34,10 @@ class TrainingTypeSelectionFragment : BaseFragment<FragmentTrainingTypeSelection
 
     private fun navigateNext(selectedType: TrainingTopLevelType) {
         when (selectedType) {
-            TrainingTopLevelType.TEMPO_INCREASING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToBarDroppingSubtypeSelectionFragment(
+            TrainingTopLevelType.TEMPO_INCREASING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToSubtypeSelectionFragment(
                 TrainingTopLevelType.TEMPO_INCREASING
             )
-            TrainingTopLevelType.BAR_DROPPING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToBarDroppingSubtypeSelectionFragment(
+            TrainingTopLevelType.BAR_DROPPING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToSubtypeSelectionFragment(
                 TrainingTopLevelType.BAR_DROPPING
             )
             TrainingTopLevelType.BEAT_DROPPING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToOptionsFragment(
