@@ -1,24 +1,25 @@
 package com.one.russell.metroman_20.domain.usecases.training
 
-import com.one.russell.metroman_20.domain.ClickState
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.one.russell.metroman_20.domain.TrainingData
 import com.one.russell.metroman_20.domain.TrainingProcessor
-import com.one.russell.metroman_20.domain.providers.BpmProvider
-import com.one.russell.metroman_20.domain.providers.ClickStateProvider
 import com.one.russell.metroman_20.domain.usecases.StartClickingUseCase
+import kotlinx.coroutines.launch
 
 class StartTrainingUseCase(
-    private val bpmProvider: BpmProvider,
     private val startClickingUseCase: StartClickingUseCase,
-    private val clickStateProvider: ClickStateProvider,
     private val trainingProcessor: TrainingProcessor
 ) {
-    suspend fun execute(
-        trainingData: TrainingData
-    ) {
-        if (clickStateProvider.clickState.value != ClickState.STARTED) {
-            startClickingUseCase.execute()
+    fun execute(trainingData: TrainingData) {
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
+            startClickingUseCase.execute(trainingData.getStartBpm())
+            trainingProcessor.startTraining(trainingData)
         }
-        trainingProcessor.startTraining(trainingData, bpmProvider.bpmFlow)
+    }
+
+    private fun TrainingData.getStartBpm(): Int? = when (this) {
+        is TrainingData.TempoIncreasing -> startBpm
+        else -> null
     }
 }

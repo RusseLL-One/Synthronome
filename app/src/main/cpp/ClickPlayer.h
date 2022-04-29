@@ -12,7 +12,7 @@ class ClickPlayer : public oboe::AudioStreamCallback {
 public:
     ClickPlayer(AAssetManager *assetManager, JavaVM *jvm, jobject listener);
 
-    void start();
+    void start(jint startBpm);
     void stop();
 
     void setNextBeatType(BeatType beatType);

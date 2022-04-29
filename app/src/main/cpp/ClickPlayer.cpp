@@ -42,7 +42,8 @@ void ClickPlayer::initOboe() {
     }
 }
 
-void ClickPlayer::start() {
+void ClickPlayer::start(jint startBpm) {
+    setBpm(startBpm);
     currentFrame = 0;
     isPlaying = true;
 }
@@ -73,7 +74,7 @@ void ClickPlayer::setSoundPreset(int8_t id) {
 
 void ClickPlayer::setBpm(jint bpm) {
     this->newBpm = bpm;
-    if (currentBpm == 0) {
+    if (currentBpm == 0 || !isPlaying) {
         setCurrentBpm(bpm);
     }
 }

@@ -5,7 +5,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.one.russell.metroman_20.domain.ClickState
-import com.one.russell.metroman_20.domain.Constants.CLICK_WORKER_NOTIFICATION_ID
 import com.one.russell.metroman_20.domain.notifications.createClickerNotification
 import com.one.russell.metroman_20.domain.providers.ClickStateProvider
 import com.one.russell.metroman_20.domain.wrappers.Clicker
@@ -20,7 +19,8 @@ class ClickWorker(
 
     override suspend fun doWork(): Result {
         return try {
-            clicker.start()
+            val startBpm = inputData.getInt(CLICK_WORKER_ARG_BPM, 0).takeIf { it != 0 }
+            clicker.start(startBpm)
             clickStateProvider.setClickState(ClickState.STARTED)
             setForeground(createForegroundInfo())
             awaitCancellation()
@@ -36,4 +36,10 @@ class ClickWorker(
         CLICK_WORKER_NOTIFICATION_ID,
         createClickerNotification(applicationContext, id)
     )
+
+    companion object {
+        const val CLICK_WORKER_ARG_BPM = "CLICK_WORKER_ARG_BPM"
+        const val CLICK_WORKER_TAG = "CLICK_WORKER_TAG"
+        const val CLICK_WORKER_NOTIFICATION_ID = 94837 // just random number
+    }
 }

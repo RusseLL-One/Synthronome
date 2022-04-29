@@ -52,15 +52,18 @@ class Clicker(
         beatIndex = ++beatIndex % beatTypes.size
     }
 
-    fun start() {
+    fun start(startBpm: Int?) {
         beatIndex = -1
-        native_start()
+        setNextBeatType(beatTypes[0])
+
+        val bpm = startBpm ?: bpmProvider.bpmFlow.value
+        native_start(bpm)
     }
 
     fun stop() {
         native_stop()
         beatIndex = -1
-        setNextBeatType(beatTypes[beatIndex + 1])
+        setNextBeatType(beatTypes[0])
     }
 
     fun setNextBeatType(beatType: BeatType) {
@@ -76,7 +79,7 @@ class Clicker(
     }
 
     private external fun native_init(listener: ClickerCallback, assetManager: AssetManager)
-    private external fun native_start()
+    private external fun native_start(startBpm: Int)
     private external fun native_stop()
     private external fun native_set_next_beat_type(beatType: BeatType)
     private external fun native_set_bpm(bpm: Int)
@@ -87,8 +90,6 @@ class Clicker(
         private val beatIndex: Int,
         private val beatsInBar: Int
     ) {
-        val isFirstBeat
-            get() = beatIndex == 0
         val isNextBeatFirst
             get() = beatIndex == beatsInBar - 1
     }

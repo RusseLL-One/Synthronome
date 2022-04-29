@@ -49,10 +49,8 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
 
             btnProceed.setupPaints(viewModel.colors.primaryColor, viewModel.colors.secondaryColor)
             btnProceed.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.submit(args.trainingFinalType)
-                    findNavController().popBackStack(R.id.mainFragment, false)
-                }
+                viewModel.submit(args.trainingFinalType)
+                findNavController().popBackStack(R.id.mainFragment, false)
             }
         }
     }

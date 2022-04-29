@@ -28,9 +28,10 @@ extern "C" {
     JNIEXPORT void JNICALL
     Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1start(
         JNIEnv *env,
-        jobject instance
+        jobject instance,
+        jint startBpm
     ) {
-        clickPlayer->start();
+        clickPlayer->start(startBpm);
     }
 
     JNIEXPORT void JNICALL

@@ -24,12 +24,12 @@ fun appModule() = module {
 
     single { ClickerCallback() }
     single { Clicker(callback = get(), beatTypesProvider = get(), bpmProvider = get(), androidContext().assets) }
-    single { TrainingProcessor(clicker = get()) }
+    single { TrainingProcessor(clicker = get(), bpmProvider = get(), beatTypesProvider = get(), trainingStateProvider = get()) }
     single { PreferencesDataStore(androidContext()) }
 
     // providers
     single { ClickStateProvider() }
-    single { TrainingDataProvider() }
+    single { TrainingStateProvider() }
     single { BeatTypesProvider() }
     single { BpmProvider() }
     single { ColorsProvider() }
@@ -62,12 +62,11 @@ fun appModule() = module {
     factory { CalcBpmByTapIntervalUseCase(bpmProvider = get()) }
 
     // training use cases
-    factory { StartTrainingUseCase(bpmProvider = get(), trainingProcessor = get(), startClickingUseCase = get(), clickStateProvider = get()) }
+    factory { StartTrainingUseCase(trainingProcessor = get(), startClickingUseCase = get()) }
     factory { StopTrainingUseCase(trainingProcessor = get()) }
-    factory { SaveTrainingDataUseCase(dataStore = get(), trainingDataProvider = get()) }
+    factory { SaveTrainingDataUseCase(dataStore = get()) }
     factory { RestoreTrainingDataUseCase(dataStore = get()) }
-    factory { ObserveTrainingDataUseCase(trainingDataProvider = get()) }
-    factory { ObserveTrainingStateUseCase(trainingProcessor = get()) }
+    factory { ObserveTrainingStateUseCase(trainingStateProvider = get()) }
 
     // view models
     viewModel {
@@ -88,8 +87,6 @@ fun appModule() = module {
             stopClickingUseCase = get(),
             observeClickStateUseCase = get(),
             getClickerCallbackUseCase = get(),
-            observeTrainingDataUseCase = get(),
-            startTrainingUseCase = get(),
             stopTrainingUseCase = get(),
             observeTrainingStateUseCase = get(),
             observeColorsUseCase = get(),
@@ -104,6 +101,7 @@ fun appModule() = module {
             playRotateClickUseCase = get(),
             saveTrainingDataUseCase = get(),
             restoreTrainingDataUseCase = get(),
+            startTrainingUseCase = get(),
             observeColorsUseCase = get()
         )
     }

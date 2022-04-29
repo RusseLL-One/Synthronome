@@ -39,6 +39,8 @@ val Number.sp
         Resources.getSystem().displayMetrics
     )
 
+fun Int.bpmToMs(): Float = 1000f * 60f / this
+
 fun Context.getStyledAttributes(
     attributeSet: AttributeSet?,
     styleArray: IntArray,

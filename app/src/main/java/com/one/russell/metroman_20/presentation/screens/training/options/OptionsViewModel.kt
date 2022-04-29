@@ -1,6 +1,8 @@
 package com.one.russell.metroman_20.presentation.screens.training.options
 
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.one.russell.metroman_20.domain.Colors
 import com.one.russell.metroman_20.domain.TrainingData
@@ -9,6 +11,7 @@ import com.one.russell.metroman_20.domain.usecases.PlayRotateClickUseCase
 import com.one.russell.metroman_20.domain.usecases.colors.ObserveColorsUseCase
 import com.one.russell.metroman_20.domain.usecases.training.RestoreTrainingDataUseCase
 import com.one.russell.metroman_20.domain.usecases.training.SaveTrainingDataUseCase
+import com.one.russell.metroman_20.domain.usecases.training.StartTrainingUseCase
 import com.one.russell.metroman_20.presentation.screens.training.options.OptionsAdjusterType.*
 import com.one.russell.metroman_20.presentation.screens.training.options.adapter.AdjusterListItem
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +22,7 @@ class OptionsViewModel(
     private val playRotateClickUseCase: PlayRotateClickUseCase,
     private val saveTrainingDataUseCase: SaveTrainingDataUseCase,
     private val restoreTrainingDataUseCase: RestoreTrainingDataUseCase,
+    private val startTrainingUseCase: StartTrainingUseCase,
     private val observeColorsUseCase: ObserveColorsUseCase
 ) : ViewModel() {
 
@@ -67,9 +71,12 @@ class OptionsViewModel(
         _adjustersListItems.value = newItemsList
     }
 
-    suspend fun submit(trainingFinalType: TrainingFinalType) {
+    fun submit(trainingFinalType: TrainingFinalType) {
         val trainingData = createTrainingData(trainingFinalType)
-        saveTrainingDataUseCase.execute(trainingData)
+        startTrainingUseCase.execute(trainingData)
+        viewModelScope.launch {
+            saveTrainingDataUseCase.execute(trainingData)
+        }
     }
 
     private fun OptionsAdjusterType.toListItem() = AdjusterListItem(

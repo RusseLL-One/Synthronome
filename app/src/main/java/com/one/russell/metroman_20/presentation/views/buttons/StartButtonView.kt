@@ -35,7 +35,7 @@ class StartButtonView @JvmOverloads constructor(
         }
     }
 
-    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) {
+    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
         bgPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.BOTTOM_TOP,
             width = width.toFloat(),

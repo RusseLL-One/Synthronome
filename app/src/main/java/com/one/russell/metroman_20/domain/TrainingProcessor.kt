@@ -1,213 +1,182 @@
 package com.one.russell.metroman_20.domain
 
+import com.one.russell.metroman_20.bpmToMs
+import com.one.russell.metroman_20.domain.providers.BeatTypesProvider
+import com.one.russell.metroman_20.domain.providers.BpmProvider
+import com.one.russell.metroman_20.domain.providers.TrainingStateProvider
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlin.math.abs
+import kotlinx.coroutines.job
+import kotlin.coroutines.coroutineContext
 import kotlin.math.ceil
 import kotlin.random.Random
 
 class TrainingProcessor(
-    private val clicker: Clicker
+    private val clicker: Clicker,
+    private val bpmProvider: BpmProvider,
+    private val beatTypesProvider: BeatTypesProvider,
+    private val trainingStateProvider: TrainingStateProvider
 ) {
-    private val _trainingState = MutableStateFlow<TrainingState>(TrainingState.Idle)
-    val trainingState: StateFlow<TrainingState>
-        get() = _trainingState
-
     private var runningJob: Job? = null
 
-    suspend fun startTraining(trainingData: TrainingData, bpmFlow: MutableSharedFlow<Int>) {
+    suspend fun startTraining(trainingData: TrainingData) {
         this.runningJob?.cancel()
+        this.runningJob = coroutineContext.job
 
-        _trainingState.emit(TrainingState.Running(
-            calcTrainingTime(trainingData),
+        trainingStateProvider.trainingState.value = TrainingState.Running(
+            calcTrainingTime(trainingData = trainingData),
             trainingData is TrainingData.TempoIncreasing
-        ))
+        )
 
         when (trainingData) {
-            is TrainingData.TempoIncreasing.ByBars -> {
-                processTempoIncreasingByBars(bpmFlow, trainingData)
-            }
-            is TrainingData.TempoIncreasing.ByTime -> {
-                processTempoIncreasingByTime(bpmFlow, trainingData)
-            }
-            is TrainingData.BarDropping.Randomly -> {
+            is TrainingData.TempoIncreasing.ByBars ->
+                processTempoIncreasingByBars(trainingData)
+            is TrainingData.TempoIncreasing.ByTime ->
+                processTempoIncreasingByTime(trainingData)
+            is TrainingData.BarDropping.Randomly ->
                 processBarDroppingRandomly(trainingData)
-            }
-            is TrainingData.BarDropping.ByValue -> {
+            is TrainingData.BarDropping.ByValue ->
                 processBarDroppingByValue(trainingData)
-            }
-            is TrainingData.BeatDropping -> {
+            is TrainingData.BeatDropping ->
                 processBeatDropping(trainingData)
-            }
         }
     }
 
-    private fun calcTrainingTime(trainingData: TrainingData): Long {
-        return when (trainingData) {
+    private fun calcTrainingTime(trainingData: TrainingData): Long = trainingData.run {
+        return when (this) {
             is TrainingData.TempoIncreasing.ByBars -> {
-                var totalTime = 0L
-                val beatsInBar = 4 // todo
-
-                val totalIncreases = abs(ceil((trainingData.endBpm - trainingData.startBpm).toFloat() / (trainingData.everyBars * trainingData.increaseOn))).toInt()
-                for (i in 0..totalIncreases) {
-                    val beatTimeMs = 1000 * 60 / (trainingData.startBpm + trainingData.increaseOn * i)
-                    totalTime += beatTimeMs * beatsInBar * trainingData.everyBars
+                var totalTime = 0f
+                val beatsInBar = beatTypesProvider.beatTypesFlow.value.size
+                val bpmInterval = (endBpm - startBpm).toFloat()
+                val increasesCount = ceil(bpmInterval / (everyBars * increaseOn)).toInt()
+                for (increaseIndex in 0..increasesCount) {
+                    val bpm = (startBpm + increaseOn * increaseIndex).coerceAtMost(endBpm)
+                    val beatTimeMs = 1000f * 60f / bpm
+                    totalTime += beatTimeMs * beatsInBar * everyBars
                 }
-                totalTime
+                totalTime.toLong()
             }
-            is TrainingData.TempoIncreasing.ByTime -> trainingData.minutes * 60L * 1000L
+            is TrainingData.TempoIncreasing.ByTime -> minutes * 60L * 1000L
             else -> TRAINING_TIME_INFINITE
         }
     }
 
-    private suspend inline fun processTempoIncreasingByBars(
-        bpmFlow: MutableSharedFlow<Int>,
+    private suspend fun processTempoIncreasingByBars(
         trainingData: TrainingData.TempoIncreasing.ByBars
     ) {
-        // Send initial bpm values
-        bpmFlow.emit(trainingData.startBpm)
-        clicker.setBpm(trainingData.startBpm)
+        fun calcNewBpm(click: Clicker.Click, trainingData: TrainingData.TempoIncreasing.ByBars): Int {
+            return if (trainingData.startBpm < trainingData.endBpm) {
+                (click.bpm + trainingData.increaseOn)
+                    .coerceIn(trainingData.startBpm, trainingData.endBpm)
+            } else {
+                (click.bpm - trainingData.increaseOn)
+                    .coerceIn(trainingData.endBpm, trainingData.startBpm)
+            }
+        }
 
+        bpmProvider.bpmFlow.emit(trainingData.startBpm) // Send initial bpm value
         var barsPassed = 0
-        var completeOnNextBar = false
 
-        coroutineScope {
-            runningJob = launch {
-                clicker.onClicked.collect { click ->
-                    if (completeOnNextBar && click.isFirstBeat) stopTraining()
-                    if (click.bpm == trainingData.endBpm) completeOnNextBar = true
+        clicker.onClicked.collectWithActionQueueHandler { click, aqh ->
+            if (click.bpm == trainingData.endBpm && click.isNextBeatFirst)
+                aqh.queueAction { stopTraining() }
 
-                    if (barsPassed == 0) {
-                        bpmFlow.emit(click.bpm)
-                    }
-                    if (click.isNextBeatFirst) {
-                        barsPassed++
-                    }
-                    if (barsPassed == trainingData.everyBars) {
-                        val newBpm = if (trainingData.startBpm < trainingData.endBpm) {
-                            (click.bpm + trainingData.increaseOn).coerceIn(
-                                trainingData.startBpm,
-                                trainingData.endBpm
-                            )
-                        } else {
-                            (click.bpm - trainingData.increaseOn).coerceIn(
-                                trainingData.endBpm,
-                                trainingData.startBpm
-                            )
-                        }
+            if (click.isNextBeatFirst) barsPassed++
 
-                        clicker.setBpm(newBpm)
-                        barsPassed = 0
-                    }
-                }
+            if (barsPassed == trainingData.everyBars) {
+                val newBpm = calcNewBpm(click, trainingData)
+                clicker.setBpm(newBpm)
+                aqh.queueAction { bpmProvider.bpmFlow.emit(newBpm) }
+                barsPassed = 0
             }
         }
     }
 
-    private suspend inline fun processTempoIncreasingByTime(
-        bpmFlow: MutableSharedFlow<Int>,
+    private suspend fun processTempoIncreasingByTime(
         trainingData: TrainingData.TempoIncreasing.ByTime
     ) {
-        // Send initial bpm values
-        bpmFlow.emit(trainingData.startBpm)
-        clicker.setBpm(trainingData.startBpm)
+        fun calcNewBpm(startTime: Long, duration: Int, click: Clicker.Click, trainingData: TrainingData.TempoIncreasing.ByTime): Int {
+            val currentTime = System.currentTimeMillis()
+            val completion = (currentTime - startTime + click.bpm.bpmToMs()) / duration
+            val bpmIncrease = (trainingData.endBpm - trainingData.startBpm) * completion
+            return (trainingData.startBpm + bpmIncrease).toInt().coerceAtMost(trainingData.endBpm)
+        }
+
+        bpmProvider.bpmFlow.emit(trainingData.startBpm) // Send initial bpm values
 
         val duration = trainingData.minutes * 60 * 1000
         val startTime = System.currentTimeMillis()
-
-        coroutineScope {
-            runningJob = launch {
-                clicker.onClicked.collect {
-                    bpmFlow.emit(it.bpm)
-                    if (it.bpm == trainingData.endBpm) stopTraining()
-
-                    val currentTime = System.currentTimeMillis()
-
-                    val completion =
-                        (currentTime + (1000 * 60 / it.bpm) - startTime).toFloat() / duration
-                    val bpmIncrease = (trainingData.endBpm - trainingData.startBpm) * completion
-                    val newBpm = (trainingData.startBpm + bpmIncrease).toInt()
-
-                    clicker.setBpm(newBpm)
-                }
-            }
+// todo увеличивать каждые х секунд
+        clicker.onClicked.collectWithActionQueueHandler { click, aqh ->
+            if (click.bpm >= trainingData.endBpm) stopTraining()
+            val newBpm = calcNewBpm(startTime, duration, click, trainingData)
+            clicker.setBpm(newBpm)
+            aqh.queueAction { bpmProvider.bpmFlow.emit(newBpm) }
         }
     }
 
-    private suspend inline fun processBarDroppingRandomly(
+    private suspend fun processBarDroppingRandomly(
         trainingData: TrainingData.BarDropping.Randomly
     ) {
-        var isMuted = Random.nextInt(101) <= trainingData.chancePercent
-        if (isMuted) {
-            clicker.setNextBeatType(BeatType.MUTE)
-        }
-
-        coroutineScope {
-            runningJob = launch {
-                clicker.onClicked.collect { click ->
-                    if (click.isNextBeatFirst) {
-                        isMuted = Random.nextInt(101) <= trainingData.chancePercent
-                    }
-
-                    if (isMuted) {
-                        clicker.setNextBeatType(BeatType.MUTE)
-                    }
-                }
-            }
+        var isBarMuted = false
+        clicker.onClicked.collect { click ->
+            if (click.isNextBeatFirst) isBarMuted = isMuted(trainingData.chancePercent)
+            if (isBarMuted) clicker.setNextBeatType(BeatType.MUTE)
         }
     }
 
-    private suspend inline fun processBarDroppingByValue(
+    private suspend fun processBarDroppingByValue(
         trainingData: TrainingData.BarDropping.ByValue
     ) {
         var barsPassed = 0
-
-        coroutineScope {
-            runningJob = launch {
-                clicker.onClicked.collect { click ->
-                    if (click.isNextBeatFirst) {
-                        barsPassed++
-                    }
-                    if (barsPassed >= trainingData.ordinaryBarsCount + trainingData.mutedBarsCount) {
-                        barsPassed = 0
-                    } else if (barsPassed >= trainingData.ordinaryBarsCount) {
-                        clicker.setNextBeatType(BeatType.MUTE)
-                    }
-                }
-            }
+        val ordinaryBarsCount = trainingData.ordinaryBarsCount
+        val totalBarsCount = trainingData.ordinaryBarsCount + trainingData.mutedBarsCount
+        clicker.onClicked.collect { click ->
+            if (click.isNextBeatFirst) barsPassed++
+            if (barsPassed == totalBarsCount) barsPassed = 0
+            if (barsPassed >= ordinaryBarsCount) clicker.setNextBeatType(BeatType.MUTE)
         }
     }
 
-    private suspend inline fun processBeatDropping(
+    private suspend fun processBeatDropping(
         trainingData: TrainingData.BeatDropping
     ) {
-        var isMuted = Random.nextInt(101) <= trainingData.chancePercent
-        if (isMuted) {
-            clicker.setNextBeatType(BeatType.MUTE)
+        clicker.onClicked.collect {
+            if (isMuted(trainingData.chancePercent))
+                clicker.setNextBeatType(BeatType.MUTE)
         }
+    }
 
-        coroutineScope {
-            runningJob = launch {
-                clicker.onClicked.collect {
-                    isMuted = Random.nextInt(101) <= trainingData.chancePercent
-
-                    if (isMuted) {
-                        clicker.setNextBeatType(BeatType.MUTE)
-                    }
-                }
-            }
-        }
+    private fun isMuted(chancePercent: Int): Boolean {
+        return Random.nextInt(101) <= chancePercent
     }
 
     fun stopTraining() {
         runningJob?.cancel()
-        _trainingState.tryEmit(TrainingState.Idle)
+        trainingStateProvider.trainingState.value = TrainingState.Idle
+    }
+
+    private suspend inline fun <T> Flow<T>.collectWithActionQueueHandler(crossinline action: suspend (value: T, aqh: ActionQueueHandler) -> Unit) {
+        val actionQueueHandler = ActionQueueHandler()
+        collect {
+            actionQueueHandler.executeAll()
+            action(it, actionQueueHandler)
+        }
+    }
+
+    private class ActionQueueHandler {
+        private val actionsList: MutableList<suspend () -> Unit> = mutableListOf()
+
+        suspend fun executeAll() {
+            actionsList.forEach { it() }
+            actionsList.clear()
+        }
+
+        fun queueAction(action: suspend () -> Unit) {
+            actionsList.add(action)
+        }
     }
 
     companion object {

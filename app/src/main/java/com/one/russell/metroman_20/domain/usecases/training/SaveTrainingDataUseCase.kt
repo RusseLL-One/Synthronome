@@ -2,15 +2,11 @@ package com.one.russell.metroman_20.domain.usecases.training
 
 import com.one.russell.metroman_20.data.prefs.PreferencesDataStore
 import com.one.russell.metroman_20.domain.TrainingData
-import com.one.russell.metroman_20.domain.providers.TrainingDataProvider
 
 class SaveTrainingDataUseCase(
-    private val dataStore: PreferencesDataStore,
-    private val trainingDataProvider: TrainingDataProvider,
+    private val dataStore: PreferencesDataStore
 ) {
     suspend fun execute(trainingData: TrainingData) {
-        trainingDataProvider.setTrainingData(trainingData)
-
         when (trainingData) {
             is TrainingData.TempoIncreasing.ByBars -> {
                 dataStore.training_tempoIncreasing_startBpm.setValue(trainingData.startBpm)
@@ -25,7 +21,6 @@ class SaveTrainingDataUseCase(
             }
             is TrainingData.BarDropping.Randomly -> {
                 dataStore.training_barDropping_randomly_chancePercent.setValue(trainingData.chancePercent)
-
             }
             is TrainingData.BarDropping.ByValue -> {
                 dataStore.training_barDropping_byValue_ordinaryBarsCount.setValue(trainingData.ordinaryBarsCount)
