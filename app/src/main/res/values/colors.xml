@@ -17,4 +17,7 @@
     <color name="defaultPrimary">#D35746</color>
     <color name="defaultSecondary">#FFA959</color>
     <color name="defaultBackground">#18191B</color>
+
+    <color name="blocked_knob_color_1">#62616b</color>
+    <color name="blocked_knob_color_2">#3A3C40</color>
 </resources>

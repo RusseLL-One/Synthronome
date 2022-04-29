@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@drawable/background_overlay"
     android:clipChildren="false">
 
@@ -95,29 +96,6 @@
         app:layout_constraintTop_toTopOf="@id/v_knob"
         app:radius="170dp" />
 
-    <TextView
-        android:id="@+id/trainingInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Тренировка в процессе"
-        android:fontFamily="@font/poppins"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/trainingCompletion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/trainingCompletion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins"
-        app:layout_constraintBottom_toTopOf="@id/v_knob"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="50%" />
-
     <com.one.russell.metroman_20.presentation.views.rotary_knob.RotaryKnobView
         android:id="@+id/v_knob"
         android:layout_width="260dp"
@@ -162,4 +140,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_tap" />
+
+
+    <com.one.russell.metroman_20.presentation.views.training_overlay.TrainingOverlayView
+        android:id="@+id/v_training_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/v_time_signature" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@
     <string name="notification_channel_name">@string/app_name</string>
     <string name="notification_channel_description">Show notification while clicking</string>
     <string name="main_bpm">BPM: %d</string>
+    <string name="training_is_in_progress">Тренировка в процессе</string>
+    <string name="training_completion_percent" translatable="false">%d%%</string>
 
     <string name="training_choose_type_title">Выберите тип тренировки</string>
 

@@ -8,6 +8,7 @@ import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorInt
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.domain.Constants
+import com.one.russell.metroman_20.getColorCompat
 import com.one.russell.metroman_20.getStyledAttributes
 import com.one.russell.metroman_20.toPx
 
@@ -21,6 +22,9 @@ class RotaryKnobView @JvmOverloads constructor(
 
     private var pointerDrawable = GlowingPointerDrawable()
     private var ringDrawable = GlowingRingDrawable()
+
+    @ColorInt private var primaryColor: Int = 0
+    @ColorInt private var secondaryColor: Int = 0
 
     private var glowIntense: Float = 0f
     private val glowAnimator = ValueAnimator
@@ -49,6 +53,21 @@ class RotaryKnobView @JvmOverloads constructor(
     }
 
     fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
+        primaryColor = startColor
+        secondaryColor = endColor
+        initDrawablesPaints()
+    }
+
+    override fun doOnBlock() {
+        initDrawablesPaints()
+    }
+
+    private fun initDrawablesPaints() {
+        val startColor = if (!isBlocked) primaryColor
+        else context.getColorCompat(R.color.blocked_knob_color_1)
+        val endColor = if (!isBlocked) secondaryColor
+        else context.getColorCompat(R.color.blocked_knob_color_2)
+
         pointerDrawable.initPaints(width, height, ringOffset, startColor, endColor)
         ringDrawable.initPaints(width, height, ringOffset, startColor, endColor)
         invalidate()

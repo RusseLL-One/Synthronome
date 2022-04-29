@@ -16,7 +16,7 @@ abstract class KnobView @JvmOverloads constructor(
 
     private var onValueChangedCallbacks: ArrayList<(Int) -> Unit> = ArrayList(4)
 
-    private var isBlocked = false
+    protected var isBlocked = false
 
     // Amount of degrees in one step
     private var degreesInStep: Int = 10
@@ -40,7 +40,10 @@ abstract class KnobView @JvmOverloads constructor(
 
     fun setIsBlocked(isBlocked: Boolean) {
         this.isBlocked = isBlocked
+        doOnBlock()
     }
+
+    open fun doOnBlock() {}
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)

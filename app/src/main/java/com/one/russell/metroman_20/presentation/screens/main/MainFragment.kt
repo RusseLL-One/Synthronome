@@ -1,16 +1,13 @@
 package com.one.russell.metroman_20.presentation.screens.main
 
-import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.LinearInterpolator
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentMainBinding
 import com.one.russell.metroman_20.domain.ClickState
 import com.one.russell.metroman_20.domain.Constants
-import com.one.russell.metroman_20.domain.TrainingProcessor.Companion.TRAINING_TIME_INFINITE
 import com.one.russell.metroman_20.domain.TrainingState
 import com.one.russell.metroman_20.presentation.alerts.showColorPickerDialog
 import com.one.russell.metroman_20.presentation.base_components.BaseFragment
@@ -41,28 +38,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 viewModel.trainingState.collect { state ->
                     when (state) {
                         TrainingState.Idle -> {
-                            trainingInfo.isVisible = false
-                            trainingCompletion.isVisible = false
+                            vTrainingOverlay.isVisible = false
                             vKnob.setIsBlocked(false)
                         }
                         is TrainingState.Running -> {
-                            trainingInfo.isVisible = true
-                            trainingCompletion.isVisible = true
+                            vTrainingOverlay.isVisible = true
+                            vTrainingOverlay.showTrainingCompletion(state)
                             vKnob.setIsBlocked(state.shouldBlockControls)
-
-                            if (state.durationMs != TRAINING_TIME_INFINITE) {
-                                ValueAnimator
-                                    .ofFloat(0f, 1f)
-                                    .setDuration(state.durationMs)
-                                    .apply {
-                                        interpolator = LinearInterpolator()
-                                        addUpdateListener {
-                                            val percent =
-                                                (100 * (it.animatedValue as Float)).toInt()
-                                            trainingCompletion.text = "$percent%"
-                                        }
-                                    }.start()
-                            }
                         }
                     }
                 }
@@ -95,6 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     btnTraining.setupPaints(it.primaryColor, it.secondaryColor)
                     btnBookmarks.setupPaints(it.primaryColor, it.secondaryColor)
                     btnAddBookmark.setupPaints(it.primaryColor, it.secondaryColor)
+                    vTrainingOverlay.setupPaints(it.primaryColor, it.secondaryColor)
                     vTimeSignature.setupPaints(it.primaryColor, it.secondaryColor)
                 }
             }
