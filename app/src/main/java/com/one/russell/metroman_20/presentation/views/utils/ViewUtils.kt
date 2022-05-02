@@ -1,9 +1,13 @@
 package com.one.russell.metroman_20.presentation.views.utils
 
+import android.R
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.one.russell.metroman_20.presentation.views.utils.GradientOrientation.*
@@ -168,4 +172,24 @@ fun RecyclerView.disableScrolling() {
         override fun canScrollVertically(): Boolean = false
         override fun canScrollHorizontally(): Boolean = false
     }
+}
+
+fun SwitchCompat.setSwitchColor(@ColorInt color: Int) {
+    val states = arrayOf(
+        intArrayOf(-R.attr.state_checked),
+        intArrayOf(R.attr.state_checked)
+    )
+
+    val thumbColors = intArrayOf(
+        Color.WHITE,
+        color,
+    )
+
+    val trackColors = intArrayOf(
+        ColorUtils.setAlphaComponent(Color.WHITE, 100),
+        ColorUtils.setAlphaComponent(color, 100),
+    )
+
+    trackTintList = ColorStateList(states, trackColors)
+    thumbTintList = ColorStateList(states, thumbColors)
 }

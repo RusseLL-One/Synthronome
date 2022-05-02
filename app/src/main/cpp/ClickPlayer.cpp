@@ -58,10 +58,10 @@ void ClickPlayer::setNextBeatType(BeatType beatType) {
     nextBeatType = beatType;
 }
 
-void ClickPlayer::setSoundPreset(int8_t id) {
-    char clickSoundName[10];
-    char subAccentSoundName[10];
-    char accentSoundName[10];
+void ClickPlayer::setSoundPreset(jint id) {
+    char clickSoundName[12];
+    char subAccentSoundName[12];
+    char accentSoundName[12];
 
     sprintf(clickSoundName, "beat%d.raw", id);
     sprintf(subAccentSoundName, "sub%d.raw", id);

@@ -3,6 +3,7 @@ package com.one.russell.metroman_20.data.prefs
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -29,6 +30,24 @@ class PreferencesDataStore(
         dataStore = appContext.dataStore,
         key = stringPreferencesKey("BEAT_TYPES"),
         defaultValue = listOf(ACCENT, BEAT, BEAT, BEAT).serialize()
+    )
+
+    val isVibrationEnabled = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = booleanPreferencesKey("IS_VIBRATION_ENABLED"),
+        defaultValue = false
+    )
+
+    val isFlashEnabled = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = booleanPreferencesKey("IS_FLASH_ENABLED"),
+        defaultValue = false
+    )
+
+    val soundPresetId = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("SOUND_PRESET_ID"),
+        defaultValue = 1
     )
 
     val training_tempoIncreasing_startBpm = PrefsValue(

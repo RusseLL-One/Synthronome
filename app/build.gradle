@@ -52,7 +52,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
     implementation "androidx.datastore:datastore-preferences:$datastorePrefsVersion"
-    implementation "com.github.skydoves:colorpickerview:$colorPickerVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycleVersion"
     implementation "com.google.android.material:material:$materialVersion"
@@ -62,7 +61,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
     implementation "io.github.ShawnLin013:number-picker:$numberPickerVersion"
-
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewBindingDelegateVersion"
+    implementation "com.larswerkman:HoloColorPicker:$holoColorPickerVersion"
+    implementation "codes.side:andcolorpicker:$colorPickerVersion"
     // Koin
     implementation "io.insert-koin:koin-core:$koinVersion"
     implementation "io.insert-koin:koin-android:$koinVersion"

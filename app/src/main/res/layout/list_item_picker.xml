@@ -29,6 +29,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:np_selectedTextColor="@color/white"
+        app:np_selectedTextSize="18sp"
+        app:np_selectedTypeface="@font/poppins"
+        app:np_textColor="@color/white"
+        app:np_textSize="18sp"
+        app:np_typeface="@font/poppins" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

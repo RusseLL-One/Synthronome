@@ -1,26 +1,29 @@
 package com.one.russell.metroman_20.presentation.screens.main
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.os.Bundle
+import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentMainBinding
 import com.one.russell.metroman_20.domain.ClickState
 import com.one.russell.metroman_20.domain.Constants
 import com.one.russell.metroman_20.domain.TrainingState
-import com.one.russell.metroman_20.presentation.alerts.showColorPickerDialog
-import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import com.one.russell.metroman_20.repeatOnResume
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : BaseFragment<FragmentMainBinding>() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
+    private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModel()
 
-    override fun initBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentMainBinding {
-        return FragmentMainBinding.inflate(inflater, container, false).apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.run {
             repeatOnResume {
                 viewModel.bpm.collect { bpm ->
                     tvBpm.text = getString(R.string.main_bpm, bpm)
@@ -52,7 +55,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             repeatOnResume {
                 viewModel.clickerCallback.collect {
-                    beatline.animateBall(it)
+                    beatline.animateBall(it.bpm)
                 }
             }
 
@@ -110,9 +113,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             }
 
             btnSettings.setOnClickListener {
-                showColorPickerDialog(requireContext()) {
-                    viewModel.setPrimaryColor(it)
-                }
+                findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
             }
         }
     }

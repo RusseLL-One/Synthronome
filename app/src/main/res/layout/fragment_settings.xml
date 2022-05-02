@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_overlay" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/ll_sound_preset_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_container_height"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_sound_preset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/settings_sound_preset"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <com.one.russell.metroman_20.presentation.views.picker.PickerWrapperView
+                android:id="@+id/v_sound_preset_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                app:np_orientation="horizontal"
+                app:np_selectedTextColor="@color/white"
+                app:np_selectedTextSize="18sp"
+                app:np_selectedTypeface="@font/poppins"
+                app:np_textColor="@color/white"
+                app:np_textSize="18sp"
+                app:np_typeface="@font/poppins" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/divider_color" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ll_flash_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_container_height">
+
+            <TextView
+                android:id="@+id/tv_flash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/settings_flash"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/s_flash_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="32dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/divider_color" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ll_vibration_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_container_height">
+
+            <TextView
+                android:id="@+id/tv_vibration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/settings_vibration"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/s_vibration_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="32dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/divider_color" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ll_primary_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_container_height">
+
+            <TextView
+                android:id="@+id/tv_primary_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/settings_primary_color"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <com.one.russell.metroman_20.presentation.views.color_indicator.ColorIndicatorView
+                android:id="@+id/v_primary_color_indicator"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="32dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@color/divider_color" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ll_background_color_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_container_height">
+
+            <TextView
+                android:id="@+id/tv_background_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/poppins"
+                android:text="@string/settings_background_color"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <codes.side.andcolorpicker.hsl.HSLColorPickerSeekBar
+                android:id="@+id/v_background_brightness_slide"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="12dp"
+                app:hslColoringMode="output"
+                app:hslMode="lightness" />
+
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

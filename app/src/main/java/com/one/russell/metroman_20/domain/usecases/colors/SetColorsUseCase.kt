@@ -1,6 +1,7 @@
 package com.one.russell.metroman_20.domain.usecases.colors
 
 import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
 import androidx.core.graphics.ColorUtils
 import com.one.russell.metroman_20.domain.providers.ColorsProvider
 
@@ -9,18 +10,26 @@ class SetColorsUseCase(
 ) {
 
     fun primary(@ColorInt primary: Int) {
-        val currentColors = colorsProvider.colorFlow.value
-        colorsProvider.colorFlow.value = currentColors.copy(
-            primaryColor = primary,
-            secondaryColor = calcSecondaryColor(primary)
-        )
+        colorsProvider.changeValue {
+            copy(
+                primaryColor = primary,
+                secondaryColor = calcSecondaryColor(primary)
+            )
+        }
     }
 
-    fun background(@ColorInt background: Int) {
-        val currentColors = colorsProvider.colorFlow.value
-        colorsProvider.colorFlow.value = currentColors.copy(
-            backgroundColor = background,
-        )
+    fun backgroundBrightness(@FloatRange(from = 0.0, to = 1.0) lightness: Float) {
+        colorsProvider.changeValue {
+            copy(backgroundColor = backgroundColor.setColorLightness(lightness))
+        }
+    }
+
+    @ColorInt
+    private fun Int.setColorLightness(@FloatRange(from = 0.0, to = 1.0) brightness: Float): Int {
+        return FloatArray(3)
+            .apply { ColorUtils.colorToHSL(this@setColorLightness, this) }
+            .apply { this[2] = brightness }
+            .let { ColorUtils.HSLToColor(it) }
     }
 
     @ColorInt
@@ -30,10 +39,11 @@ class SetColorsUseCase(
 
     @ColorInt
     private fun Int.correctHSL(dH: Float, dS: Float, dL: Float): Int {
-        val hslArray = FloatArray(3).apply { ColorUtils.colorToHSL(this@correctHSL, this) }
-        hslArray[0] = (hslArray[0] + dH).coerceIn(0f, 359f)
-        hslArray[1] = (hslArray[1] + dS / 255).coerceIn(0f, 1f)
-        hslArray[2] = (hslArray[2] + dL / 255).coerceIn(0f, 1f)
-        return ColorUtils.HSLToColor(hslArray)
+        return FloatArray(3).apply { ColorUtils.colorToHSL(this@correctHSL, this) }
+            .apply {
+                this[0] = (this[0] + dH).coerceIn(0f, 359f)
+                this[1] = (this[1] + dS / 255).coerceIn(0f, 1f)
+                this[2] = (this[2] + dL / 255).coerceIn(0f, 1f)
+            }.let { ColorUtils.HSLToColor(it) }
     }
 }

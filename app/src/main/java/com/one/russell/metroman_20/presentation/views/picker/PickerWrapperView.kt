@@ -13,7 +13,6 @@ import androidx.core.view.updatePadding
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.presentation.views.utils.GradientOrientation
 import com.one.russell.metroman_20.presentation.views.utils.createGradientPaint
-import com.one.russell.metroman_20.sp
 import com.one.russell.metroman_20.toPx
 import com.shawnlin.numberpicker.NumberPicker
 
@@ -25,6 +24,7 @@ class PickerWrapperView @JvmOverloads constructor(
 
     private var frameThickness = 2.toPx()
     private var frameHeight = 45.toPx()
+    private var frameWidth = 64.toPx()
     private var cornerRadius = 10.toPx()
 
     private var framePaint = Paint()
@@ -35,8 +35,6 @@ class PickerWrapperView @JvmOverloads constructor(
         setWillNotDraw(false)
         updatePadding(top = 7.toPx().toInt()) // for centering numbers
         view.apply {
-            textSize = 18.sp
-            selectedTextSize = 18.sp
             typeface = ResourcesCompat.getFont(context, R.font.poppins)
             setSelectedTypeface(ResourcesCompat.getFont(context, R.font.poppins))
             textColor = Color.WHITE
@@ -49,7 +47,7 @@ class PickerWrapperView @JvmOverloads constructor(
     fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
         framePaint = createGradientPaint(
             gradientOrientation = GradientOrientation.BR_TL,
-            width = width.toFloat(),
+            width = frameWidth,
             height = frameHeight,
             startColor = startColor,
             endColor = endColor,
@@ -65,8 +63,8 @@ class PickerWrapperView @JvmOverloads constructor(
     }
 
     private fun Canvas.drawFrame(paint: Paint) {
-        withTranslation(0f, (height.toFloat() - frameHeight) / 2) {
-            drawRoundRect(0f, 0f, width.toFloat(), frameHeight, cornerRadius, cornerRadius, paint)
+        withTranslation((width.toFloat() - frameWidth) / 2, (height.toFloat() - frameHeight) / 2) {
+            drawRoundRect(0f, 0f, frameWidth, frameHeight, cornerRadius, cornerRadius, paint)
         }
     }
 }

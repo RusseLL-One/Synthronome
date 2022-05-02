@@ -17,7 +17,7 @@ public:
 
     void setNextBeatType(BeatType beatType);
 
-    void setSoundPreset(int8_t id);
+    void setSoundPreset(jint id);
     void setBpm(jint bpm);
 
     void playRotateClick();

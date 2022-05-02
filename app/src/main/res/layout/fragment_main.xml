@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/background_overlay"
+    android:background="@color/black"
     android:clipChildren="false">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_overlay" />
 
     <com.one.russell.metroman_20.presentation.views.buttons.ButtonView
         android:id="@+id/btn_add_bookmark"
@@ -139,8 +144,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_tap" />
-
+        app:layout_constraintTop_toBottomOf="@id/btn_tap"
+        app:np_selectedTextColor="@color/white"
+        app:np_selectedTextSize="18sp"
+        app:np_selectedTypeface="@font/poppins"
+        app:np_textColor="@color/white"
+        app:np_textSize="18sp"
+        app:np_typeface="@font/poppins" />
 
     <com.one.russell.metroman_20.presentation.views.training_overlay.TrainingOverlayView
         android:id="@+id/v_training_overlay"

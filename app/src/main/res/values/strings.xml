@@ -28,4 +28,10 @@
     <string name="training_barDropping_mutedBarsCount">Заглушенные такты</string>
     <string name="training_beatDropping_chance">Вероятность глушения клика (%)</string>
     <string name="training_btn_start">Начать тренировку</string>
+
+    <string name="settings_sound_preset">Набор звуков</string>
+    <string name="settings_flash">Вспышка</string>
+    <string name="settings_vibration">Вибрация</string>
+    <string name="settings_primary_color">Основной цвет</string>
+    <string name="settings_background_color">Фоновый цвет</string>
 </resources>

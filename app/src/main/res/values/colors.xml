@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="divider_color">#3A3C40</color>
 
     <color name="border_gradient_color_1">#99888888</color>
     <color name="border_gradient_color_2">#992B2D2F</color>
@@ -17,6 +18,7 @@
     <color name="defaultPrimary">#D35746</color>
     <color name="defaultSecondary">#FFA959</color>
     <color name="defaultBackground">#18191B</color>
+    <color name="background_color_picker_middle_color">#717680</color>
 
     <color name="blocked_knob_color_1">#62616b</color>
     <color name="blocked_knob_color_2">#3A3C40</color>

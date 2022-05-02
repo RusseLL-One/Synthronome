@@ -88,5 +88,14 @@ extern "C" {
         clickPlayer->playRotateClick();
     }
 
+    JNIEXPORT void JNICALL
+    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1set_1sound_1preset(
+        JNIEnv *pEnv,
+        jobject pThis,
+        jint id
+    ) {
+        clickPlayer->setSoundPreset(id);
+    }
+
     #pragma clang diagnostic pop
 }

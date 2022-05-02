@@ -6,12 +6,16 @@ import androidx.lifecycle.lifecycleScope
 import com.one.russell.metroman_20.domain.BeatType
 import com.one.russell.metroman_20.domain.providers.BeatTypesProvider
 import com.one.russell.metroman_20.domain.providers.BpmProvider
+import com.one.russell.metroman_20.domain.providers.OptionsProvider
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @Suppress("FunctionName")
 class Clicker(
     private val callback: ClickerCallback,
+    private val vibrator: Vibrator,
+    private val flasher: Flasher,
+    private val optionsProvider: OptionsProvider,
     private val beatTypesProvider: BeatTypesProvider,
     private val bpmProvider: BpmProvider,
     assetManager: AssetManager
@@ -32,6 +36,8 @@ class Clicker(
             callback.onClick.collect {
                 incrementBeat()
                 setNextBeatType(beatTypes[nextBeatIndex])
+                if (beatIndex == 0) vibrator.performVibrateIfEnabled()
+                if (beatIndex == 0) flasher.performFlashIfEnabled()
                 _onClicked.emit(Click(it, beatIndex, beatTypes.size))
             }
         }
@@ -44,6 +50,13 @@ class Clicker(
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             bpmProvider.bpmFlow.collect {
                 setBpm(it)
+            }
+        }
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
+            optionsProvider.optionsFlow.collect {
+                setSoundPreset(it.soundPresetId)
+                vibrator.setEnabled(it.isVibrationEnabled)
+                flasher.setEnabled(it.isFlashEnabled)
             }
         }
     }
@@ -78,12 +91,17 @@ class Clicker(
         native_play_rotate_click()
     }
 
+    fun setSoundPreset(id: Int) {
+        native_set_sound_preset(id)
+    }
+
     private external fun native_init(listener: ClickerCallback, assetManager: AssetManager)
     private external fun native_start(startBpm: Int)
     private external fun native_stop()
     private external fun native_set_next_beat_type(beatType: BeatType)
     private external fun native_set_bpm(bpm: Int)
     private external fun native_play_rotate_click()
+    private external fun native_set_sound_preset(id: Int)
 
     class Click(
         val bpm: Int,

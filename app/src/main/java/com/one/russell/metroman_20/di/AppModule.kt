@@ -11,7 +11,10 @@ import com.one.russell.metroman_20.domain.usecases.training.*
 import com.one.russell.metroman_20.domain.workers.ClickWorker
 import com.one.russell.metroman_20.domain.wrappers.Clicker
 import com.one.russell.metroman_20.domain.wrappers.ClickerCallback
+import com.one.russell.metroman_20.domain.wrappers.Flasher
+import com.one.russell.metroman_20.domain.wrappers.Vibrator
 import com.one.russell.metroman_20.presentation.screens.main.MainViewModel
+import com.one.russell.metroman_20.presentation.screens.settings.SettingsViewModel
 import com.one.russell.metroman_20.presentation.screens.training.training_subtype_selection.TrainingSubtypeSelectionViewModel
 import com.one.russell.metroman_20.presentation.screens.training.options.OptionsViewModel
 import com.one.russell.metroman_20.presentation.screens.training.training_type_selection.TrainingTypeSelectionViewModel
@@ -23,7 +26,9 @@ import org.koin.dsl.module
 fun appModule() = module {
 
     single { ClickerCallback() }
-    single { Clicker(callback = get(), beatTypesProvider = get(), bpmProvider = get(), androidContext().assets) }
+    single { Vibrator(context = androidContext()) }
+    single { Flasher(context = androidContext()) }
+    single { Clicker(callback = get(), vibrator = get(), flasher = get(), optionsProvider = get(), beatTypesProvider = get(), bpmProvider = get(), androidContext().assets) }
     single { TrainingProcessor(clicker = get(), bpmProvider = get(), beatTypesProvider = get(), trainingStateProvider = get()) }
     single { PreferencesDataStore(androidContext()) }
 
@@ -33,6 +38,7 @@ fun appModule() = module {
     single { BeatTypesProvider() }
     single { BpmProvider() }
     single { ColorsProvider() }
+    single { OptionsProvider() }
 
     // workers
     worker {
@@ -45,13 +51,13 @@ fun appModule() = module {
     }
 
     // use cases
-    factory { RestoreSavedValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), dataStore = get()) }
-    factory { SaveValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), dataStore = get()) }
+    factory { RestoreSavedValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), optionsProvider = get(), dataStore = get()) }
+    factory { SaveValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), optionsProvider = get(), dataStore = get()) }
     factory { ObserveBpmUseCase(bpmProvider = get()) }
     factory { StartClickingUseCase(androidContext()) }
     factory { StopClickingUseCase(androidContext()) }
     factory { ObserveClickStateUseCase(clickStateProvider = get()) }
-    factory { GetClickerCallbackUseCase(clickerCallback = get()) }
+    factory { ObserveClickUseCase(clicker = get()) }
     factory { PlayRotateClickUseCase(clicker = get()) }
     factory { SetBpmUseCase(bpmProvider = get()) }
     factory { SetTimeSignatureUseCase(beatTypesProvider = get()) }
@@ -60,6 +66,11 @@ fun appModule() = module {
     factory { ObserveColorsUseCase(colorsProvider = get()) }
     factory { SetColorsUseCase(colorsProvider = get()) }
     factory { CalcBpmByTapIntervalUseCase(bpmProvider = get()) }
+    factory { SetSoundPresetUseCase(optionsProvider = get()) }
+    factory { SetVibrationEnabledUseCase(dataStore = get()) }
+    factory { SetFlashEnabledUseCase(optionsProvider = get()) }
+    factory { GetCurrentOptionsUseCase(optionsProvider = get()) }
+    factory { CheckIfFlashAvailableUseCase(flasher = get()) }
 
     // training use cases
     factory { StartTrainingUseCase(trainingProcessor = get(), startClickingUseCase = get()) }
@@ -86,12 +97,22 @@ fun appModule() = module {
             startClickingUseCase = get(),
             stopClickingUseCase = get(),
             observeClickStateUseCase = get(),
-            getClickerCallbackUseCase = get(),
+            observeClickUseCase = get(),
             stopTrainingUseCase = get(),
             observeTrainingStateUseCase = get(),
             observeColorsUseCase = get(),
-            setColorsUseCase = get(),
             calcBpmByTapIntervalUseCase = get()
+        )
+    }
+    viewModel {
+        SettingsViewModel(
+            setSoundPresetUseCase = get(),
+            observeColorsUseCase = get(),
+            setColorsUseCase = get(),
+            setVibrationEnabledUseCase = get(),
+            setFlashEnabledUseCase = get(),
+            getCurrentOptionsUseCase = get(),
+            checkIfFlashAvailableUseCase = get()
         )
     }
     viewModel { TrainingTypeSelectionViewModel(observeColorsUseCase = get()) }
