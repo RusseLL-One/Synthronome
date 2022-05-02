@@ -2,7 +2,6 @@ package com.one.russell.metroman_20.presentation.screens.training.training_subty
 
 import androidx.lifecycle.ViewModel
 import com.one.russell.metroman_20.R
-import com.one.russell.metroman_20.domain.Colors
 import com.one.russell.metroman_20.domain.TrainingFinalType
 import com.one.russell.metroman_20.domain.TrainingTopLevelType
 import com.one.russell.metroman_20.domain.usecases.colors.ObserveColorsUseCase
@@ -12,7 +11,7 @@ class TrainingSubtypeSelectionViewModel(
     private val observeColorsUseCase: ObserveColorsUseCase
 ) : ViewModel() {
 
-    val colors: Colors get() = observeColorsUseCase.execute().value
+    val colors get() = observeColorsUseCase.execute().value
 
     fun getTrainingSubtypeItems(topLevelType: TrainingTopLevelType): List<TrainingSubtypeItem> = when (topLevelType) {
         TrainingTopLevelType.TEMPO_INCREASING -> listOf(

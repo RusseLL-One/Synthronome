@@ -2,7 +2,6 @@ package com.one.russell.metroman_20.presentation.screens.training.training_type_
 
 import androidx.lifecycle.ViewModel
 import com.one.russell.metroman_20.R
-import com.one.russell.metroman_20.domain.Colors
 import com.one.russell.metroman_20.domain.TrainingTopLevelType
 import com.one.russell.metroman_20.domain.usecases.colors.ObserveColorsUseCase
 import com.one.russell.metroman_20.presentation.screens.training.training_type_selection.adapter.TrainingTypeItem
@@ -11,7 +10,7 @@ class TrainingTypeSelectionViewModel(
     private val observeColorsUseCase: ObserveColorsUseCase
 ) : ViewModel() {
 
-    val colors: Colors get() = observeColorsUseCase.execute().value
+    val colors get() = observeColorsUseCase.execute().value
 
     fun getTrainingTypeItems(): List<TrainingTypeItem> = listOf(
         TrainingTypeItem(

@@ -1,10 +1,7 @@
 package com.one.russell.metroman_20.presentation.screens.training.options
 
-import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.one.russell.metroman_20.domain.Colors
 import com.one.russell.metroman_20.domain.TrainingData
 import com.one.russell.metroman_20.domain.TrainingFinalType
 import com.one.russell.metroman_20.domain.usecases.PlayRotateClickUseCase
@@ -26,7 +23,7 @@ class OptionsViewModel(
     private val observeColorsUseCase: ObserveColorsUseCase
 ) : ViewModel() {
 
-    val colors: Colors get() = observeColorsUseCase.execute().value
+    val colors get() = observeColorsUseCase.execute().value
 
     private var adjustersFlows: Map<OptionsAdjusterType, MutableStateFlow<Int>> = emptyMap()
 

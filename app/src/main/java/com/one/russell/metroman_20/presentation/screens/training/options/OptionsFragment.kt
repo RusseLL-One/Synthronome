@@ -1,16 +1,16 @@
 package com.one.russell.metroman_20.presentation.screens.training.options
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentTrainingOptionsBinding
-import com.one.russell.metroman_20.presentation.base_components.BaseFragment
 import com.one.russell.metroman_20.presentation.screens.training.options.adapter.AdjustersAdapter
 import com.one.russell.metroman_20.presentation.views.utils.createPaddingsDecoration
 import com.one.russell.metroman_20.toPx
@@ -18,9 +18,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
+class OptionsFragment : Fragment(R.layout.fragment_training_options) {
 
     private val args: OptionsFragmentArgs by navArgs()
+    private val binding by viewBinding(FragmentTrainingOptionsBinding::bind)
     private val viewModel: OptionsViewModel by viewModel()
 
     private val adapter by lazy { AdjustersAdapter(viewModel::setListItemValue) }
@@ -30,28 +31,25 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
         viewModel.createAdjustersList(args.trainingFinalType)
     }
 
-    override fun initBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentTrainingOptionsBinding {
-        return FragmentTrainingOptionsBinding.inflate(inflater, container, false).apply {
-            rvList.adapter = adapter
-            rvList.setOptionsGridLayoutManager()
-            rvList.addItemDecoration(
-                createPaddingsDecoration(horizontalPadding = 64.toPx(), verticalPadding = 32.toPx())
-            )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupColors()
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.adjustersListItems.collect {
-                    adapter.items = it
-                }
-            }
+        binding.rvList.adapter = adapter
+        binding.rvList.setOptionsGridLayoutManager()
+        binding.rvList.addItemDecoration(
+            createPaddingsDecoration(horizontalPadding = 64.toPx(), verticalPadding = 32.toPx())
+        )
 
-            btnProceed.setupPaints(viewModel.colors.primaryColor, viewModel.colors.secondaryColor)
-            btnProceed.setOnClickListener {
-                viewModel.submit(args.trainingFinalType)
-                findNavController().popBackStack(R.id.mainFragment, false)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.adjustersListItems.collect {
+                adapter.items = it
             }
+        }
+
+        binding.btnProceed.setOnClickListener {
+            viewModel.submit(args.trainingFinalType)
+            findNavController().popBackStack(R.id.mainFragment, false)
         }
     }
 
@@ -69,6 +67,14 @@ class OptionsFragment : BaseFragment<FragmentTrainingOptionsBinding>() {
                 }
             }
         }
+    }
+
+    private fun setupColors() {
+        binding.root.setBackgroundColor(viewModel.colors.backgroundColor)
+        binding.btnProceed.setupPaints(
+            viewModel.colors.primaryColor,
+            viewModel.colors.secondaryColor
+        )
     }
 
     companion object {
