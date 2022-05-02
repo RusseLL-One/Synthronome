@@ -29,7 +29,7 @@ class PreferencesDataStore(
     val beatTypes = PrefsValue(
         dataStore = appContext.dataStore,
         key = stringPreferencesKey("BEAT_TYPES"),
-        defaultValue = listOf(ACCENT, BEAT, BEAT, BEAT).serialize()
+        defaultValue = listOf(ACCENT, BEAT, SUBACCENT, BEAT).serialize()
     )
 
     val isVibrationEnabled = PrefsValue(
