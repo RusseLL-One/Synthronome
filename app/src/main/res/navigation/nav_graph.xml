@@ -18,6 +18,13 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
+            android:id="@+id/action_mainFragment_to_bookmarksFragment"
+            app:destination="@id/bookmarksFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
             android:id="@+id/action_mainFragment_to_typeSelectionFragment"
             app:destination="@id/typeSelectionFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -30,6 +37,12 @@
         android:name="com.one.russell.metroman_20.presentation.screens.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" >
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.one.russell.metroman_20.presentation.screens.bookmarks.BookmarksFragment"
+        android:label="BookmarksFragment"
+        tools:layout="@layout/fragment_bookmarks" >
     </fragment>
     <fragment
         android:id="@+id/typeSelectionFragment"

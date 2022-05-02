@@ -13,6 +13,7 @@ import com.one.russell.metroman_20.domain.wrappers.Clicker
 import com.one.russell.metroman_20.domain.wrappers.ClickerCallback
 import com.one.russell.metroman_20.domain.wrappers.Flasher
 import com.one.russell.metroman_20.domain.wrappers.Vibrator
+import com.one.russell.metroman_20.presentation.screens.bookmarks.BookmarksViewModel
 import com.one.russell.metroman_20.presentation.screens.main.MainViewModel
 import com.one.russell.metroman_20.presentation.screens.settings.SettingsViewModel
 import com.one.russell.metroman_20.presentation.screens.training.training_subtype_selection.TrainingSubtypeSelectionViewModel
@@ -39,6 +40,7 @@ fun appModule() = module {
     single { BpmProvider() }
     single { ColorsProvider() }
     single { OptionsProvider() }
+    single { BookmarksProvider() }
 
     // workers
     worker {
@@ -51,8 +53,26 @@ fun appModule() = module {
     }
 
     // use cases
-    factory { RestoreSavedValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), optionsProvider = get(), dataStore = get()) }
-    factory { SaveValuesUseCase(bpmProvider = get(), beatTypesProvider = get(), colorsProvider = get(), optionsProvider = get(), dataStore = get()) }
+    factory {
+        RestoreSavedValuesUseCase(
+            bpmProvider = get(),
+            beatTypesProvider = get(),
+            colorsProvider = get(),
+            optionsProvider = get(),
+            bookmarksProvider = get(),
+            dataStore = get()
+        )
+    }
+    factory {
+        SaveValuesUseCase(
+            bpmProvider = get(),
+            beatTypesProvider = get(),
+            colorsProvider = get(),
+            optionsProvider = get(),
+            bookmarksProvider = get(),
+            dataStore = get()
+        )
+    }
     factory { ObserveBpmUseCase(bpmProvider = get()) }
     factory { StartClickingUseCase(androidContext()) }
     factory { StopClickingUseCase(androidContext()) }
@@ -71,6 +91,15 @@ fun appModule() = module {
     factory { SetFlashEnabledUseCase(optionsProvider = get()) }
     factory { GetCurrentOptionsUseCase(optionsProvider = get()) }
     factory { CheckIfFlashAvailableUseCase(flasher = get()) }
+
+    // bookmarks use cases
+    factory { AddBookmarkUseCase(bpmProvider = get(), beatTypesProvider = get(), bookmarksProvider = get()) }
+    factory { ObserveBookmarksUseCase(bookmarksProvider = get()) }
+    factory { RemoveBookmarkUseCase(bookmarksProvider = get()) }
+    factory { ToggleBookmarkSelectionUseCase(bookmarksProvider = get()) }
+    factory { ResetBookmarksSelectionUseCase(bookmarksProvider = get()) }
+    factory { ClearAllBookmarksUseCase(bookmarksProvider = get()) }
+    factory { IsAnyBookmarkSelectedUseCase(bookmarksProvider = get()) }
 
     // training use cases
     factory { StartTrainingUseCase(trainingProcessor = get(), startClickingUseCase = get()) }
@@ -113,6 +142,15 @@ fun appModule() = module {
             setFlashEnabledUseCase = get(),
             getCurrentOptionsUseCase = get(),
             checkIfFlashAvailableUseCase = get()
+        )
+    }
+    viewModel {
+        BookmarksViewModel(
+            observeColorsUseCase = get(),
+            observeBookmarksUseCase = get(),
+            removeBookmarkUseCase = get(),
+            toggleBookmarkSelectionUseCase = get(),
+            clearAllBookmarksUseCase = get(),
         )
     }
     viewModel { TrainingTypeSelectionViewModel(observeColorsUseCase = get()) }

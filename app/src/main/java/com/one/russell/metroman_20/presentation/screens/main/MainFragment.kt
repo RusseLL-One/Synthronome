@@ -108,6 +108,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 viewModel.onBeatTypeClicked(index)
             }
 
+            btnBookmarks.setOnClickListener {
+                findNavController().navigate(R.id.action_mainFragment_to_bookmarksFragment)
+            }
+
             btnTraining.setOnClickListener {
                 findNavController().navigate(R.id.action_mainFragment_to_typeSelectionFragment)
             }

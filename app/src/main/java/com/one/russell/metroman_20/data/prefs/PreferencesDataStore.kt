@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.data.serialize
 import com.one.russell.metroman_20.domain.BeatType.*
+import com.one.russell.metroman_20.domain.Bookmark
 import com.one.russell.metroman_20.getColorCompat
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
@@ -30,6 +31,12 @@ class PreferencesDataStore(
         dataStore = appContext.dataStore,
         key = stringPreferencesKey("BEAT_TYPES"),
         defaultValue = listOf(ACCENT, BEAT, SUBACCENT, BEAT).serialize()
+    )
+
+    val bookmarks = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = stringPreferencesKey("BOOKMARKS"),
+        defaultValue = emptyList<Bookmark>().serialize()
     )
 
     val isVibrationEnabled = PrefsValue(
