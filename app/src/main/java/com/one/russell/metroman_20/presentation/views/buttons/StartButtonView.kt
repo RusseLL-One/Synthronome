@@ -54,11 +54,13 @@ class StartButtonView @JvmOverloads constructor(
     }
 
     private fun getDrawableBounds(drawable: Drawable): Rect {
+        val left = (width - drawable.intrinsicWidth) / 2
+        val top = (height - drawable.intrinsicHeight) / 2
         return Rect(
-            (width - drawable.intrinsicWidth) / 2,
-            (height - drawable.intrinsicHeight) / 2,
-            (width + drawable.intrinsicWidth) / 2,
-            (height + drawable.intrinsicHeight) / 2
+            left,
+            top,
+            left + drawable.intrinsicWidth,
+            top + drawable.intrinsicHeight
         )
     }
 

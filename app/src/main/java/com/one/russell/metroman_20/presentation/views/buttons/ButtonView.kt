@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.doOnLayout
@@ -101,6 +102,13 @@ class ButtonView @JvmOverloads constructor(
             (width + drawable.intrinsicWidth) / 2,
             (height + drawable.intrinsicHeight) / 2
         )
+    }
+
+    fun setImage(@DrawableRes image: Int) {
+        this.image = AppCompatResources.getDrawable(context, image)
+            ?.apply { bounds = getDrawableBounds(this) }
+
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {

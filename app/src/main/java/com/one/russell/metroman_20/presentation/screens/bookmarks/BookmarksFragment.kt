@@ -2,13 +2,16 @@ package com.one.russell.metroman_20.presentation.screens.bookmarks
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.one.russell.metroman_20.R
 import com.one.russell.metroman_20.databinding.FragmentBookmarksBinding
-import com.one.russell.metroman_20.databinding.FragmentSettingsBinding
-import com.one.russell.metroman_20.domain.Colors
+import com.one.russell.metroman_20.presentation.screens.bookmarks.adapter.BookmarksAdapter
+import com.one.russell.metroman_20.presentation.screens.bookmarks.adapter.toListItem
+import com.one.russell.metroman_20.presentation.views.utils.createPaddingsDecoration
 import com.one.russell.metroman_20.repeatOnResume
+import com.one.russell.metroman_20.toPx
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,17 +24,30 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
         super.onViewCreated(view, savedInstanceState)
 
         repeatOnResume {
-            viewModel.colors.collect {
-                setupColors(it)
+            viewModel.bookmarks.collect { bookmarks ->
+                binding.tvEmptyList.isVisible = bookmarks.isEmpty()
+                binding.btnClear.isVisible = bookmarks.isNotEmpty()
+                (binding.rvBookmarks.adapter as BookmarksAdapter).items = bookmarks.map {
+                    it.toListItem(viewModel.colors.primaryColor, viewModel.colors.secondaryColor)
+                }
             }
         }
 
-    }
+        binding.root.setBackgroundColor(viewModel.colors.backgroundColor)
 
+        binding.rvBookmarks.adapter = BookmarksAdapter(
+            onBookmarkClicked = viewModel::onBookmarkClicked,
+            onRemoveClicked = viewModel::onBookmarkRemoved
+        )
+        binding.rvBookmarks.addItemDecoration(
+            createPaddingsDecoration(
+                horizontalPadding = 32.toPx(),
+                verticalPadding = 16.toPx()
+            )
+        )
 
-
-    private fun setupColors(colors: Colors) {
-        binding.root.setBackgroundColor(colors.backgroundColor)
-
+        binding.btnClear.setOnClickListener {
+            viewModel.onClearClicked()
+        }
     }
 }

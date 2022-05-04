@@ -15,6 +15,18 @@ class BookmarksViewModel(
     private val clearAllBookmarksUseCase: ClearAllBookmarksUseCase
 ) : ViewModel() {
 
-    val colors get() = observeColorsUseCase.execute()
+    val colors get() = observeColorsUseCase.execute().value
+    val bookmarks get() = observeBookmarksUseCase.execute()
 
+    fun onBookmarkClicked(id: String) {
+        toggleBookmarkSelectionUseCase.execute(id)
+    }
+
+    fun onBookmarkRemoved(id: String) {
+        removeBookmarkUseCase.execute(id)
+    }
+
+    fun onClearClicked() {
+        clearAllBookmarksUseCase.execute()
+    }
 }

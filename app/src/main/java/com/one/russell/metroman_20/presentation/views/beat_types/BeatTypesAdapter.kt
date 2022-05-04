@@ -19,7 +19,7 @@ fun beatTypeAdapterDelegate(
         binding.vBeatType.setOnClickListener { onBeatTypeClick(item.index) }
         bind { payload ->
             binding.vBeatType.setupPaints(item.primaryColor, item.secondaryColor)
-            if (payload.getOrNull(0) == Payload.ANIMATE_BEAT_TYPE_CHANGE) {
+            if (Payload.ANIMATE_BEAT_TYPE_CHANGE in payload) {
                 binding.vBeatType.setBeatType(item.beatType, animate = true)
             } else {
                 binding.vBeatType.setBeatType(item.beatType, animate = false)

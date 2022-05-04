@@ -28,9 +28,12 @@ fun knobAdapterDelegate(
             onValueChanged(item.type, it)
         }
         bind { payload ->
-            if (payload.isEmpty() || payload[0] != Payload.BPM_CHANGED) {
-                binding.tvTitle.text = binding.root.context.getString(item.type.titleRes)
+            if (Payload.BPM_CHANGED in payload) {
+                binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, item.value)
+                binding.vKnob.setGlowIntense(item.value)
+                return@bind
             }
+            binding.tvTitle.text = binding.root.context.getString(item.type.titleRes)
             binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, item.value)
             binding.vKnob.setGlowIntense(item.value)
             binding.vKnob.setupPaints(item.primaryColor, item.secondaryColor)

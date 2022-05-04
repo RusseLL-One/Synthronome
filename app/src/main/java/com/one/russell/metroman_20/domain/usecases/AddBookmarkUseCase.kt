@@ -16,7 +16,8 @@ class AddBookmarkUseCase(
             this + Bookmark(
                 id = generateBookmarkId(),
                 bpm = bpmProvider.bpmFlow.value,
-                beatTypesList = beatTypesProvider.beatTypesFlow.value
+                beatTypesList = beatTypesProvider.beatTypesFlow.value,
+                isSelected = true
             )
         }
     }

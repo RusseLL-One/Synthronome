@@ -69,6 +69,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
 
             repeatOnResume {
+                viewModel.isAnyBookmarkSelected.collect {
+                    btnAddBookmark.setImage(
+                        if (it) R.drawable.ic_bookmark_selected
+                        else R.drawable.ic_bookmark_unselected
+                    )
+                }
+            }
+
+            repeatOnResume {
                 viewModel.colors.collect {
                     root.setBackgroundColor(it.backgroundColor)
                     vBeatTypesContainer.setColors(it.primaryColor, it.secondaryColor)
@@ -106,6 +115,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             vBeatTypesContainer.setOnBeatTypeClickListener { index ->
                 viewModel.onBeatTypeClicked(index)
+            }
+
+            btnAddBookmark.setOnClickListener {
+                viewModel.onAddBookmarkClicked()
             }
 
             btnBookmarks.setOnClickListener {

@@ -19,7 +19,7 @@
         android:layout_height="@dimen/buttons_height"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:image="@drawable/ic_settings"
+        app:image="@drawable/ic_bookmark_unselected"
         app:layout_constraintEnd_toStartOf="@id/btn_bookmarks"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -5,6 +5,7 @@
     <string name="notification_channel_name">@string/app_name</string>
     <string name="notification_channel_description">Show notification while clicking</string>
     <string name="main_bpm">BPM: %d</string>
+    <string name="main_time_signature">Размер: %d</string>
     <string name="training_is_in_progress">Тренировка в процессе</string>
     <string name="training_completion_percent" translatable="false">%d%%</string>
 
@@ -34,4 +35,7 @@
     <string name="settings_vibration">Вибрация</string>
     <string name="settings_primary_color">Основной цвет</string>
     <string name="settings_background_color">Фоновый цвет</string>
+
+    <string name="bookmarks_clear_all">Очистить</string>
+    <string name="bookmarks_empty_list">Вы можете добавить закладку с текущими параметрами метронома на главном экране</string>
 </resources>

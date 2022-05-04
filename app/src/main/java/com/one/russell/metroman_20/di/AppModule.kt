@@ -96,7 +96,7 @@ fun appModule() = module {
     factory { AddBookmarkUseCase(bpmProvider = get(), beatTypesProvider = get(), bookmarksProvider = get()) }
     factory { ObserveBookmarksUseCase(bookmarksProvider = get()) }
     factory { RemoveBookmarkUseCase(bookmarksProvider = get()) }
-    factory { ToggleBookmarkSelectionUseCase(bookmarksProvider = get()) }
+    factory { ToggleBookmarkSelectionUseCase(bookmarksProvider = get(), bpmProvider = get(), beatTypesProvider = get()) }
     factory { ResetBookmarksSelectionUseCase(bookmarksProvider = get()) }
     factory { ClearAllBookmarksUseCase(bookmarksProvider = get()) }
     factory { IsAnyBookmarkSelectedUseCase(bookmarksProvider = get()) }
@@ -130,7 +130,11 @@ fun appModule() = module {
             stopTrainingUseCase = get(),
             observeTrainingStateUseCase = get(),
             observeColorsUseCase = get(),
-            calcBpmByTapIntervalUseCase = get()
+            calcBpmByTapIntervalUseCase = get(),
+            addBookmarkUseCase = get(),
+            removeBookmarkUseCase = get(),
+            resetBookmarksSelectionUseCase = get(),
+            isAnyBookmarkSelectedUseCase = get()
         )
     }
     viewModel {

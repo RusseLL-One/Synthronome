@@ -10,6 +10,8 @@
 
     <color name="divider_color">#3A3C40</color>
 
+    <color name="remove_bookmark_color">#D35746</color>
+
     <color name="border_gradient_color_1">#99888888</color>
     <color name="border_gradient_color_2">#992B2D2F</color>
     <color name="view_bg_gradient_color_1">#4D665A4C</color>
