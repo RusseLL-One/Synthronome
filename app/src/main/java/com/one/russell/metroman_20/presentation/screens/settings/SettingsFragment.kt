@@ -42,10 +42,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             viewModel.onSoundPresetChanged(newVal)
         }
 
-        binding.vPrimaryColorIndicator.setOnClickListener {
+        binding.vColorPrimaryIndicator.setOnClickListener {
             ColorPickerDialogFragment()
-                .setInitColor(viewModel.colors.value.primaryColor)
-                .setOnColorPickedListener { viewModel.setPrimaryColor(it) }
+                .setInitColor(viewModel.colors.value.colorPrimary)
+                .setOnColorPickedListener { viewModel.setColorPrimary(it) }
                 .show(childFragmentManager, ColorPickerDialogFragment.TAG)
         }
 
@@ -71,12 +71,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setupColors(colors: Colors) {
-        binding.root.setBackgroundColor(colors.backgroundColor)
+        binding.root.setBackgroundColor(colors.colorBackground)
 
-        binding.vSoundPresetPicker.setupPaints(colors.primaryColor, colors.secondaryColor)
-        binding.sVibrationSwitch.setSwitchColor(colors.primaryColor)
-        binding.sFlashSwitch.setSwitchColor(colors.primaryColor)
-        binding.vPrimaryColorIndicator.setupPaints(colors.primaryColor)
-        binding.vBackgroundBrightnessSlide.pickedColor = createHSLColor(colors.backgroundColor)
+        binding.vSoundPresetPicker.setupPaints(colors.colorPrimary, colors.colorSecondary)
+        binding.sVibrationSwitch.setSwitchColor(colors.colorPrimary)
+        binding.sFlashSwitch.setSwitchColor(colors.colorPrimary)
+        binding.vColorPrimaryIndicator.setupPaints(colors.colorPrimary)
+        binding.vBackgroundBrightnessSlide.pickedColor = createHSLColor(colors.colorBackground)
     }
 }

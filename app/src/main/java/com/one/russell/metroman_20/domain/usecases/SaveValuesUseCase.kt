@@ -23,9 +23,9 @@ class SaveValuesUseCase(
         dataStore.bookmarks.setValue(bookmarks.serialize())
 
         val colors = colorsProvider.colorFlow.value
-        dataStore.color_primary.setValue(colors.primaryColor)
-        dataStore.color_secondary.setValue(colors.secondaryColor)
-        dataStore.color_background.setValue(colors.backgroundColor)
+        dataStore.color_primary.setValue(colors.colorPrimary)
+        dataStore.color_secondary.setValue(colors.colorSecondary)
+        dataStore.color_background.setValue(colors.colorBackground)
 
         val options = optionsProvider.optionsFlow.value
         dataStore.soundPresetId.setValue(options.soundPresetId)

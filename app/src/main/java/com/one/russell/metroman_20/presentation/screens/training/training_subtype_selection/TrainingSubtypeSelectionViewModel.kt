@@ -18,28 +18,28 @@ class TrainingSubtypeSelectionViewModel(
             TrainingSubtypeItem(
                 TrainingFinalType.TEMPO_INCREASING_BY_BARS,
                 R.string.training_finalType_tempoIncreasing_byBars,
-                colors.primaryColor,
-                colors.secondaryColor
+                colors.colorPrimary,
+                colors.colorSecondary
             ),
             TrainingSubtypeItem(
                 TrainingFinalType.TEMPO_INCREASING_BY_TIME,
                 R.string.training_finalType_tempoIncreasing_byTime,
-                colors.primaryColor,
-                colors.secondaryColor
+                colors.colorPrimary,
+                colors.colorSecondary
             ),
         )
         TrainingTopLevelType.BAR_DROPPING -> listOf(
             TrainingSubtypeItem(
                 TrainingFinalType.BAR_DROPPING_RANDOMLY,
                 R.string.training_finalType_barDropping_randomly,
-                colors.primaryColor,
-                colors.secondaryColor
+                colors.colorPrimary,
+                colors.colorSecondary
             ),
             TrainingSubtypeItem(
                 TrainingFinalType.BAR_DROPPING_BY_VALUE,
                 R.string.training_finalType_barDropping_byValue,
-                colors.primaryColor,
-                colors.secondaryColor
+                colors.colorPrimary,
+                colors.colorSecondary
             ),
         )
         TrainingTopLevelType.BEAT_DROPPING -> throw IllegalArgumentException("Beat dropping type is not allowed here")

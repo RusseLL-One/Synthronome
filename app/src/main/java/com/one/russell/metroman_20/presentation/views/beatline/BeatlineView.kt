@@ -64,17 +64,17 @@ class BeatlineView @JvmOverloads constructor(
         }
     }
 
-    fun setupPaints(@ColorInt primaryColor: Int, @ColorInt secondaryColor: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int) = post {
         ballPaint = Paint().apply {
             isAntiAlias = true
-            shader = createRadialGradient(ballRadius, secondaryColor, primaryColor)
+            shader = createRadialGradient(ballRadius, colorSecondary, colorPrimary)
         }
         pointsPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.BOTTOM_TOP,
             width = width.toFloat(),
             height = centerY + radius * sin(Math.toRadians(START_POINT.toDouble())).toFloat(),
-            startColor = primaryColor,
-            endColor = secondaryColor,
+            startColor = colorPrimary,
+            endColor = colorSecondary,
             alpha = 1f,
             style = Paint.Style.FILL
         )

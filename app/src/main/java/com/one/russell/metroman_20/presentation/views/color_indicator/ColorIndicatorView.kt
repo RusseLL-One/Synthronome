@@ -21,9 +21,9 @@ class ColorIndicatorView @JvmOverloads constructor(
     private var colorPaint = Paint()
     private var borderPaint = Paint()
 
-    fun setupPaints(@ColorInt primaryColor: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int) = post {
         colorPaint = createPaint(
-            color = primaryColor,
+            color = colorPrimary,
             brightness = 1f,
             style = Paint.Style.FILL
         )

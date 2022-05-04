@@ -27,7 +27,7 @@ class SettingsViewModel(
         setSoundPresetUseCase.execute(soundPresetIndex)
     }
 
-    fun setPrimaryColor(@ColorInt color: Int) {
+    fun setColorPrimary(@ColorInt color: Int) {
         setColorsUseCase.primary(color)
     }
 

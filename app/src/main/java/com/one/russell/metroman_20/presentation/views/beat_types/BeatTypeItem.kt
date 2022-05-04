@@ -6,12 +6,12 @@ import com.one.russell.metroman_20.domain.BeatType
 data class BeatTypeItem(
     val index: Int,
     val beatType: BeatType,
-    @ColorInt val primaryColor: Int,
-    @ColorInt val secondaryColor: Int
+    @ColorInt val colorPrimary: Int,
+    @ColorInt val colorSecondary: Int
 )
 
 fun BeatType.toListItem(
     index: Int,
-    @ColorInt primaryColor: Int,
-    @ColorInt secondaryColor: Int
-): BeatTypeItem = BeatTypeItem(index, this, primaryColor, secondaryColor)
+    @ColorInt colorPrimary: Int,
+    @ColorInt colorSecondary: Int
+): BeatTypeItem = BeatTypeItem(index, this, colorPrimary, colorSecondary)

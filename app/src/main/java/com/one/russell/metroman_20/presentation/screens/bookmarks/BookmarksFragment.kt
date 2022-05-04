@@ -28,12 +28,12 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
                 binding.tvEmptyList.isVisible = bookmarks.isEmpty()
                 binding.btnClear.isVisible = bookmarks.isNotEmpty()
                 (binding.rvBookmarks.adapter as BookmarksAdapter).items = bookmarks.map {
-                    it.toListItem(viewModel.colors.primaryColor, viewModel.colors.secondaryColor)
+                    it.toListItem(viewModel.colors.colorPrimary, viewModel.colors.colorSecondary)
                 }
             }
         }
 
-        binding.root.setBackgroundColor(viewModel.colors.backgroundColor)
+        binding.root.setBackgroundColor(viewModel.colors.colorBackground)
 
         binding.rvBookmarks.adapter = BookmarksAdapter(
             onBookmarkClicked = viewModel::onBookmarkClicked,

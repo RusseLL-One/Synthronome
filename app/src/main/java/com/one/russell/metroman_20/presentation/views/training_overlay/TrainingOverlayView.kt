@@ -41,13 +41,13 @@ class TrainingOverlayView @JvmOverloads constructor(
         isClickable = true
     }
 
-    fun setupPaints(@ColorInt primaryColor: Int, @ColorInt secondaryColor: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int) = post {
         bgPaint = createGradientPaint(
             GradientOrientation.TOP_BOTTOM,
             width.toFloat(),
             height.toFloat(),
-            primaryColor,
-            secondaryColor,
+            colorPrimary,
+            colorSecondary,
             1f,
             Paint.Style.FILL,
         )

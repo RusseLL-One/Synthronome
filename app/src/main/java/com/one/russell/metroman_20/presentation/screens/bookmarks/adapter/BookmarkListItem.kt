@@ -8,20 +8,20 @@ data class BookmarkListItem(
     val bpm: Int,
     val timeSignature: Int,
     val isSelected: Boolean,
-    @ColorInt val primaryColor: Int,
-    @ColorInt val secondaryColor: Int
+    @ColorInt val colorPrimary: Int,
+    @ColorInt val colorSecondary: Int
 )
 
 fun Bookmark.toListItem(
-    @ColorInt primaryColor: Int,
-    @ColorInt secondaryColor: Int
+    @ColorInt colorPrimary: Int,
+    @ColorInt colorSecondary: Int
 ): BookmarkListItem {
     return BookmarkListItem(
         id,
         bpm,
         beatTypesList.size,
         isSelected,
-        primaryColor,
-        secondaryColor
+        colorPrimary,
+        colorSecondary
     )
 }

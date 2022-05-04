@@ -120,12 +120,12 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/ll_primary_color_container"
+            android:id="@+id/ll_color_primary_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/setting_container_height">
 
             <TextView
-                android:id="@+id/tv_primary_color"
+                android:id="@+id/tv_color_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
@@ -136,7 +136,7 @@
                 android:textSize="14sp" />
 
             <com.one.russell.metroman_20.presentation.views.color_indicator.ColorIndicatorView
-                android:id="@+id/v_primary_color_indicator"
+                android:id="@+id/v_color_primary_indicator"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="end|center_vertical"

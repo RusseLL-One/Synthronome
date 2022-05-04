@@ -13,8 +13,8 @@ object DiffCallback : DiffUtil.ItemCallback<BeatTypeItem>() {
 
     override fun getChangePayload(oldItem: BeatTypeItem, newItem: BeatTypeItem): Any? {
         return if (
-            oldItem.primaryColor == newItem.primaryColor &&
-            oldItem.secondaryColor == newItem.secondaryColor &&
+            oldItem.colorPrimary == newItem.colorPrimary &&
+            oldItem.colorSecondary == newItem.colorSecondary &&
             oldItem.beatType != newItem.beatType
         ) Payload.ANIMATE_BEAT_TYPE_CHANGE
         else null

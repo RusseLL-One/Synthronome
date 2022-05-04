@@ -16,20 +16,20 @@ class TrainingTypeSelectionViewModel(
         TrainingTypeItem(
             TrainingTopLevelType.TEMPO_INCREASING,
             R.string.training_topLevelType_tempoIncreasing,
-            colors.primaryColor,
-            colors.secondaryColor,
+            colors.colorPrimary,
+            colors.colorSecondary,
         ),
         TrainingTypeItem(
             TrainingTopLevelType.BAR_DROPPING,
             R.string.training_topLevelType_barDropping,
-            colors.primaryColor,
-            colors.secondaryColor,
+            colors.colorPrimary,
+            colors.colorSecondary,
         ),
         TrainingTypeItem(
             TrainingTopLevelType.BEAT_DROPPING,
             R.string.training_topLevelType_beatDropping,
-            colors.primaryColor,
-            colors.secondaryColor,
+            colors.colorPrimary,
+            colors.colorSecondary,
         )
     )
 }

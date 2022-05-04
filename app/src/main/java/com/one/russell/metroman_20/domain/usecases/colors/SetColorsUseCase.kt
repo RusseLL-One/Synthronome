@@ -12,15 +12,15 @@ class SetColorsUseCase(
     fun primary(@ColorInt primary: Int) {
         colorsProvider.changeValue {
             copy(
-                primaryColor = primary,
-                secondaryColor = calcSecondaryColor(primary)
+                colorPrimary = primary,
+                colorSecondary = calcColorSecondary(primary)
             )
         }
     }
 
     fun backgroundBrightness(@FloatRange(from = 0.0, to = 1.0) lightness: Float) {
         colorsProvider.changeValue {
-            copy(backgroundColor = backgroundColor.setColorLightness(lightness))
+            copy(colorBackground = colorBackground.setColorLightness(lightness))
         }
     }
 
@@ -33,8 +33,8 @@ class SetColorsUseCase(
     }
 
     @ColorInt
-    private fun calcSecondaryColor(@ColorInt primaryColor: Int): Int {
-        return primaryColor.correctHSL(22f, 0f, 17f)
+    private fun calcColorSecondary(@ColorInt colorPrimary: Int): Int {
+        return colorPrimary.correctHSL(22f, 0f, 17f)
     }
 
     @ColorInt

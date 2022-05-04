@@ -79,18 +79,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             repeatOnResume {
                 viewModel.colors.collect {
-                    root.setBackgroundColor(it.backgroundColor)
-                    vBeatTypesContainer.setColors(it.primaryColor, it.secondaryColor)
-                    beatline.setupPaints(it.primaryColor, it.secondaryColor)
-                    vKnob.setupPaints(it.primaryColor, it.secondaryColor)
-                    vStart.setupPaints(it.primaryColor, it.secondaryColor)
-                    btnTap.setupPaints(it.primaryColor, it.secondaryColor)
-                    btnSettings.setupPaints(it.primaryColor, it.secondaryColor)
-                    btnTraining.setupPaints(it.primaryColor, it.secondaryColor)
-                    btnBookmarks.setupPaints(it.primaryColor, it.secondaryColor)
-                    btnAddBookmark.setupPaints(it.primaryColor, it.secondaryColor)
-                    vTrainingOverlay.setupPaints(it.primaryColor, it.secondaryColor)
-                    vTimeSignature.setupPaints(it.primaryColor, it.secondaryColor)
+                    root.setBackgroundColor(it.colorBackground)
+                    vBeatTypesContainer.setColors(it.colorPrimary, it.colorSecondary)
+                    beatline.setupPaints(it.colorPrimary, it.colorSecondary)
+                    vKnob.setupPaints(it.colorPrimary, it.colorSecondary)
+                    vStart.setupPaints(it.colorPrimary, it.colorSecondary)
+                    btnTap.setupPaints(it.colorPrimary, it.colorSecondary)
+                    btnSettings.setupPaints(it.colorPrimary, it.colorSecondary)
+                    btnTraining.setupPaints(it.colorPrimary, it.colorSecondary)
+                    btnBookmarks.setupPaints(it.colorPrimary, it.colorSecondary)
+                    btnAddBookmark.setupPaints(it.colorPrimary, it.colorSecondary)
+                    vTrainingOverlay.setupPaints(it.colorPrimary, it.colorSecondary)
+                    vTimeSignature.setupPaints(it.colorPrimary, it.colorSecondary)
                 }
             }
 

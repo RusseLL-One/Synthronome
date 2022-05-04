@@ -64,7 +64,7 @@ class ButtonView @JvmOverloads constructor(
         }
     }
 
-    fun setupPaints(@ColorInt primaryColor: Int, @ColorInt secondaryColor: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int) = post {
         bgPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.TL_BR,
             width = width.toFloat(),
@@ -87,8 +87,8 @@ class ButtonView @JvmOverloads constructor(
             gradientOrientation = GradientOrientation.LEFT_RIGHT,
             width = width.toFloat(),
             height = height.toFloat(),
-            startColor = primaryColor,
-            endColor = secondaryColor,
+            startColor = colorPrimary,
+            endColor = colorSecondary,
             alpha = 0f,
             strokeWidth = borderThickness,
         )

@@ -7,6 +7,6 @@ import com.one.russell.metroman_20.domain.TrainingFinalType
 data class TrainingSubtypeItem(
     val type: TrainingFinalType,
     @StringRes val textRes: Int,
-    @ColorInt val primaryColor: Int,
-    @ColorInt val secondaryColor: Int,
+    @ColorInt val colorPrimary: Int,
+    @ColorInt val colorSecondary: Int,
 )

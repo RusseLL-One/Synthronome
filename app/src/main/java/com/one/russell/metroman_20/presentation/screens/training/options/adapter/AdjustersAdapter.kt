@@ -36,7 +36,7 @@ fun knobAdapterDelegate(
             binding.tvTitle.text = binding.root.context.getString(item.type.titleRes)
             binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, item.value)
             binding.vKnob.setGlowIntense(item.value)
-            binding.vKnob.setupPaints(item.primaryColor, item.secondaryColor)
+            binding.vKnob.setupPaints(item.colorPrimary, item.colorSecondary)
         }
     }
 )
@@ -68,7 +68,7 @@ fun pickerAdapterDelegate(
                 .map { it.toString() }
                 .toTypedArray()
 
-            binding.npPicker.setupPaints(item.primaryColor, item.secondaryColor)
+            binding.npPicker.setupPaints(item.colorPrimary, item.colorSecondary)
         }
     }
 )

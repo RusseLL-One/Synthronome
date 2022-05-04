@@ -23,8 +23,8 @@ class RotaryKnobView @JvmOverloads constructor(
     private var pointerDrawable = GlowingPointerDrawable()
     private var ringDrawable = GlowingRingDrawable()
 
-    @ColorInt private var primaryColor: Int = 0
-    @ColorInt private var secondaryColor: Int = 0
+    @ColorInt private var colorPrimary: Int = 0
+    @ColorInt private var colorSecondary: Int = 0
 
     private var glowIntense: Float = 0f
     private val glowAnimator = ValueAnimator
@@ -53,8 +53,8 @@ class RotaryKnobView @JvmOverloads constructor(
     }
 
     fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
-        primaryColor = startColor
-        secondaryColor = endColor
+        colorPrimary = startColor
+        colorSecondary = endColor
         initDrawablesPaints()
     }
 
@@ -63,9 +63,9 @@ class RotaryKnobView @JvmOverloads constructor(
     }
 
     private fun initDrawablesPaints() {
-        val startColor = if (!isBlocked) primaryColor
+        val startColor = if (!isBlocked) colorPrimary
         else context.getColorCompat(R.color.blocked_knob_color_1)
-        val endColor = if (!isBlocked) secondaryColor
+        val endColor = if (!isBlocked) colorSecondary
         else context.getColorCompat(R.color.blocked_knob_color_2)
 
         pointerDrawable.initPaints(width, height, ringOffset, startColor, endColor)

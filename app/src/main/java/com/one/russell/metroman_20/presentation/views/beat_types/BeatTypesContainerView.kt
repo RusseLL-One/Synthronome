@@ -28,8 +28,8 @@ class BeatTypesContainerView @JvmOverloads constructor(
     private val binding = ViewBeatTypesContainerBinding.inflate(LayoutInflater.from(context), this)
     private var onBeatTypeClick: ((index: Int) -> Unit)? = null
 
-    private var beatTypesPrimaryColor = Color.BLACK
-    private var beatTypesSecondaryColor = Color.BLACK
+    private var beatTypesColorPrimary = Color.BLACK
+    private var beatTypesColorSecondary = Color.BLACK
 
     private val itemsSpacing = context.resources.getDimension(R.dimen.beat_types_spacing_half) * 2
 
@@ -81,19 +81,19 @@ class BeatTypesContainerView @JvmOverloads constructor(
     fun setBeatTypes(beatTypes: List<BeatType>) {
         binding.rvBeatTypesList.executeAfterAllAnimationsAreFinished {
             val listItems = beatTypes.mapIndexed { index, beatType ->
-                beatType.toListItem(index, beatTypesPrimaryColor, beatTypesSecondaryColor)
+                beatType.toListItem(index, beatTypesColorPrimary, beatTypesColorSecondary)
             }
             (binding.rvBeatTypesList.adapter as BeatTypesAdapter).items = listItems
         }
     }
 
-    fun setColors(@ColorInt primaryColor: Int, @ColorInt secondaryColor: Int) {
-        this.beatTypesPrimaryColor = primaryColor
-        this.beatTypesSecondaryColor = secondaryColor
+    fun setColors(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int) {
+        this.beatTypesColorPrimary = colorPrimary
+        this.beatTypesColorSecondary = colorSecondary
         binding.rvBeatTypesList.executeAfterAllAnimationsAreFinished {
             val currentItems = (binding.rvBeatTypesList.adapter as BeatTypesAdapter).items
             val newItems = currentItems.map {
-                it.copy(primaryColor = primaryColor, secondaryColor = secondaryColor)
+                it.copy(colorPrimary = colorPrimary, colorSecondary = colorSecondary)
             }
             (binding.rvBeatTypesList.adapter as BeatTypesAdapter).items = newItems
         }

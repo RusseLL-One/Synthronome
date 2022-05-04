@@ -30,7 +30,7 @@ fun bookmarkAdapterDelegate(
             }
             binding.tvBpm.text = context.getString(R.string.main_bpm, item.bpm)
             binding.tvTimeSignature.text = context.getString(R.string.main_time_signature, item.timeSignature)
-            binding.vBookmark.setupPaints(item.primaryColor, item.secondaryColor)
+            binding.vBookmark.setupPaints(item.colorPrimary, item.colorSecondary)
             binding.vBookmark.setToggled(item.isSelected, animate = false)
         }
     }

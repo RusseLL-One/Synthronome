@@ -79,8 +79,8 @@ class OptionsViewModel(
     private fun OptionsAdjusterType.toListItem() = AdjusterListItem(
         type = this,
         value = getFlowValue(),
-        primaryColor = colors.primaryColor,
-        secondaryColor = colors.secondaryColor
+        colorPrimary = colors.colorPrimary,
+        colorSecondary = colors.colorSecondary
     )
 
     private fun OptionsAdjusterType.getFlowValue(): Int = adjustersFlows[this]!!.value
