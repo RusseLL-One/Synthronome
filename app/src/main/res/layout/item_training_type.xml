@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.one.russell.metroman_20.presentation.views.buttons.ButtonView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.one.russell.synthronome.presentation.views.buttons.ButtonView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/btn_select_type"
     android:layout_width="match_parent"

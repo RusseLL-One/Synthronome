@@ -31,7 +31,7 @@
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
-            <com.one.russell.metroman_20.presentation.views.picker.PickerWrapperView
+            <com.one.russell.synthronome.presentation.views.picker.PickerWrapperView
                 android:id="@+id/v_sound_preset_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
-            <com.one.russell.metroman_20.presentation.views.color_indicator.ColorIndicatorView
+            <com.one.russell.synthronome.presentation.views.color_indicator.ColorIndicatorView
                 android:id="@+id/v_color_primary_indicator"
                 android:layout_width="25dp"
                 android:layout_height="25dp"

@@ -1,5 +1,5 @@
-#ifndef METROMAN_CLICKPLAYER_H
-#define METROMAN_CLICKPLAYER_H
+#ifndef SYNTHRONOME_CLICKPLAYER_H
+#define SYNTHRONOME_CLICKPLAYER_H
 #include <oboe/Oboe.h>
 #include <jni.h>
 #include <android/asset_manager.h>
@@ -54,4 +54,4 @@ private:
     bool isPlaying = false;
 };
 
-#endif //METROMAN_CLICKPLAYER_H
+#endif //SYNTHRONOME_CLICKPLAYER_H

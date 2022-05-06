@@ -1,5 +1,5 @@
-#ifndef METROMAN_CALLBACK_H
-#define METROMAN_CALLBACK_H
+#ifndef SYNTHRONOME_CALLBACK_H
+#define SYNTHRONOME_CALLBACK_H
 
 #include <jni.h>
 
@@ -20,4 +20,4 @@ private:
 };
 
 
-#endif //METROMAN_CALLBACK_H
+#endif //SYNTHRONOME_CALLBACK_H

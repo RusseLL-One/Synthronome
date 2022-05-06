@@ -1,5 +1,5 @@
-#ifndef METROMAN_MIXER_H
-#define METROMAN_MIXER_H
+#ifndef SYNTHRONOME_MIXER_H
+#define SYNTHRONOME_MIXER_H
 
 
 #include "SoundRenderer.h"
@@ -21,4 +21,4 @@ private:
 };
 
 
-#endif //METROMAN_MIXER_H
+#endif //SYNTHRONOME_MIXER_H

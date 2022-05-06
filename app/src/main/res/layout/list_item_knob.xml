@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="@id/v_knob"
         tools:text="BPM: 0" />
 
-    <com.one.russell.metroman_20.presentation.views.rotary_knob.RotaryKnobView
+    <com.one.russell.synthronome.presentation.views.rotary_knob.RotaryKnobView
         android:id="@+id/v_knob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

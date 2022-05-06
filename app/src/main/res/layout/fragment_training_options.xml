@@ -25,7 +25,7 @@
         tools:listitem="@layout/list_item_knob"
         tools:spanCount="2" />
 
-    <com.one.russell.metroman_20.presentation.views.buttons.ButtonView
+    <com.one.russell.synthronome.presentation.views.buttons.ButtonView
         android:id="@+id/btn_proceed"
         android:layout_width="match_parent"
         android:layout_height="@dimen/buttons_height"

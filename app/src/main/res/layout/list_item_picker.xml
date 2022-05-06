@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Start BPM" />
 
-    <com.one.russell.metroman_20.presentation.views.picker.PickerWrapperView
+    <com.one.russell.synthronome.presentation.views.picker.PickerWrapperView
         android:id="@+id/np_picker"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/picker_height"

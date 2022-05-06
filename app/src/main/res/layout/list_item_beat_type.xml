@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
-    <com.one.russell.metroman_20.presentation.views.beat_types.BeatTypeView
+    <com.one.russell.synthronome.presentation.views.beat_types.BeatTypeView
         android:id="@+id/v_beat_type"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="0dp"

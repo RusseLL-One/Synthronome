@@ -9,7 +9,7 @@ android {
     compileSdk project.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.one.russell.metroman_20"
+        applicationId "com.one.russell.synthronome"
         minSdk project.minSdkVersion
         targetSdk project.targetSdkVersion
         versionCode 1

@@ -1,5 +1,5 @@
-#ifndef METROMAN_BEATTYPE_H
-#define METROMAN_BEATTYPE_H
+#ifndef SYNTHRONOME_BEATTYPE_H
+#define SYNTHRONOME_BEATTYPE_H
 
 
 enum BeatType {
@@ -10,4 +10,4 @@ enum BeatType {
 };
 
 
-#endif //METROMAN_BEATTYPE_H
+#endif //SYNTHRONOME_BEATTYPE_H

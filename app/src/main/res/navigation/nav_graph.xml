@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.main.MainFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" >
         <action
@@ -34,19 +34,19 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.settings.SettingsFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" >
     </fragment>
     <fragment
         android:id="@+id/bookmarksFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.bookmarks.BookmarksFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.bookmarks.BookmarksFragment"
         android:label="BookmarksFragment"
         tools:layout="@layout/fragment_bookmarks" >
     </fragment>
     <fragment
         android:id="@+id/typeSelectionFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.training_type_selection.TrainingTypeSelectionFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.training.training_type_selection.TrainingTypeSelectionFragment"
         android:label="TypeSelectionFragment"
         tools:layout="@layout/fragment_training_type_selection" >
         <action
@@ -66,11 +66,11 @@
     </fragment>
     <fragment
         android:id="@+id/subtypeSelectionFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.training_subtype_selection.TrainingSubtypeSelectionFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.training.training_subtype_selection.TrainingSubtypeSelectionFragment"
         android:label="SubtypeSelectionFragment" >
         <argument
             android:name="trainingTopLevelType"
-            app:argType="com.one.russell.metroman_20.domain.TrainingTopLevelType" />
+            app:argType="com.one.russell.synthronome.domain.TrainingTopLevelType" />
         <action
             android:id="@+id/action_subtypeSelectionFragment_to_optionsFragment"
             app:destination="@id/optionsFragment"
@@ -81,10 +81,10 @@
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.options.OptionsFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.training.options.OptionsFragment"
         android:label="OptionsFragment">
         <argument
             android:name="trainingFinalType"
-            app:argType="com.one.russell.metroman_20.domain.TrainingFinalType" />
+            app:argType="com.one.russell.synthronome.domain.TrainingFinalType" />
     </fragment>
 </navigation>
