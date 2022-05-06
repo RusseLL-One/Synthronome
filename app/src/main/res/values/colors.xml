@@ -16,6 +16,11 @@
     <color name="defaultSecondary">#FFA959</color>
     <color name="defaultBackground">#000000</color>
 
+    <color name="color_on_background_light">#FFFFFF</color>
+    <color name="color_on_background_dark">#383B40</color>
+    <color name="color_on_primary_light">#FFFFFF</color>
+    <color name="color_on_primary_dark">#383B40</color>
+
     <color name="blocked_knob_color_1">#62616b</color>
     <color name="blocked_knob_color_2">#3A3C40</color>
 </resources>

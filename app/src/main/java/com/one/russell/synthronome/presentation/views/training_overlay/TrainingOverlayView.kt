@@ -41,7 +41,7 @@ class TrainingOverlayView @JvmOverloads constructor(
         isClickable = true
     }
 
-    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int, @ColorInt textColor: Int) = post {
         bgPaint = createGradientPaint(
             GradientOrientation.TOP_BOTTOM,
             width.toFloat(),
@@ -51,6 +51,10 @@ class TrainingOverlayView @JvmOverloads constructor(
             1f,
             Paint.Style.FILL,
         )
+
+        binding.tvTrainingInProgressTitle.setTextColor(textColor)
+        binding.tvTrainingCompletion.setTextColor(textColor)
+
         invalidate()
     }
 

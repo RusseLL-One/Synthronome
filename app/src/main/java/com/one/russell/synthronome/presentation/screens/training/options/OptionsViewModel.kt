@@ -80,7 +80,8 @@ class OptionsViewModel(
         type = this,
         value = getFlowValue(),
         colorPrimary = colors.colorPrimary,
-        colorSecondary = colors.colorSecondary
+        colorSecondary = colors.colorSecondary,
+        colorOnBackground = colors.colorOnBackground
     )
 
     private fun OptionsAdjusterType.getFlowValue(): Int = adjustersFlows[this]!!.value

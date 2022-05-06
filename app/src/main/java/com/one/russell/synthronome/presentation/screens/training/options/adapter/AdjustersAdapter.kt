@@ -34,7 +34,9 @@ fun knobAdapterDelegate(
                 return@bind
             }
             binding.tvTitle.text = binding.root.context.getString(item.type.titleRes)
+            binding.tvTitle.setTextColor(item.colorOnBackground)
             binding.tvValue.text = binding.root.context.getString(R.string.main_bpm, item.value)
+            binding.tvValue.setTextColor(item.colorOnBackground)
             binding.vKnob.setGlowIntense(item.value)
             binding.vKnob.setupPaints(item.colorPrimary, item.colorSecondary)
         }
@@ -68,6 +70,8 @@ fun pickerAdapterDelegate(
                 .map { it.toString() }
                 .toTypedArray()
 
+            binding.tvTitle.setTextColor(item.colorOnBackground)
+            binding.npPicker.setTextColor(item.colorOnBackground)
             binding.npPicker.setupPaints(item.colorPrimary, item.colorSecondary)
         }
     }

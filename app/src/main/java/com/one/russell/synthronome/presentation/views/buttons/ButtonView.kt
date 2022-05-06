@@ -11,7 +11,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.view.doOnLayout
 import com.one.russell.synthronome.R
 import com.one.russell.synthronome.getColorCompat
 import com.one.russell.synthronome.getStyledAttributes
@@ -36,6 +35,8 @@ class ButtonView @JvmOverloads constructor(
     private var borderPaint = Paint()
     private var colorfulBorderPaint = Paint()
 
+    @ColorInt private var contentTint: Int? = null
+
     private val borderColorAnimator = ValueAnimator()
         .apply {
             duration = 80
@@ -47,10 +48,6 @@ class ButtonView @JvmOverloads constructor(
 
     init {
         initAttrs(context, attrs, defStyleAttr)
-
-        doOnLayout {
-            image?.apply { bounds = getDrawableBounds(this) }
-        }
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?, defStyle: Int) {
@@ -64,7 +61,8 @@ class ButtonView @JvmOverloads constructor(
         }
     }
 
-    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int, @ColorInt contentTint: Int) = post {
+        this.contentTint = contentTint
         bgPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.TL_BR,
             width = width.toFloat(),
@@ -92,7 +90,18 @@ class ButtonView @JvmOverloads constructor(
             alpha = 0f,
             strokeWidth = borderThickness,
         )
+
+        image?.apply { bounds = getDrawableBounds(this) }
+
+        applyTint()
         invalidate()
+    }
+
+    private fun applyTint() {
+        contentTint?.let {
+            setTextColor(it)
+            image?.setTint(it)
+        }
     }
 
     private fun getDrawableBounds(drawable: Drawable): Rect {
@@ -108,6 +117,7 @@ class ButtonView @JvmOverloads constructor(
         this.image = AppCompatResources.getDrawable(context, image)
             ?.apply { bounds = getDrawableBounds(this) }
 
+        applyTint()
         invalidate()
     }
 

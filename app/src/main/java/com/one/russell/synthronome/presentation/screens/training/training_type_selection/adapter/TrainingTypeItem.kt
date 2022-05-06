@@ -9,4 +9,5 @@ data class TrainingTypeItem(
     @StringRes val textRes: Int,
     @ColorInt val colorPrimary: Int,
     @ColorInt val colorSecondary: Int,
+    @ColorInt val colorOnBackground: Int
 )

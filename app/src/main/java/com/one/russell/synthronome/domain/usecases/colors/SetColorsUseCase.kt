@@ -1,13 +1,16 @@
 package com.one.russell.synthronome.domain.usecases.colors
 
-import android.graphics.Color
+import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.luminance
+import com.one.russell.synthronome.R
 import com.one.russell.synthronome.domain.providers.ColorsProvider
+import com.one.russell.synthronome.getColorCompat
 
 class SetColorsUseCase(
+    private val context: Context,
     private val colorsProvider: ColorsProvider
 ) {
 
@@ -45,12 +48,18 @@ class SetColorsUseCase(
 
     @ColorInt
     private fun calcColorOnPrimary(@ColorInt colorPrimary: Int): Int {
-        return if (colorPrimary.luminance > 0.5f) Color.BLACK else Color.WHITE
+        return if (colorPrimary.luminance > 0.5f)
+            context.getColorCompat(R.color.color_on_primary_dark)
+        else
+            context.getColorCompat(R.color.color_on_primary_light)
     }
 
     @ColorInt
     private fun calcColorOnBackground(@ColorInt colorBackground: Int): Int {
-        return if (colorBackground.luminance > 0.5f) Color.BLACK else Color.WHITE
+        return if (colorBackground.luminance > 0.5f)
+            context.getColorCompat(R.color.color_on_background_dark)
+        else
+            context.getColorCompat(R.color.color_on_background_light)
     }
 
     @ColorInt

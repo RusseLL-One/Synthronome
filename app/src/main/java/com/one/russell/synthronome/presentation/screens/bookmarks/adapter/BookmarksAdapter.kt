@@ -29,7 +29,9 @@ fun bookmarkAdapterDelegate(
                 return@bind
             }
             binding.tvBpm.text = context.getString(R.string.main_bpm, item.bpm)
+            binding.tvBpm.setTextColor(item.colorOnBackground)
             binding.tvTimeSignature.text = context.getString(R.string.main_time_signature, item.timeSignature)
+            binding.tvTimeSignature.setTextColor(item.colorOnBackground)
             binding.vBookmark.setupPaints(item.colorPrimary, item.colorSecondary)
             binding.vBookmark.setToggled(item.isSelected, animate = false)
         }

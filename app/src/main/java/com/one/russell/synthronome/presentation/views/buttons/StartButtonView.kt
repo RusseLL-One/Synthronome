@@ -10,7 +10,6 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.doOnLayout
 import com.one.russell.synthronome.R
 import com.one.russell.synthronome.presentation.views.utils.GradientOrientation
 import com.one.russell.synthronome.presentation.views.utils.createGradientPaint
@@ -28,14 +27,7 @@ class StartButtonView @JvmOverloads constructor(
 
     private var isButtonPressed = false
 
-    init {
-        doOnLayout {
-            playDrawable = getButtonDrawable(R.drawable.ic_play)
-            stopDrawable = getButtonDrawable(R.drawable.ic_stop)
-        }
-    }
-
-    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int) = post {
+    fun setupPaints(@ColorInt startColor: Int, @ColorInt endColor: Int,  @ColorInt drawableTint: Int) = post {
         bgPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.BOTTOM_TOP,
             width = width.toFloat(),
@@ -45,12 +37,19 @@ class StartButtonView @JvmOverloads constructor(
             alpha = 1f,
             style = Paint.Style.FILL,
         )
+
+        playDrawable = getButtonDrawable(R.drawable.ic_play, drawableTint)
+        stopDrawable = getButtonDrawable(R.drawable.ic_stop, drawableTint)
+
         invalidate()
     }
 
-    private fun getButtonDrawable(@DrawableRes drawableRes: Int): Drawable? {
+    private fun getButtonDrawable(@DrawableRes drawableRes: Int, @ColorInt tint: Int): Drawable? {
         return ResourcesCompat.getDrawable(resources, drawableRes, context.theme)
-            ?.apply { bounds = getDrawableBounds(this) }
+            ?.apply {
+                bounds = getDrawableBounds(this)
+                setTint(tint)
+            }
     }
 
     private fun getDrawableBounds(drawable: Drawable): Rect {
