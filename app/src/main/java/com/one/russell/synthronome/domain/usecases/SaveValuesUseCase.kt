@@ -26,6 +26,8 @@ class SaveValuesUseCase(
         dataStore.color_primary.setValue(colors.colorPrimary)
         dataStore.color_secondary.setValue(colors.colorSecondary)
         dataStore.color_background.setValue(colors.colorBackground)
+        dataStore.color_on_primary.setValue(colors.colorOnPrimary)
+        dataStore.color_on_background.setValue(colors.colorOnBackground)
 
         val options = optionsProvider.optionsFlow.value
         dataStore.soundPresetId.setValue(options.soundPresetId)

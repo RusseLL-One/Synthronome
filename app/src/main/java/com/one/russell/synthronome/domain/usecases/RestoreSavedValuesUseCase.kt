@@ -23,7 +23,9 @@ class RestoreSavedValuesUseCase(
             Colors(
                 dataStore.color_primary.getValue(),
                 dataStore.color_secondary.getValue(),
-                dataStore.color_background.getValue()
+                dataStore.color_background.getValue(),
+                dataStore.color_on_primary.getValue(),
+                dataStore.color_on_background.getValue()
             )
         )
 

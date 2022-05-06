@@ -74,9 +74,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.root.setBackgroundColor(colors.colorBackground)
 
         binding.vSoundPresetPicker.setupPaints(colors.colorPrimary, colors.colorSecondary)
-        binding.sVibrationSwitch.setSwitchColor(colors.colorPrimary)
-        binding.sFlashSwitch.setSwitchColor(colors.colorPrimary)
-        binding.vColorPrimaryIndicator.setupPaints(colors.colorPrimary)
+        binding.sVibrationSwitch.setSwitchColor(colors.colorOnBackground, colors.colorPrimary)
+        binding.sFlashSwitch.setSwitchColor(colors.colorOnBackground, colors.colorPrimary)
+        binding.vColorPrimaryIndicator.setupPaints(colors.colorOnBackground, colors.colorPrimary)
         binding.vBackgroundBrightnessSlide.pickedColor = createHSLColor(colors.colorBackground)
+
+        binding.tvSoundPreset.setTextColor(colors.colorOnBackground)
+        binding.vSoundPresetPicker.setTextColor(colors.colorOnBackground)
+        binding.tvVibration.setTextColor(colors.colorOnBackground)
+        binding.tvFlash.setTextColor(colors.colorOnBackground)
+        binding.tvColorPrimary.setTextColor(colors.colorOnBackground)
+        binding.tvColorBackground.setTextColor(colors.colorOnBackground)
     }
 }

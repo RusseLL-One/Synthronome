@@ -174,20 +174,20 @@ fun RecyclerView.disableScrolling() {
     }
 }
 
-fun SwitchCompat.setSwitchColor(@ColorInt color: Int) {
+fun SwitchCompat.setSwitchColor(@ColorInt colorUnchecked: Int, @ColorInt colorChecked: Int) {
     val states = arrayOf(
         intArrayOf(-R.attr.state_checked),
         intArrayOf(R.attr.state_checked)
     )
 
     val thumbColors = intArrayOf(
-        Color.WHITE,
-        color,
+        colorUnchecked,
+        colorChecked,
     )
 
     val trackColors = intArrayOf(
-        ColorUtils.setAlphaComponent(Color.WHITE, 100),
-        ColorUtils.setAlphaComponent(color, 100),
+        ColorUtils.setAlphaComponent(colorUnchecked, 100),
+        ColorUtils.setAlphaComponent(colorChecked, 100),
     )
 
     trackTintList = ColorStateList(states, trackColors)

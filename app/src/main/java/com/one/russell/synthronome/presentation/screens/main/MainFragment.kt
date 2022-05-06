@@ -91,6 +91,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     btnAddBookmark.setupPaints(it.colorPrimary, it.colorSecondary)
                     vTrainingOverlay.setupPaints(it.colorPrimary, it.colorSecondary)
                     vTimeSignature.setupPaints(it.colorPrimary, it.colorSecondary)
+
+                    tvBpm.setTextColor(it.colorOnBackground)
+                    vTimeSignature.setTextColor(it.colorOnBackground)
                 }
             }
 

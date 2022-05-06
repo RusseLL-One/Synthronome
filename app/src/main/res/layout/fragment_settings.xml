@@ -152,12 +152,12 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/ll_background_color_container"
+            android:id="@+id/ll_color_background_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/setting_container_height">
 
             <TextView
-                android:id="@+id/tv_background_color"
+                android:id="@+id/tv_color_background"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
