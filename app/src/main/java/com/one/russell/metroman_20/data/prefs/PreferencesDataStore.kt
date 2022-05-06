@@ -69,21 +69,21 @@ class PreferencesDataStore(
         defaultValue = 140
     )
 
-    val training_tempoIncreasing_byBars_everyBars = PrefsValue(
+    val training_tempoIncreasing_increaseOn = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_BY_BARS_EVERY_BAR"),
-        defaultValue = 1
-    )
-
-    val training_tempoIncreasing_byBars_increaseOn = PrefsValue(
-        dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_BY_BARS_INCREASE_ON"),
+        key = intPreferencesKey("TEMPO_INCREASING_INCREASE_ON"),
         defaultValue = 2
     )
 
-    val training_tempoIncreasing_byTime_minutes = PrefsValue(
+    val training_tempoIncreasing_byBars_everyBars = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_BY_TIME_MINUTES"),
+        key = intPreferencesKey("TEMPO_INCREASING_EVERY_BARS"),
+        defaultValue = 1
+    )
+
+    val training_tempoIncreasing_byTime_everySeconds = PrefsValue(
+        dataStore = appContext.dataStore,
+        key = intPreferencesKey("TEMPO_INCREASING_BY_TIME_EVERY_SECONDS"),
         defaultValue = 2
     )
 

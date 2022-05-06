@@ -23,23 +23,23 @@ enum class OptionsAdjusterType(
         controlType = ControlType.KNOB,
         titleRes = R.string.training_tempoIncreasing_endBpm
     ),
+    TEMPO_INCREASING_INCREASE_ON(
+        minValue = 1,
+        maxValue = Constants.MAX_BPM,
+        controlType = ControlType.KNOB,
+        titleRes = R.string.training_tempoIncreasing_increaseOn
+    ),
     TEMPO_INCREASING_BY_BARS_EVERY_BARS(
         minValue = 1,
         maxValue = 16,
         controlType = ControlType.PICKER,
         titleRes = R.string.training_tempoIncreasing_everyBars
     ),
-    TEMPO_INCREASING_BY_BARS_INCREASE_ON(
+    TEMPO_INCREASING_BY_TIME_EVERY_SECONDS(
         minValue = 1,
-        maxValue = Constants.MAX_BPM,
-        controlType = ControlType.KNOB,
-        titleRes = R.string.training_tempoIncreasing_increaseOn
-    ),
-    TEMPO_INCREASING_BY_TIME_MINUTES(
-        minValue = 1,
-        maxValue = 30,
+        maxValue = 60,
         controlType = ControlType.PICKER,
-        titleRes = R.string.training_tempoIncreasing_minutes
+        titleRes = R.string.training_tempoIncreasing_everySeconds
     ),
     BAR_DROPPING_RANDOMLY_CHANCE(
         minValue = 0,

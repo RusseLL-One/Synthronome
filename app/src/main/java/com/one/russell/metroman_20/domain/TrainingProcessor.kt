@@ -58,7 +58,18 @@ class TrainingProcessor(
                 }
                 totalTime.toLong()
             }
-            is TrainingData.TempoIncreasing.ByTime -> minutes * 60L * 1000L
+            is TrainingData.TempoIncreasing.ByTime -> {
+                var totalTime = 0f
+                val beatsInBar = beatTypesProvider.beatTypesFlow.value.size
+                val bpmInterval = (endBpm - startBpm).toFloat()
+                val increasesCount = ceil(bpmInterval / increaseOn).toInt()
+                for (increaseIndex in 0..increasesCount) {
+                    val bpm = (startBpm + increaseOn * increaseIndex).coerceAtMost(endBpm)
+                    val beatTimeMs = 1000f * 60f / bpm
+                    totalTime += (beatTimeMs * beatsInBar) * ceil((everySeconds * 1000f) / (beatTimeMs * beatsInBar))
+                }
+                totalTime.toLong()
+            }
             else -> TRAINING_TIME_INFINITE
         }
     }
@@ -97,23 +108,33 @@ class TrainingProcessor(
     private suspend fun processTempoIncreasingByTime(
         trainingData: TrainingData.TempoIncreasing.ByTime
     ) {
-        fun calcNewBpm(startTime: Long, duration: Int, click: Clicker.Click, trainingData: TrainingData.TempoIncreasing.ByTime): Int {
-            val currentTime = System.currentTimeMillis()
-            val completion = (currentTime - startTime + click.bpm.bpmToMs()) / duration
-            val bpmIncrease = (trainingData.endBpm - trainingData.startBpm) * completion
-            return (trainingData.startBpm + bpmIncrease).toInt().coerceAtMost(trainingData.endBpm)
+        fun calcNewBpm(click: Clicker.Click, trainingData: TrainingData.TempoIncreasing.ByTime): Int {
+            return if (trainingData.startBpm < trainingData.endBpm) {
+                (click.bpm + trainingData.increaseOn)
+                    .coerceIn(trainingData.startBpm, trainingData.endBpm)
+            } else {
+                (click.bpm - trainingData.increaseOn)
+                    .coerceIn(trainingData.endBpm, trainingData.startBpm)
+            }
         }
 
         bpmProvider.bpmFlow.emit(trainingData.startBpm) // Send initial bpm values
+        var startTime = System.currentTimeMillis()
+        var timePassed: Long
 
-        val duration = trainingData.minutes * 60 * 1000
-        val startTime = System.currentTimeMillis()
-// todo увеличивать каждые х секунд
         clicker.onClicked.collectWithActionQueueHandler { click, aqh ->
-            if (click.bpm >= trainingData.endBpm) stopTraining()
-            val newBpm = calcNewBpm(startTime, duration, click, trainingData)
-            clicker.setBpm(newBpm)
-            aqh.queueAction { bpmProvider.bpmFlow.emit(newBpm) }
+            if (click.bpm == trainingData.endBpm && click.isNextBeatFirst) // todo
+                aqh.queueAction { stopTraining() }
+
+            timePassed = System.currentTimeMillis() - startTime
+
+            if (click.isNextBeatFirst && timePassed > trainingData.everySeconds * 1000L) {
+                val newBpm = calcNewBpm(click, trainingData)
+                clicker.setBpm(newBpm)
+                aqh.queueAction { bpmProvider.bpmFlow.emit(newBpm) }
+                startTime = System.currentTimeMillis()
+                timePassed = 0L
+            }
         }
     }
 

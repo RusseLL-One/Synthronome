@@ -10,14 +10,15 @@ sealed class TrainingData {
         class ByBars(
             startBpm: Int,
             endBpm: Int,
-            val everyBars: Int,
-            val increaseOn: Int
+            val increaseOn: Int,
+            val everyBars: Int
         ) : TempoIncreasing(startBpm, endBpm)
 
         class ByTime(
             startBpm: Int,
             endBpm: Int,
-            val minutes: Int
+            val increaseOn: Int,
+            val everySeconds: Int
         ) : TempoIncreasing(startBpm, endBpm)
     }
 
