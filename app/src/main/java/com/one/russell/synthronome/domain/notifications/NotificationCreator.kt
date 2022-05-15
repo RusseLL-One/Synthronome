@@ -28,7 +28,7 @@ fun createClickerNotification(appContext: Context, workerId: UUID): Notification
         .setTicker(notificationTitle)
         .setContentTitle(notificationTitle)
         .setContentText(notificationText)
-        .setSmallIcon(R.drawable.icon_240)
+        .setSmallIcon(R.drawable.ic_notification)
         .setSilent(true)
         .setOngoing(true)
         .setContentIntent(cancelIntent)
