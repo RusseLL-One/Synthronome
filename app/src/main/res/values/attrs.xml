@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-    <attr name="radius" format="dimension" />
-
-    <declare-styleable name="BeatlineView">
-        <attr name="radius" />
+    <declare-styleable name="RotaryKnobView">
+        <attr name="ringOffset" format="dimension" />
     </declare-styleable>
 
-<!--    <declare-styleable name="GlowingRing">-->
-<!--        <attr name="radius" />-->
-<!--    </declare-styleable>-->
+    <declare-styleable name="BeatlineView">
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
 
-    <declare-styleable name="TapButtonView">
-        <attr name="radius" />
+    <declare-styleable name="ButtonView">
+        <attr name="image" format="reference" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="performClickOnActionDown" format="boolean" />
     </declare-styleable>
 
 </resources>

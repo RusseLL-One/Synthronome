@@ -3,13 +3,15 @@ plugins {
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.20'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
     compileSdk project.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.one.russell.metroman_20"
+        applicationId "com.one.russell.synthronome"
         minSdk project.minSdkVersion
         targetSdk project.targetSdkVersion
         versionCode 1
@@ -59,7 +61,11 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
     implementation "com.google.oboe:oboe:$oboeVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
-
+    implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
+    implementation "io.github.ShawnLin013:number-picker:$numberPickerVersion"
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$viewBindingDelegateVersion"
+    implementation "com.larswerkman:HoloColorPicker:$holoColorPickerVersion"
+    implementation "codes.side:andcolorpicker:$colorPickerVersion"
     // Koin
     implementation "io.insert-koin:koin-core:$koinVersion"
     implementation "io.insert-koin:koin-android:$koinVersion"
@@ -68,4 +74,9 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+
+    // Firebase
+    implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

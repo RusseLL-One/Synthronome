@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="#111111"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <ImageView
+        android:id="@+id/iv_scroll_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|start"
+        android:paddingStart="16dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_scroll_left"
+        tools:ignore="ContentDescription,RtlSymmetry" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_beat_types_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="33dp"
+        android:fadingEdgeLength="@dimen/beat_types_spacing_half"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingHorizontal="@dimen/beat_types_spacing_half"
+        android:requiresFadingEdge="horizontal"
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/list_item_beat_type" />
+
+    <ImageView
+        android:id="@+id/iv_scroll_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|end"
+        android:paddingEnd="16dp"
+        android:src="@drawable/ic_scroll_right"
+        tools:ignore="ContentDescription,RtlSymmetry" />
+</merge>

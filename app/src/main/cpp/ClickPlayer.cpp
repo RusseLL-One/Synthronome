@@ -42,7 +42,8 @@ void ClickPlayer::initOboe() {
     }
 }
 
-void ClickPlayer::start() {
+void ClickPlayer::start(jint startBpm) {
+    setBpm(startBpm);
     currentFrame = 0;
     isPlaying = true;
 }
@@ -57,10 +58,10 @@ void ClickPlayer::setNextBeatType(BeatType beatType) {
     nextBeatType = beatType;
 }
 
-void ClickPlayer::setSoundPreset(int8_t id) {
-    char clickSoundName[10];
-    char subAccentSoundName[10];
-    char accentSoundName[10];
+void ClickPlayer::setSoundPreset(jint id) {
+    char clickSoundName[12];
+    char subAccentSoundName[12];
+    char accentSoundName[12];
 
     sprintf(clickSoundName, "beat%d.raw", id);
     sprintf(subAccentSoundName, "sub%d.raw", id);
@@ -73,7 +74,7 @@ void ClickPlayer::setSoundPreset(int8_t id) {
 
 void ClickPlayer::setBpm(jint bpm) {
     this->newBpm = bpm;
-    if (currentBpm == 0) {
+    if (currentBpm == 0 || !isPlaying) {
         setCurrentBpm(bpm);
     }
 }

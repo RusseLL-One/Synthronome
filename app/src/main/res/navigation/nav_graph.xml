@@ -7,9 +7,23 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.main.MainFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_bookmarksFragment"
+            app:destination="@id/bookmarksFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_mainFragment_to_typeSelectionFragment"
             app:destination="@id/typeSelectionFragment"
@@ -19,42 +33,58 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" >
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.bookmarks.BookmarksFragment"
+        android:label="BookmarksFragment"
+        tools:layout="@layout/fragment_bookmarks" >
+    </fragment>
+    <fragment
         android:id="@+id/typeSelectionFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.type_selection.TypeSelectionFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.training.training_type_selection.TrainingTypeSelectionFragment"
         android:label="TypeSelectionFragment"
         tools:layout="@layout/fragment_training_type_selection" >
         <action
-            android:id="@+id/action_typeSelectionFragment_to_tempoIncreasingSubtypeSelectionFragment"
-            app:destination="@id/tempoIncreasingSubtypeSelectionFragment" />
-        <action
-            android:id="@+id/action_typeSelectionFragment_to_barDroppingSubtypeSelectionFragment"
-            app:destination="@id/barDroppingSubtypeSelectionFragment" />
+            android:id="@+id/action_typeSelectionFragment_to_subtypeSelectionFragment"
+            app:destination="@id/subtypeSelectionFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_typeSelectionFragment_to_optionsFragment"
-            app:destination="@id/optionsFragment" />
+            app:destination="@id/optionsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/tempoIncreasingSubtypeSelectionFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.tempo_increasing_subtype_selection.TempoIncreasingSubtypeSelectionFragment"
-        android:label="TempoIncreasingSubtypeSelectionFragment" >
+        android:id="@+id/subtypeSelectionFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.training.training_subtype_selection.TrainingSubtypeSelectionFragment"
+        android:label="SubtypeSelectionFragment" >
+        <argument
+            android:name="trainingTopLevelType"
+            app:argType="com.one.russell.synthronome.domain.TrainingTopLevelType" />
         <action
-            android:id="@+id/action_tempoIncreasingSubtypeSelectionFragment_to_optionsFragment"
-            app:destination="@id/optionsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/barDroppingSubtypeSelectionFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.bar_dropping_subtype_selection.BarDroppingSubtypeSelectionFragment"
-        android:label="BarDroppingSubtypeSelectionFragment" >
-        <action
-            android:id="@+id/action_barDroppingSubtypeSelectionFragment_to_optionsFragment"
-            app:destination="@id/optionsFragment" />
+            android:id="@+id/action_subtypeSelectionFragment_to_optionsFragment"
+            app:destination="@id/optionsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
-        android:name="com.one.russell.metroman_20.presentation.screens.training.options.OptionsFragment"
+        android:name="com.one.russell.synthronome.presentation.screens.training.options.OptionsFragment"
         android:label="OptionsFragment">
         <argument
             android:name="trainingFinalType"
-            app:argType="com.one.russell.metroman_20.domain.TrainingFinalType" />
+            app:argType="com.one.russell.synthronome.domain.TrainingFinalType" />
     </fragment>
 </navigation>

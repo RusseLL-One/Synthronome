@@ -12,7 +12,7 @@ extern "C" {
     std::unique_ptr <ClickPlayer> clickPlayer;
 
     JNIEXPORT void JNICALL
-    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1init(
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1init(
         JNIEnv *env,
         jobject instance,
         jobject listener,
@@ -26,15 +26,16 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1start(
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1start(
         JNIEnv *env,
-        jobject instance
+        jobject instance,
+        jint startBpm
     ) {
-        clickPlayer->start();
+        clickPlayer->start(startBpm);
     }
 
     JNIEXPORT void JNICALL
-    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1stop(
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1stop(
         JNIEnv *env,
         jobject instance
     ) {
@@ -42,7 +43,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1set_1next_1beat_1type(
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1set_1next_1beat_1type(
             JNIEnv *env,
             jobject instance,
             jobject jBeatType
@@ -71,7 +72,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1set_1bpm(
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1set_1bpm(
         JNIEnv *pEnv,
         jobject pThis,
         jint bpm
@@ -80,11 +81,20 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_com_one_russell_metroman_120_domain_wrappers_Clicker_native_1play_1rotate_1click(
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1play_1rotate_1click(
         JNIEnv *pEnv,
         jobject pThis
     ) {
         clickPlayer->playRotateClick();
+    }
+
+    JNIEXPORT void JNICALL
+    Java_com_one_russell_synthronome_domain_wrappers_Clicker_native_1set_1sound_1preset(
+        JNIEnv *pEnv,
+        jobject pThis,
+        jint id
+    ) {
+        clickPlayer->setSoundPreset(id);
     }
 
     #pragma clang diagnostic pop

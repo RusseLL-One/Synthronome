@@ -1,5 +1,5 @@
-#ifndef METROMAN_SOUNDRENDERER_H
-#define METROMAN_SOUNDRENDERER_H
+#ifndef SYNTHRONOME_SOUNDRENDERER_H
+#define SYNTHRONOME_SOUNDRENDERER_H
 
 #include <cstdint>
 #include <array>
@@ -26,4 +26,4 @@ private:
     std::atomic<bool> mIsPlaying { false };
 };
 
-#endif //METROMAN_SOUNDRENDERER_H
+#endif //SYNTHRONOME_SOUNDRENDERER_H

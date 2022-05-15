@@ -1,5 +1,5 @@
-#ifndef METROMAN_CLICKPLAYER_H
-#define METROMAN_CLICKPLAYER_H
+#ifndef SYNTHRONOME_CLICKPLAYER_H
+#define SYNTHRONOME_CLICKPLAYER_H
 #include <oboe/Oboe.h>
 #include <jni.h>
 #include <android/asset_manager.h>
@@ -12,12 +12,12 @@ class ClickPlayer : public oboe::AudioStreamCallback {
 public:
     ClickPlayer(AAssetManager *assetManager, JavaVM *jvm, jobject listener);
 
-    void start();
+    void start(jint startBpm);
     void stop();
 
     void setNextBeatType(BeatType beatType);
 
-    void setSoundPreset(int8_t id);
+    void setSoundPreset(jint id);
     void setBpm(jint bpm);
 
     void playRotateClick();
@@ -54,4 +54,4 @@ private:
     bool isPlaying = false;
 };
 
-#endif //METROMAN_CLICKPLAYER_H
+#endif //SYNTHRONOME_CLICKPLAYER_H

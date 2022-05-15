@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "860304121648",
+    "project_id": "syntronome",
+    "storage_bucket": "syntronome.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860304121648:android:1b04606f491993f983f2f5",
+        "android_client_info": {
+          "package_name": "com.one.russell.synthronome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860304121648-oft37d2tbbc9calad45brlf60udcione.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh4TJgHKlQjXtb75Bvq2N98fwEhNu8JIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860304121648-oft37d2tbbc9calad45brlf60udcione.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
