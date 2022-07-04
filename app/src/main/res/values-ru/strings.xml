@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name" translatable="false">Synthronome</string>
+    <string name="notification_title">Synthronome запущен</string>
+    <string name="notification_text">Нажмите, чтобы остановить</string>
+    <string name="notification_channel_description">Отображать уведомление, когда метроном запущен</string>
+    <string name="main_button_bookmarks">Закладки</string>
+    <string name="main_button_training">Тренировка</string>
+    <string name="main_time_signature">Размер: %d</string>
+    <string name="training_is_in_progress">Тренировка в процессе</string>
+
+    <string name="training_choose_type_title">Выберите тип тренировки</string>
+
+    <string name="training_topLevelType_tempoChange">Изменение темпа</string>
+    <string name="training_topLevelType_barDropping">Глушение такта</string>
+    <string name="training_topLevelType_beatDropping">Глушение клика</string>
+    <string name="training_finalType_tempoChange_byBars">По тактам</string>
+    <string name="training_finalType_tempoChange_byTime">По времени</string>
+    <string name="training_finalType_barDropping_randomly">Случайно</string>
+    <string name="training_finalType_barDropping_byValue">По значению</string>
+
+    <string name="training_tempoChange_startBpm">Начальный темп (BPM)</string>
+    <string name="training_tempoChange_endBpm">Конечный темп (BPM)</string>
+    <string name="training_tempoChange_increaseOn">Изменять на (BPM)</string>
+    <string name="training_tempoChange_everyBars">Через каждые (такты)</string>
+    <string name="training_tempoChange_everySeconds">Через каждые (секунды)</string>
+    <string name="training_barDropping_chance">Вероятность глушения такта (%)</string>
+    <string name="training_barDropping_ordinaryBarsCount">Обычные такты</string>
+    <string name="training_barDropping_mutedBarsCount">Заглушенные такты</string>
+    <string name="training_beatDropping_chance">Вероятность глушения клика (%)</string>
+    <string name="training_btn_start">Начать тренировку</string>
+
+    <string name="settings_sound_preset">Набор звуков</string>
+    <string name="settings_flash">Вспышка</string>
+    <string name="settings_vibration">Вибрация</string>
+    <string name="settings_primary_color">Основной цвет</string>
+    <string name="settings_background_color">Фоновый цвет</string>
+
+    <string name="color_picker_dialog_title">Выберите цвет</string>
+    <string name="color_picker_dialog_button_ok">Применить</string>
+
+    <string name="bookmarks_clear_all">Очистить</string>
+    <string name="bookmarks_empty_list">Вы можете добавить закладку с текущими параметрами метронома на главном экране</string>
+</resources>
