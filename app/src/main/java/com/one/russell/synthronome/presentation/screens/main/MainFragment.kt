@@ -46,12 +46,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             btnBookmarks.isLocked = false
                             btnTap.isLocked = false
                         }
-                        is TrainingState.Running -> {
+                        is TrainingState.Running.Endless -> {
                             vTrainingOverlay.isVisible = true
-                            vTrainingOverlay.showTrainingCompletion(state)
-                            vKnob.isLocked = state.shouldBlockControls
-                            btnBookmarks.isLocked = state.shouldBlockControls
-                            btnTap.isLocked = state.shouldBlockControls
+                            vTrainingOverlay.setPercentageVisible(false)
+                            vKnob.isLocked = false
+                            btnBookmarks.isLocked = false
+                            btnTap.isLocked = false
+                        }
+                        is TrainingState.Running.Limited -> {
+                            vTrainingOverlay.isVisible = true
+                            vTrainingOverlay.setPercentageVisible(true)
+                            vTrainingOverlay.setPercent(state.completionPercentage)
+                            vKnob.isLocked = true
+                            btnBookmarks.isLocked = true
+                            btnTap.isLocked = true
                         }
                     }
                 }

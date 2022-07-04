@@ -1,5 +1,7 @@
 package com.one.russell.synthronome.domain
 
+import android.animation.ValueAnimator
+import android.view.animation.LinearInterpolator
 import com.one.russell.synthronome.domain.providers.BeatTypesProvider
 import com.one.russell.synthronome.domain.providers.BpmProvider
 import com.one.russell.synthronome.domain.providers.TrainingStateProvider
@@ -19,15 +21,22 @@ class TrainingProcessor(
     private val trainingStateProvider: TrainingStateProvider
 ) {
     private var runningJob: Job? = null
+    private var percentageAnimator: ValueAnimator = ValueAnimator
+        .ofInt(0, 100)
+        .apply { interpolator = LinearInterpolator() }
 
     suspend fun startTraining(trainingData: TrainingData) {
-        this.runningJob?.cancel()
-        this.runningJob = coroutineContext.job
+        runningJob?.cancel()
+        percentageAnimator.cancel()
 
-        trainingStateProvider.trainingState.value = TrainingState.Running(
-            calcTrainingTime(trainingData = trainingData),
-            trainingData is TrainingData.TempoIncreasing
-        )
+        runningJob = coroutineContext.job
+
+        val trainingTime = calcTrainingTime(trainingData = trainingData)
+        if (trainingTime == TRAINING_TIME_INFINITE) {
+            trainingStateProvider.trainingState.value = TrainingState.Running.Endless
+        } else {
+            startPercentageAnimator(trainingData)
+        }
 
         when (trainingData) {
             is TrainingData.TempoIncreasing.ByBars ->
@@ -41,6 +50,15 @@ class TrainingProcessor(
             is TrainingData.BeatDropping ->
                 processBeatDropping(trainingData)
         }
+    }
+
+    private fun startPercentageAnimator(trainingData: TrainingData) {
+        percentageAnimator.duration = calcTrainingTime(trainingData = trainingData)
+        percentageAnimator.addUpdateListener {
+            val percentage = it.animatedValue as Int
+            trainingStateProvider.trainingState.value = TrainingState.Running.Limited(percentage)
+        }
+        percentageAnimator.start()
     }
 
     private fun calcTrainingTime(trainingData: TrainingData): Long = trainingData.run {
@@ -175,6 +193,7 @@ class TrainingProcessor(
 
     fun stopTraining() {
         runningJob?.cancel()
+        percentageAnimator.cancel()
         trainingStateProvider.trainingState.value = TrainingState.Idle
     }
 
