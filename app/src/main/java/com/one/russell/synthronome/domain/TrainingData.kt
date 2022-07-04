@@ -4,22 +4,23 @@ sealed class TrainingData {
 
     sealed class TempoIncreasing(
         val startBpm: Int,
-        val endBpm: Int
+        val endBpm: Int,
+        val step: Int
     ) : TrainingData() {
 
         class ByBars(
             startBpm: Int,
             endBpm: Int,
-            val increaseOn: Int,
+            step: Int,
             val everyBars: Int
-        ) : TempoIncreasing(startBpm, endBpm)
+        ) : TempoIncreasing(startBpm, endBpm, step)
 
         class ByTime(
             startBpm: Int,
             endBpm: Int,
-            val increaseOn: Int,
+            step: Int,
             val everySeconds: Int
-        ) : TempoIncreasing(startBpm, endBpm)
+        ) : TempoIncreasing(startBpm, endBpm, step)
     }
 
     sealed class BarDropping : TrainingData() {

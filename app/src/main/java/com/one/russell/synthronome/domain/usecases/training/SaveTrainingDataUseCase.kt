@@ -11,13 +11,13 @@ class SaveTrainingDataUseCase(
             is TrainingData.TempoIncreasing.ByBars -> {
                 dataStore.training_tempoIncreasing_startBpm.setValue(trainingData.startBpm)
                 dataStore.training_tempoIncreasing_endBpm.setValue(trainingData.endBpm)
-                dataStore.training_tempoIncreasing_increaseOn.setValue(trainingData.increaseOn)
+                dataStore.training_tempoIncreasing_increaseOn.setValue(trainingData.step)
                 dataStore.training_tempoIncreasing_byBars_everyBars.setValue(trainingData.everyBars)
             }
             is TrainingData.TempoIncreasing.ByTime -> {
                 dataStore.training_tempoIncreasing_startBpm.setValue(trainingData.startBpm)
                 dataStore.training_tempoIncreasing_endBpm.setValue(trainingData.endBpm)
-                dataStore.training_tempoIncreasing_increaseOn.setValue(trainingData.increaseOn)
+                dataStore.training_tempoIncreasing_increaseOn.setValue(trainingData.step)
                 dataStore.training_tempoIncreasing_byTime_everySeconds.setValue(trainingData.everySeconds)
             }
             is TrainingData.BarDropping.Randomly -> {
