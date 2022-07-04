@@ -51,7 +51,7 @@ class ButtonView @JvmOverloads constructor(
     var isLocked = false
         set(value) {
             field = value
-            setupPaints()
+            setupPaintsInternal()
         }
 
     init {
@@ -69,14 +69,14 @@ class ButtonView @JvmOverloads constructor(
         }
     }
 
-    fun setupColors(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int, @ColorInt contentTint: Int) = post {
+    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int, @ColorInt contentTint: Int) = post {
         this.colorPrimary = colorPrimary
         this.colorSecondary = colorSecondary
         this.contentTint = contentTint
-        setupPaints()
+        setupPaintsInternal()
     }
 
-    private fun setupPaints() {
+    private fun setupPaintsInternal() {
         val borderPaintStartColor = context.getColorCompat(
             if (!isLocked) R.color.border_gradient_color_1
             else R.color.blocked_view_color_1

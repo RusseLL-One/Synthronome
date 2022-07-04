@@ -21,7 +21,7 @@ fun trainingTypeAdapterDelegate(
         itemView.setOnClickListener { onClick(item) }
         bind {
             binding.btnSelectType.text = context.getString(item.textRes)
-            binding.btnSelectType.setupColors(item.colorPrimary, item.colorSecondary, item.colorOnBackground)
+            binding.btnSelectType.setupPaints(item.colorPrimary, item.colorSecondary, item.colorOnBackground)
         }
     }
 )
