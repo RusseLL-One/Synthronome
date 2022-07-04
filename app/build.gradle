@@ -56,6 +56,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:$datastorePrefsVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycleVersion"
+    implementation "androidx.core:core-splashscreen:$splashScreenVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"

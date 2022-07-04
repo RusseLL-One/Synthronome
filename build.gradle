@@ -39,6 +39,7 @@ project.ext {
     numberPickerVersion = "2.4.13"
     viewBindingDelegateVersion = "1.5.3"
     firebaseVersion = "29.3.1"
+    splashScreenVersion = "1.0.0-rc01"
 }
 
 task clean(type: Delete) {
