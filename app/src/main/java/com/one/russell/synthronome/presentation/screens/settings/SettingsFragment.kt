@@ -43,8 +43,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         binding.vColorPrimaryIndicator.setOnClickListener {
+            val colors = viewModel.colors.value
             ColorPickerDialogFragment()
-                .setInitColor(viewModel.colors.value.colorPrimary)
+                .setupColors(colors.colorPrimary, colors.colorSecondary, colors.colorBackground, colors.colorOnBackground)
                 .setOnColorPickedListener { viewModel.setColorPrimary(it) }
                 .show(childFragmentManager, ColorPickerDialogFragment.TAG)
         }

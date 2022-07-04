@@ -9,8 +9,8 @@
 
     <color name="border_gradient_color_1">#99888888</color>
     <color name="border_gradient_color_2">#992B2D2F</color>
-    <color name="view_bg_gradient_color_1">#4D665A4C</color>
-    <color name="view_bg_gradient_color_2">#4B000000</color>
+    <color name="view_bg_gradient_color_1">#22575B73</color>
+    <color name="view_bg_gradient_color_2">#31000000</color>
 
     <color name="defaultPrimary">#D35746</color>
     <color name="defaultSecondary">#FFA959</color>

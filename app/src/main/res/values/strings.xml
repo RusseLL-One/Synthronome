@@ -36,6 +36,9 @@
     <string name="settings_primary_color">Основной цвет</string>
     <string name="settings_background_color">Фоновый цвет</string>
 
+    <string name="color_picker_dialog_title">Выберите цвет</string>
+    <string name="color_picker_dialog_button_ok">Применить</string>
+
     <string name="bookmarks_clear_all">Очистить</string>
     <string name="bookmarks_empty_list">Вы можете добавить закладку с текущими параметрами метронома на главном экране</string>
 </resources>
