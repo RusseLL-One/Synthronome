@@ -8,17 +8,17 @@ class SaveTrainingDataUseCase(
 ) {
     suspend fun execute(trainingData: TrainingData) {
         when (trainingData) {
-            is TrainingData.TempoIncreasing.ByBars -> {
-                dataStore.training_tempoIncreasing_startBpm.setValue(trainingData.startBpm)
-                dataStore.training_tempoIncreasing_endBpm.setValue(trainingData.endBpm)
-                dataStore.training_tempoIncreasing_increaseOn.setValue(trainingData.step)
-                dataStore.training_tempoIncreasing_byBars_everyBars.setValue(trainingData.everyBars)
+            is TrainingData.TempoChange.ByBars -> {
+                dataStore.training_tempoChange_startBpm.setValue(trainingData.startBpm)
+                dataStore.training_tempoChange_endBpm.setValue(trainingData.endBpm)
+                dataStore.training_tempoChange_step.setValue(trainingData.step)
+                dataStore.training_tempoChange_byBars_everyBars.setValue(trainingData.everyBars)
             }
-            is TrainingData.TempoIncreasing.ByTime -> {
-                dataStore.training_tempoIncreasing_startBpm.setValue(trainingData.startBpm)
-                dataStore.training_tempoIncreasing_endBpm.setValue(trainingData.endBpm)
-                dataStore.training_tempoIncreasing_increaseOn.setValue(trainingData.step)
-                dataStore.training_tempoIncreasing_byTime_everySeconds.setValue(trainingData.everySeconds)
+            is TrainingData.TempoChange.ByTime -> {
+                dataStore.training_tempoChange_startBpm.setValue(trainingData.startBpm)
+                dataStore.training_tempoChange_endBpm.setValue(trainingData.endBpm)
+                dataStore.training_tempoChange_step.setValue(trainingData.step)
+                dataStore.training_tempoChange_byTime_everySeconds.setValue(trainingData.everySeconds)
             }
             is TrainingData.BarDropping.Randomly -> {
                 dataStore.training_barDropping_randomly_chancePercent.setValue(trainingData.chancePercent)

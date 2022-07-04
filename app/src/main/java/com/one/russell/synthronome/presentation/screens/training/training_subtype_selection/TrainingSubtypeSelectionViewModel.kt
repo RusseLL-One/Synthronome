@@ -14,17 +14,17 @@ class TrainingSubtypeSelectionViewModel(
     val colors get() = observeColorsUseCase.execute().value
 
     fun getTrainingSubtypeItems(topLevelType: TrainingTopLevelType): List<TrainingSubtypeItem> = when (topLevelType) {
-        TrainingTopLevelType.TEMPO_INCREASING -> listOf(
+        TrainingTopLevelType.TEMPO_CHANGE -> listOf(
             TrainingSubtypeItem(
-                TrainingFinalType.TEMPO_INCREASING_BY_BARS,
-                R.string.training_finalType_tempoIncreasing_byBars,
+                TrainingFinalType.TEMPO_CHANGE_BY_BARS,
+                R.string.training_finalType_tempoChange_byBars,
                 colors.colorPrimary,
                 colors.colorSecondary,
                 colors.colorOnBackground,
             ),
             TrainingSubtypeItem(
-                TrainingFinalType.TEMPO_INCREASING_BY_TIME,
-                R.string.training_finalType_tempoIncreasing_byTime,
+                TrainingFinalType.TEMPO_CHANGE_BY_TIME,
+                R.string.training_finalType_tempoChange_byTime,
                 colors.colorPrimary,
                 colors.colorSecondary,
                 colors.colorOnBackground

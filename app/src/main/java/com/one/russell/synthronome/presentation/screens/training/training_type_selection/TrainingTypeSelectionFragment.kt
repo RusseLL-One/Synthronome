@@ -35,8 +35,8 @@ class TrainingTypeSelectionFragment : Fragment(R.layout.fragment_training_type_s
 
     private fun navigateNext(selectedType: TrainingTopLevelType) {
         when (selectedType) {
-            TrainingTopLevelType.TEMPO_INCREASING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToSubtypeSelectionFragment(
-                TrainingTopLevelType.TEMPO_INCREASING
+            TrainingTopLevelType.TEMPO_CHANGE -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToSubtypeSelectionFragment(
+                TrainingTopLevelType.TEMPO_CHANGE
             )
             TrainingTopLevelType.BAR_DROPPING -> TrainingTypeSelectionFragmentDirections.actionTypeSelectionFragmentToSubtypeSelectionFragment(
                 TrainingTopLevelType.BAR_DROPPING

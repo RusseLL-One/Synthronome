@@ -40,10 +40,10 @@ class TrainingProcessor(
         }
 
         when (trainingData) {
-            is TrainingData.TempoIncreasing.ByBars ->
-                processTempoIncreasingByBars(trainingData)
-            is TrainingData.TempoIncreasing.ByTime ->
-                processTempoIncreasingByTime(trainingData)
+            is TrainingData.TempoChange.ByBars ->
+                processTempoChangeByBars(trainingData)
+            is TrainingData.TempoChange.ByTime ->
+                processTempoChangeByTime(trainingData)
             is TrainingData.BarDropping.Randomly ->
                 processBarDroppingRandomly(trainingData)
             is TrainingData.BarDropping.ByValue ->
@@ -64,14 +64,14 @@ class TrainingProcessor(
 
     private fun calcTrainingTime(trainingData: TrainingData): Long = trainingData.run {
 
-        if (this !is TrainingData.TempoIncreasing) return@run TRAINING_TIME_INFINITE
+        if (this !is TrainingData.TempoChange) return@run TRAINING_TIME_INFINITE
 
-        fun TrainingData.TempoIncreasing.calcBeatTime(increaseIndex: Int): Float {
+        fun TrainingData.TempoChange.calcBeatTime(stepIndex: Int): Float {
             val isIncreasing = endBpm >= startBpm
             val bpm = if (isIncreasing)
-                (startBpm + step * increaseIndex).coerceAtMost(endBpm)
+                (startBpm + step * stepIndex).coerceAtMost(endBpm)
             else
-                (startBpm - step * increaseIndex).coerceAtLeast(endBpm)
+                (startBpm - step * stepIndex).coerceAtLeast(endBpm)
             return 1000f * 60f / bpm
         }
 
@@ -80,17 +80,17 @@ class TrainingProcessor(
         val bpmInterval = abs(endBpm - startBpm).toFloat()
 
         when (this) {
-            is TrainingData.TempoIncreasing.ByBars -> {
-                val increasesCount = ceil(bpmInterval / (everyBars * step)).toInt()
-                for (increaseIndex in 0..increasesCount) {
-                    val beatTimeMs = calcBeatTime(increaseIndex)
+            is TrainingData.TempoChange.ByBars -> {
+                val stepsCount = ceil(bpmInterval / (everyBars * step)).toInt()
+                for (stepIndex in 0..stepsCount) {
+                    val beatTimeMs = calcBeatTime(stepIndex)
                     totalTime += beatTimeMs * beatsInBar * everyBars
                 }
             }
-            is TrainingData.TempoIncreasing.ByTime -> {
-                val increasesCount = ceil(bpmInterval / step).toInt()
-                for (increaseIndex in 0..increasesCount) {
-                    val beatTimeMs = calcBeatTime(increaseIndex)
+            is TrainingData.TempoChange.ByTime -> {
+                val stepsCount = ceil(bpmInterval / step).toInt()
+                for (stepIndex in 0..stepsCount) {
+                    val beatTimeMs = calcBeatTime(stepIndex)
                     totalTime += (beatTimeMs * beatsInBar) * ceil((everySeconds * 1000f) / (beatTimeMs * beatsInBar))
                 }
             }
@@ -99,8 +99,8 @@ class TrainingProcessor(
         return totalTime.toLong()
     }
 
-    private suspend fun processTempoIncreasingByBars(
-        trainingData: TrainingData.TempoIncreasing.ByBars
+    private suspend fun processTempoChangeByBars(
+        trainingData: TrainingData.TempoChange.ByBars
     ) {
         bpmProvider.bpmFlow.emit(trainingData.startBpm) // Send initial bpm value
         var barsPassed = 0
@@ -120,8 +120,8 @@ class TrainingProcessor(
         }
     }
 
-    private suspend fun processTempoIncreasingByTime(
-        trainingData: TrainingData.TempoIncreasing.ByTime
+    private suspend fun processTempoChangeByTime(
+        trainingData: TrainingData.TempoChange.ByTime
     ) {
         bpmProvider.bpmFlow.emit(trainingData.startBpm) // Send initial bpm values
         var startTime = System.currentTimeMillis()
@@ -143,7 +143,7 @@ class TrainingProcessor(
         }
     }
 
-    private fun calcNewBpm(click: Clicker.Click, trainingData: TrainingData.TempoIncreasing): Int {
+    private fun calcNewBpm(click: Clicker.Click, trainingData: TrainingData.TempoChange): Int {
         return if (trainingData.startBpm < trainingData.endBpm) {
             (click.bpm + trainingData.step)
                 .coerceIn(trainingData.startBpm, trainingData.endBpm)

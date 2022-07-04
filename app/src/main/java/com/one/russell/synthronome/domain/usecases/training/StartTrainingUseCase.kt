@@ -19,7 +19,7 @@ class StartTrainingUseCase(
     }
 
     private fun TrainingData.getStartBpm(): Int? = when (this) {
-        is TrainingData.TempoIncreasing -> startBpm
+        is TrainingData.TempoChange -> startBpm
         else -> null
     }
 }

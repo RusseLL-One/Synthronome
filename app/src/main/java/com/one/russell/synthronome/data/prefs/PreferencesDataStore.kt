@@ -58,33 +58,33 @@ class PreferencesDataStore(
         defaultValue = 1
     )
 
-    val training_tempoIncreasing_startBpm = PrefsValue(
+    val training_tempoChange_startBpm = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_START_BPM"),
+        key = intPreferencesKey("TEMPO_CHANGE_START_BPM"),
         defaultValue = 90
     )
 
-    val training_tempoIncreasing_endBpm = PrefsValue(
+    val training_tempoChange_endBpm = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_END_BPM"),
+        key = intPreferencesKey("TEMPO_CHANGE_END_BPM"),
         defaultValue = 140
     )
 
-    val training_tempoIncreasing_increaseOn = PrefsValue(
+    val training_tempoChange_step = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_INCREASE_ON"),
+        key = intPreferencesKey("TEMPO_CHANGE_STEP"),
         defaultValue = 2
     )
 
-    val training_tempoIncreasing_byBars_everyBars = PrefsValue(
+    val training_tempoChange_byBars_everyBars = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_EVERY_BARS"),
+        key = intPreferencesKey("TEMPO_CHANGE_EVERY_BARS"),
         defaultValue = 1
     )
 
-    val training_tempoIncreasing_byTime_everySeconds = PrefsValue(
+    val training_tempoChange_byTime_everySeconds = PrefsValue(
         dataStore = appContext.dataStore,
-        key = intPreferencesKey("TEMPO_INCREASING_BY_TIME_EVERY_SECONDS"),
+        key = intPreferencesKey("TEMPO_CHANGE_BY_TIME_EVERY_SECONDS"),
         defaultValue = 2
     )
 

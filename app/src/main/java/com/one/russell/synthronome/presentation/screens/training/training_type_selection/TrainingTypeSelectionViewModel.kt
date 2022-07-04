@@ -14,8 +14,8 @@ class TrainingTypeSelectionViewModel(
 
     fun getTrainingTypeItems(): List<TrainingTypeItem> = listOf(
         TrainingTypeItem(
-            TrainingTopLevelType.TEMPO_INCREASING,
-            R.string.training_topLevelType_tempoIncreasing,
+            TrainingTopLevelType.TEMPO_CHANGE,
+            R.string.training_topLevelType_tempoChange,
             colors.colorPrimary,
             colors.colorSecondary,
             colors.colorOnBackground

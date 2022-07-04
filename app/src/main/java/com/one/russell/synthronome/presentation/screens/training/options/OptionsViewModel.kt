@@ -92,17 +92,17 @@ class OptionsViewModel(
 
     private fun createTypesList(trainingFinalType: TrainingFinalType): List<OptionsAdjusterType> =
         when (trainingFinalType) {
-            TrainingFinalType.TEMPO_INCREASING_BY_BARS -> listOf(
-                TEMPO_INCREASING_START_BPM,
-                TEMPO_INCREASING_END_BPM,
-                TEMPO_INCREASING_INCREASE_ON,
-                TEMPO_INCREASING_BY_BARS_EVERY_BARS
+            TrainingFinalType.TEMPO_CHANGE_BY_BARS -> listOf(
+                TEMPO_CHANGE_START_BPM,
+                TEMPO_CHANGE_END_BPM,
+                TEMPO_CHANGE_STEP,
+                TEMPO_CHANGE_BY_BARS_EVERY_BARS
             )
-            TrainingFinalType.TEMPO_INCREASING_BY_TIME -> listOf(
-                TEMPO_INCREASING_START_BPM,
-                TEMPO_INCREASING_END_BPM,
-                TEMPO_INCREASING_INCREASE_ON,
-                TEMPO_INCREASING_BY_TIME_EVERY_SECONDS
+            TrainingFinalType.TEMPO_CHANGE_BY_TIME -> listOf(
+                TEMPO_CHANGE_START_BPM,
+                TEMPO_CHANGE_END_BPM,
+                TEMPO_CHANGE_STEP,
+                TEMPO_CHANGE_BY_TIME_EVERY_SECONDS
             )
             TrainingFinalType.BAR_DROPPING_RANDOMLY -> listOf(
                 BAR_DROPPING_RANDOMLY_CHANCE
@@ -118,17 +118,17 @@ class OptionsViewModel(
 
     private fun createTrainingData(trainingFinalType: TrainingFinalType): TrainingData {
         return when (trainingFinalType) {
-            TrainingFinalType.TEMPO_INCREASING_BY_BARS -> TrainingData.TempoIncreasing.ByBars(
-                TEMPO_INCREASING_START_BPM.getFlowValue(),
-                TEMPO_INCREASING_END_BPM.getFlowValue(),
-                TEMPO_INCREASING_INCREASE_ON.getFlowValue(),
-                TEMPO_INCREASING_BY_BARS_EVERY_BARS.getFlowValue()
+            TrainingFinalType.TEMPO_CHANGE_BY_BARS -> TrainingData.TempoChange.ByBars(
+                TEMPO_CHANGE_START_BPM.getFlowValue(),
+                TEMPO_CHANGE_END_BPM.getFlowValue(),
+                TEMPO_CHANGE_STEP.getFlowValue(),
+                TEMPO_CHANGE_BY_BARS_EVERY_BARS.getFlowValue()
             )
-            TrainingFinalType.TEMPO_INCREASING_BY_TIME -> TrainingData.TempoIncreasing.ByTime(
-                TEMPO_INCREASING_START_BPM.getFlowValue(),
-                TEMPO_INCREASING_END_BPM.getFlowValue(),
-                TEMPO_INCREASING_INCREASE_ON.getFlowValue(),
-                TEMPO_INCREASING_BY_TIME_EVERY_SECONDS.getFlowValue()
+            TrainingFinalType.TEMPO_CHANGE_BY_TIME -> TrainingData.TempoChange.ByTime(
+                TEMPO_CHANGE_START_BPM.getFlowValue(),
+                TEMPO_CHANGE_END_BPM.getFlowValue(),
+                TEMPO_CHANGE_STEP.getFlowValue(),
+                TEMPO_CHANGE_BY_TIME_EVERY_SECONDS.getFlowValue()
             )
             TrainingFinalType.BAR_DROPPING_RANDOMLY -> TrainingData.BarDropping.Randomly(
                 BAR_DROPPING_RANDOMLY_CHANCE.getFlowValue()

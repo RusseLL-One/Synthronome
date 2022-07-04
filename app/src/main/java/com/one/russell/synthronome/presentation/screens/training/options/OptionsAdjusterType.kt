@@ -11,35 +11,35 @@ enum class OptionsAdjusterType(
     val controlType: ControlType,
     @StringRes val titleRes: Int
 ) {
-    TEMPO_INCREASING_START_BPM(
+    TEMPO_CHANGE_START_BPM(
         minValue = Constants.MIN_BPM,
         maxValue = Constants.MAX_BPM,
         controlType = ControlType.KNOB,
-        titleRes = R.string.training_tempoIncreasing_startBpm
+        titleRes = R.string.training_tempoChange_startBpm
     ),
-    TEMPO_INCREASING_END_BPM(
+    TEMPO_CHANGE_END_BPM(
         minValue = Constants.MIN_BPM,
         maxValue = Constants.MAX_BPM,
         controlType = ControlType.KNOB,
-        titleRes = R.string.training_tempoIncreasing_endBpm
+        titleRes = R.string.training_tempoChange_endBpm
     ),
-    TEMPO_INCREASING_INCREASE_ON(
+    TEMPO_CHANGE_STEP(
         minValue = 1,
         maxValue = Constants.MAX_BPM,
         controlType = ControlType.KNOB,
-        titleRes = R.string.training_tempoIncreasing_increaseOn
+        titleRes = R.string.training_tempoChange_increaseOn
     ),
-    TEMPO_INCREASING_BY_BARS_EVERY_BARS(
+    TEMPO_CHANGE_BY_BARS_EVERY_BARS(
         minValue = 1,
         maxValue = 16,
         controlType = ControlType.PICKER,
-        titleRes = R.string.training_tempoIncreasing_everyBars
+        titleRes = R.string.training_tempoChange_everyBars
     ),
-    TEMPO_INCREASING_BY_TIME_EVERY_SECONDS(
+    TEMPO_CHANGE_BY_TIME_EVERY_SECONDS(
         minValue = 1,
         maxValue = 60,
         controlType = ControlType.PICKER,
-        titleRes = R.string.training_tempoIncreasing_everySeconds
+        titleRes = R.string.training_tempoChange_everySeconds
     ),
     BAR_DROPPING_RANDOMLY_CHANCE(
         minValue = 0,
