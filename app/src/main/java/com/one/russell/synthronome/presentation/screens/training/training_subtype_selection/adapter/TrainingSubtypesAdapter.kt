@@ -1,6 +1,5 @@
 package com.one.russell.synthronome.presentation.screens.training.training_subtype_selection.adapter
 
-import android.graphics.Color
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.one.russell.synthronome.databinding.ItemTrainingTypeBinding
@@ -22,7 +21,7 @@ fun trainingSubtypeAdapterDelegate(
         itemView.setOnClickListener { onClick(item) }
         bind {
             binding.btnSelectType.text = context.getString(item.textRes)
-            binding.btnSelectType.setupPaints(item.colorPrimary, item.colorSecondary, item.colorOnBackground)
+            binding.btnSelectType.setupColors(item.colorPrimary, item.colorSecondary, item.colorOnBackground)
         }
     }
 )

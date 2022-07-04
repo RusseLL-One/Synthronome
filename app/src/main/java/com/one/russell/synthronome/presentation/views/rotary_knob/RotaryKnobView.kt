@@ -58,15 +58,15 @@ class RotaryKnobView @JvmOverloads constructor(
         initDrawablesPaints()
     }
 
-    override fun doOnBlock() {
+    override fun doOnLock() {
         initDrawablesPaints()
     }
 
     private fun initDrawablesPaints() {
-        val startColor = if (!isBlocked) colorPrimary
-        else context.getColorCompat(R.color.blocked_knob_color_1)
-        val endColor = if (!isBlocked) colorSecondary
-        else context.getColorCompat(R.color.blocked_knob_color_2)
+        val startColor = if (!isLocked) colorPrimary
+        else context.getColorCompat(R.color.blocked_view_color_1)
+        val endColor = if (!isLocked) colorSecondary
+        else context.getColorCompat(R.color.blocked_view_color_2)
 
         pointerDrawable.initPaints(width, height, ringOffset, startColor, endColor)
         ringDrawable.initPaints(width, height, ringOffset, startColor, endColor)

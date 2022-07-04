@@ -16,8 +16,6 @@ abstract class KnobView @JvmOverloads constructor(
 
     private var onValueChangedCallbacks: ArrayList<(Int) -> Unit> = ArrayList(4)
 
-    protected var isBlocked = false
-
     // Amount of degrees in one step
     private var degreesInStep: Int = 10
 
@@ -30,6 +28,12 @@ abstract class KnobView @JvmOverloads constructor(
     // Amount of degrees the knob is rotated
     protected var currentDegrees = 0f
 
+    var isLocked = false
+        set(value) {
+            field = value
+            doOnLock()
+        }
+
     fun addOnValueChangedCallback(callback: (Int) -> Unit) {
         onValueChangedCallbacks.add(callback)
     }
@@ -38,12 +42,7 @@ abstract class KnobView @JvmOverloads constructor(
         this.degreesInStep = stepDegrees
     }
 
-    fun setIsBlocked(isBlocked: Boolean) {
-        this.isBlocked = isBlocked
-        doOnBlock()
-    }
-
-    open fun doOnBlock() {}
+    open fun doOnLock() {}
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
@@ -63,7 +62,7 @@ abstract class KnobView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (isBlocked) return false
+        if (isLocked) return false
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {

@@ -35,6 +35,8 @@ class ButtonView @JvmOverloads constructor(
     private var borderPaint = Paint()
     private var colorfulBorderPaint = Paint()
 
+    @ColorInt private var colorPrimary: Int = 0
+    @ColorInt private var colorSecondary: Int = 0
     @ColorInt private var contentTint: Int? = null
 
     private val borderColorAnimator = ValueAnimator()
@@ -44,6 +46,12 @@ class ButtonView @JvmOverloads constructor(
                 colorfulBorderPaint.alpha = ((it.animatedValue as Float) * 255).toInt()
                 invalidate()
             }
+        }
+
+    var isLocked = false
+        set(value) {
+            field = value
+            setupPaints()
         }
 
     init {
@@ -61,8 +69,23 @@ class ButtonView @JvmOverloads constructor(
         }
     }
 
-    fun setupPaints(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int, @ColorInt contentTint: Int) = post {
+    fun setupColors(@ColorInt colorPrimary: Int, @ColorInt colorSecondary: Int, @ColorInt contentTint: Int) = post {
+        this.colorPrimary = colorPrimary
+        this.colorSecondary = colorSecondary
         this.contentTint = contentTint
+        setupPaints()
+    }
+
+    private fun setupPaints() {
+        val borderPaintStartColor = context.getColorCompat(
+            if (!isLocked) R.color.border_gradient_color_1
+            else R.color.blocked_view_color_1
+        )
+        val borderPaintEndColor = context.getColorCompat(
+            if (!isLocked) R.color.border_gradient_color_2
+            else R.color.blocked_view_color_2
+        )
+
         bgPaint = createGradientPaint(
             gradientOrientation = GradientOrientation.TL_BR,
             width = width.toFloat(),
@@ -76,8 +99,8 @@ class ButtonView @JvmOverloads constructor(
             gradientOrientation = GradientOrientation.TL_BR,
             width = width.toFloat(),
             height = height.toFloat(),
-            startColor = context.getColorCompat(R.color.border_gradient_color_1),
-            endColor = context.getColorCompat(R.color.border_gradient_color_2),
+            startColor = borderPaintStartColor,
+            endColor = borderPaintEndColor,
             alpha = 1f,
             strokeWidth = borderThickness
         )
@@ -98,7 +121,10 @@ class ButtonView @JvmOverloads constructor(
     }
 
     private fun applyTint() {
-        contentTint?.let {
+        val contentTintColor = if (!isLocked) contentTint
+        else context.getColorCompat(R.color.blocked_view_color_2)
+
+        contentTintColor?.let {
             setTextColor(it)
             image?.setTint(it)
         }
@@ -161,6 +187,8 @@ class ButtonView @JvmOverloads constructor(
                 .apply { getLocalVisibleRect(this) }
                 .contains(event.x.toInt(), event.y.toInt())
         }
+
+        if (isLocked) return false
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {

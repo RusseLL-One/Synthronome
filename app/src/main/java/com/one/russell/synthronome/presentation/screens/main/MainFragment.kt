@@ -42,12 +42,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     when (state) {
                         TrainingState.Idle -> {
                             vTrainingOverlay.isVisible = false
-                            vKnob.setIsBlocked(false)
+                            vKnob.isLocked = false
+                            btnBookmarks.isLocked = false
+                            btnTap.isLocked = false
                         }
                         is TrainingState.Running -> {
                             vTrainingOverlay.isVisible = true
                             vTrainingOverlay.showTrainingCompletion(state)
-                            vKnob.setIsBlocked(state.shouldBlockControls)
+                            vKnob.isLocked = state.shouldBlockControls
+                            btnBookmarks.isLocked = state.shouldBlockControls
+                            btnTap.isLocked = state.shouldBlockControls
                         }
                     }
                 }
@@ -84,11 +88,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     beatline.setupPaints(it.colorPrimary, it.colorSecondary)
                     vKnob.setupPaints(it.colorPrimary, it.colorSecondary)
                     vStart.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnPrimary)
-                    btnTap.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
-                    btnSettings.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
-                    btnTraining.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
-                    btnBookmarks.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
-                    btnAddBookmark.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
+                    btnTap.setupColors(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
+                    btnSettings.setupColors(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
+                    btnTraining.setupColors(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
+                    btnBookmarks.setupColors(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
+                    btnAddBookmark.setupColors(it.colorPrimary, it.colorSecondary, it.colorOnBackground)
                     vTrainingOverlay.setupPaints(it.colorPrimary, it.colorSecondary, it.colorOnPrimary)
                     vTimeSignature.setupPaints(it.colorPrimary, it.colorSecondary)
 
