@@ -1,6 +1,6 @@
 package com.one.russell.synthronome.di
 
-import com.one.russell.synthronome.StartViewModel
+import com.one.russell.synthronome.HostViewModel
 import com.one.russell.synthronome.data.prefs.PreferencesDataStore
 import com.one.russell.synthronome.domain.TrainingProcessor
 import com.one.russell.synthronome.domain.providers.*
@@ -110,9 +110,10 @@ fun appModule() = module {
 
     // view models
     viewModel {
-        StartViewModel(
+        HostViewModel(
             saveValuesUseCase = get(),
-            restoreSavedValuesUseCase = get()
+            restoreSavedValuesUseCase = get(),
+            observeColorsUseCase = get()
         )
     }
     viewModel {

@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Synthronome">
         <activity
-            android:name="com.one.russell.synthronome.StartActivity"
+            android:name="com.one.russell.synthronome.HostActivity"
             android:theme="@style/Theme.Synthronome.Splash"
             android:exported="true">
             <intent-filter>

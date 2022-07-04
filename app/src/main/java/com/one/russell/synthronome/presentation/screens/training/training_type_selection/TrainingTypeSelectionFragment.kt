@@ -22,7 +22,6 @@ class TrainingTypeSelectionFragment : Fragment(R.layout.fragment_training_type_s
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.setBackgroundColor(viewModel.colors.colorBackground)
         binding.tvTitle.setTextColor(viewModel.colors.colorOnBackground)
 
         binding.rvList.disableScrolling()

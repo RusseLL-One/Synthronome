@@ -91,7 +91,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             repeatOnResume {
                 viewModel.colors.collect {
-                    root.setBackgroundColor(it.colorBackground)
                     vBeatTypesContainer.setColors(it.colorPrimary, it.colorSecondary)
                     beatline.setupPaints(it.colorPrimary, it.colorSecondary)
                     vKnob.setupPaints(it.colorPrimary, it.colorSecondary)

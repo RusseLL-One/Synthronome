@@ -70,7 +70,6 @@ class OptionsFragment : Fragment(R.layout.fragment_training_options) {
     }
 
     private fun setupColors() {
-        binding.root.setBackgroundColor(viewModel.colors.colorBackground)
         binding.btnProceed.setupPaints(
             viewModel.colors.colorPrimary,
             viewModel.colors.colorSecondary,

@@ -71,8 +71,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setupColors(colors: Colors) {
-        binding.root.setBackgroundColor(colors.colorBackground)
-
         binding.vSoundPresetPicker.setupPaints(colors.colorPrimary, colors.colorSecondary)
         binding.sVibrationSwitch.setSwitchColor(colors.colorOnBackground, colors.colorPrimary)
         binding.sFlashSwitch.setSwitchColor(colors.colorOnBackground, colors.colorPrimary)

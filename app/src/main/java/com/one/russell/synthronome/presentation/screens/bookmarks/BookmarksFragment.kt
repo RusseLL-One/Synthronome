@@ -37,7 +37,6 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
             }
         }
 
-        binding.root.setBackgroundColor(viewModel.colors.colorBackground)
         binding.tvEmptyList.setTextColor(viewModel.colors.colorOnBackground)
 
         binding.rvBookmarks.adapter = BookmarksAdapter(
