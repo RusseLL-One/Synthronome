@@ -36,8 +36,8 @@ class Clicker(
             callback.onClick.collect {
                 incrementBeat()
                 setNextBeatType(beatTypes[nextBeatIndex])
-                if (beatIndex == 0) vibrator.performVibrateIfEnabled()
-                if (beatIndex == 0) flasher.performFlashIfEnabled()
+                if (beatIndex == 0) launch { vibrator.performVibrateIfEnabled() }
+                if (beatIndex == 0) launch { flasher.performFlashIfEnabled() }
                 _onClicked.emit(Click(it, beatIndex, beatTypes.size))
             }
         }

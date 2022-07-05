@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class Flasher(private val context: Context) {
     private var cameraManager: CameraManager? = ContextCompat.getSystemService(context, CameraManager::class.java)
@@ -21,14 +19,10 @@ class Flasher(private val context: Context) {
     }
 
     suspend fun performFlashIfEnabled() {
-        coroutineScope {
-            launch {
-                if (isFlashEnabled) {
-                    setTorchEnabled(true)
-                    delay(FLASH_DURATION)
-                    setTorchEnabled(false)
-                }
-            }
+        if (isFlashEnabled) {
+            setTorchEnabled(true)
+            delay(FLASH_DURATION)
+            setTorchEnabled(false)
         }
     }
 
@@ -39,6 +33,6 @@ class Flasher(private val context: Context) {
     }
 
     companion object {
-        private const val FLASH_DURATION = 100L
+        private const val FLASH_DURATION = 50L
     }
 }
