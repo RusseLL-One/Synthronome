@@ -1,11 +1,11 @@
 package com.one.russell.synthronome.domain.usecases
 
-import com.one.russell.synthronome.data.prefs.PreferencesDataStore
+import com.one.russell.synthronome.domain.providers.OptionsProvider
 
 class SetVibrationEnabledUseCase(
-    private val dataStore: PreferencesDataStore
+    private val optionsProvider: OptionsProvider
 ) {
-    suspend fun execute(isEnabled: Boolean) {
-        dataStore.isVibrationEnabled.setValue(isEnabled)
+    fun execute(isEnabled: Boolean) {
+        optionsProvider.changeValue { copy(isVibrationEnabled = isEnabled) }
     }
 }
