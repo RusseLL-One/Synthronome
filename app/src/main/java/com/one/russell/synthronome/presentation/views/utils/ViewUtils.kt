@@ -1,6 +1,5 @@
 package com.one.russell.synthronome.presentation.views.utils
 
-import android.R
 import android.content.res.ColorStateList
 import android.graphics.*
 import android.view.View
@@ -176,8 +175,8 @@ fun RecyclerView.disableScrolling() {
 
 fun SwitchCompat.setSwitchColor(@ColorInt colorUnchecked: Int, @ColorInt colorChecked: Int) {
     val states = arrayOf(
-        intArrayOf(-R.attr.state_checked),
-        intArrayOf(R.attr.state_checked)
+        intArrayOf(-android.R.attr.state_checked),
+        intArrayOf(android.R.attr.state_checked)
     )
 
     val thumbColors = intArrayOf(

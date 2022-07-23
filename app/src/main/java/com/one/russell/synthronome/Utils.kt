@@ -8,16 +8,12 @@ import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 
 fun LifecycleOwner.repeatOnResume(f: suspend () -> Unit) {
-    lifecycleScope.launch(context = Dispatchers.Main) {
-        lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+    lifecycleScope.launch {
+        lifecycle.whenResumed {
             f.invoke()
         }
     }

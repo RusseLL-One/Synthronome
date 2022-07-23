@@ -3,5 +3,6 @@
     <dimen name="buttons_height">45dp</dimen>
     <dimen name="picker_height">130dp</dimen>
     <dimen name="beat_types_spacing_half">10dp</dimen>
+    <dimen name="beat_types_horizontal_margin">33dp</dimen>
     <dimen name="setting_container_height">60dp</dimen>
 </resources>

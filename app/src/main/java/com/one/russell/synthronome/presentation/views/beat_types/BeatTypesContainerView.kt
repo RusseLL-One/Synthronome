@@ -16,7 +16,6 @@ import com.one.russell.synthronome.databinding.ViewBeatTypesContainerBinding
 import com.one.russell.synthronome.domain.BeatType
 import com.one.russell.synthronome.presentation.views.utils.createPaddingsDecoration
 import com.one.russell.synthronome.presentation.views.utils.executeAfterAllAnimationsAreFinished
-import com.one.russell.synthronome.toPx
 
 @SuppressLint("ClickableViewAccessibility")
 class BeatTypesContainerView @JvmOverloads constructor(
@@ -27,18 +26,22 @@ class BeatTypesContainerView @JvmOverloads constructor(
 
     private val binding = ViewBeatTypesContainerBinding.inflate(LayoutInflater.from(context), this)
     private var onBeatTypeClick: ((index: Int) -> Unit)? = null
+    private val adapter = BeatTypesAdapter { onBeatTypeClick?.invoke(it) }
 
-    private var beatTypesColorPrimary = Color.BLACK
-    private var beatTypesColorSecondary = Color.BLACK
+    private var beatTypesColorPrimary = Color.TRANSPARENT
+    private var beatTypesColorSecondary = Color.TRANSPARENT
 
     private val itemsSpacing = context.resources.getDimension(R.dimen.beat_types_spacing_half) * 2
+    private val horizontalMargin = context.resources.getDimension(R.dimen.beat_types_horizontal_margin) * 2
+
+    private var beatTypesList: List<BeatType> = emptyList()
 
     init {
         layoutTransition = LayoutTransition() // animate layout changes
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         binding.run {
-            rvBeatTypesList.adapter = BeatTypesAdapter { onBeatTypeClick?.invoke(it) }
+            rvBeatTypesList.adapter = adapter
             rvBeatTypesList.addItemDecoration(
                 createPaddingsDecoration(horizontalPadding = itemsSpacing)
             )
@@ -79,11 +82,9 @@ class BeatTypesContainerView @JvmOverloads constructor(
     }
 
     fun setBeatTypes(beatTypes: List<BeatType>) {
+        this.beatTypesList = beatTypes
         binding.rvBeatTypesList.executeAfterAllAnimationsAreFinished {
-            val listItems = beatTypes.mapIndexed { index, beatType ->
-                beatType.toListItem(index, beatTypesColorPrimary, beatTypesColorSecondary)
-            }
-            (binding.rvBeatTypesList.adapter as BeatTypesAdapter).items = listItems
+            adapter.items = beatTypesList.mapToListItems()
         }
     }
 
@@ -91,18 +92,17 @@ class BeatTypesContainerView @JvmOverloads constructor(
         this.beatTypesColorPrimary = colorPrimary
         this.beatTypesColorSecondary = colorSecondary
         binding.rvBeatTypesList.executeAfterAllAnimationsAreFinished {
-            val currentItems = (binding.rvBeatTypesList.adapter as BeatTypesAdapter).items
-            val newItems = currentItems.map {
-                it.copy(colorPrimary = colorPrimary, colorSecondary = colorSecondary)
-            }
-            (binding.rvBeatTypesList.adapter as BeatTypesAdapter).items = newItems
+            adapter.items = beatTypesList.mapToListItems()
         }
+    }
+
+    private fun List<BeatType>.mapToListItems(): List<BeatTypeItem> = mapIndexed { index, beatType ->
+        beatType.toListItem(index, beatTypesColorPrimary, beatTypesColorSecondary)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-        val height =
-            ((widthSize - 66.toPx() /*recyclerview margins*/ - itemsSpacing * 5) / 4).toInt()
+        val height = ((widthSize - horizontalMargin - itemsSpacing * 5) / 4).toInt()
         val heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         super.onMeasure(widthMeasureSpec, heightSpec)
     }
