@@ -7,6 +7,7 @@ import com.one.russell.synthronome.domain.BeatType
 import com.one.russell.synthronome.domain.providers.BeatTypesProvider
 import com.one.russell.synthronome.domain.providers.BpmProvider
 import com.one.russell.synthronome.domain.providers.OptionsProvider
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -26,8 +27,11 @@ class Clicker(
         get() = (beatIndex + 1) % beatTypes.size
     private var beatTypes: List<BeatType> = emptyList()
 
-    private val _onClicked: MutableSharedFlow<Click> = MutableSharedFlow()
-    val onClicked: SharedFlow<Click> = _onClicked
+    private val _onClicked: MutableSharedFlow<Click> = MutableSharedFlow(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val onClicked: SharedFlow<Click> = _onClicked.asSharedFlow()
 
     init {
         native_init(callback, assetManager)
@@ -44,7 +48,6 @@ class Clicker(
         ProcessLifecycleOwner.get().lifecycleScope.launch {
             beatTypesProvider.beatTypesFlow.collect {
                 beatTypes = it
-                setNextBeatType(beatTypes[nextBeatIndex])
             }
         }
         ProcessLifecycleOwner.get().lifecycleScope.launch {
